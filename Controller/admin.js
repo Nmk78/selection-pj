@@ -33,6 +33,7 @@ const register_new_admin = async (req, res) => {
     res.json({error: "Fill all fields"})
   }
 
+try {
   const validReferralCode = await admin.exists({ refferalCode: refferalCode });
 
   if(!validReferralCode){
@@ -51,31 +52,43 @@ const register_new_admin = async (req, res) => {
     refferalCode: newAdmin.refferalCode,
     token: token,
   });
+} catch (error) {
+  res.status(400);
+  res.json({error: error.message})
+}
 };
+
 const login = async (req, res) => {
   const { id, password, } = req.body;
   if(!id || !password){
     res.status(400);
     res.json({error: "Fill all fields"})
   }
-  const user = await admin.findOne({ KPTMYK: id });
-  if(!user){
+  try {
+    const user = await admin.findOne({ KPTMYK: id });
+    if(!user){
+      res.status(400);
+      res.json({error: "Invalid ID"})
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+  
+    if(!passwordMatch){
+      res.status(400)
+      res.json({error: "Invalid Password"})
+    }
+  
+    const token = createToken(user.id);
+    console.log(user)
+    res.status(200)
+    res.json({
+      name: user.name,
+      KPTMYK: user.KPTMYK,
+      refferalCode: user.refferalCode,
+      token: token,
+    })
+  } catch (error) {
     res.status(400);
-    res.json({error: "Invalid ID"})
-  }
-  const passwordMatch = await bcrypt.compare(password, user.password);
-
-  if(!passwordMatch){
-    res.status(400)
-    res.json({error: "Invalid Password"})
-  }
-
-  res.status(200)
-  res.json({
-    name: user.name,
-    KPTMYK: user.KPTMYK,
-    refferalCode: user.refferalCode,
-  })
+    res.json({error: error.message})  }
 };
 
 const create_new_candidate = async (req, res) => {
@@ -96,6 +109,15 @@ const add_new_voter = async (req, res) => {
   });
 };
 
+const add_new_public_voter = async (req, res) => {
+  const { id } = req.params;
+
+  res.status(200).json({
+    message: "Admin",
+    msg: "added new Voter",
+  });
+};
+
 module.exports = {
   register_new_admin,
   login,
@@ -103,4 +125,5 @@ module.exports = {
   get_one_admin,
   add_new_voter,
   create_new_candidate,
+  add_new_public_voter,
 };

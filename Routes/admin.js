@@ -1,5 +1,5 @@
 const express = require("express");
-const {get_all_admin, get_one_admin, create_new_candidate, add_new_voter, login, register_new_admin} = require("../Controller/admin");
+const {get_all_admin, get_one_admin, create_new_candidate, add_new_voter, login, register_new_admin, add_new_public_voter} = require("../Controller/admin");
 
 const router = express.Router();
 
@@ -30,6 +30,9 @@ router
 router
       .route("/new/voter")
 		.post(add_new_voter)
+router
+      .route("/new/public/voter")
+		.post(add_new_public_voter)
 
 
 
