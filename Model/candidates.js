@@ -22,6 +22,9 @@ const candidateSchema = new mongoose.Schema({
       type: Number,
       required: true,
       },
+  voteCount: {
+    type: [string],
+  }
 },
 {timestamps: true});
 

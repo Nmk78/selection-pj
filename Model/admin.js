@@ -16,14 +16,10 @@ const adminSchema = new mongoose.Schema({
       type: String,
       required: true,
   },
-  class: {
-    type: String,
-    required: true,
-  },
-//   refferalCode: {
-//       type: String,
-//       required: true,
-//   }
+  refferalCode: {
+      type: String,
+      required: true,
+  }
 }
 ,{timestamps: true});
 

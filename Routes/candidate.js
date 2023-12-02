@@ -1,15 +1,18 @@
 const express = require("express");
+const {get_all_candidates, get_one_candidate} = require("../Controller/candidate");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    message: "All Candiates",
-  });
-});
+// "/candidates"
 
-router.route.get("/", (req, res) => {
-  res.status(200).json({
-    message: "All Candiates",
-  });
-});
+router.
+	route("/").
+		get(get_all_candidates)
+
+router.
+	route("/profile/:id").
+		get(get_one_candidate)
+
+
+
+module.exports = router;

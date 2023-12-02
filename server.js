@@ -3,6 +3,10 @@ const cors = require("cors")
 const connectDB = require("./dbConnection")
 require('dotenv').config();
 
+const candiates = require("./Routes/candidate");
+const voter = require("./Routes/voter");
+const admin = require("./Routes/admin");
+
 const app = express();
 
 connectDB();
@@ -18,13 +22,16 @@ app.get("/",(req,res)=>{
 })
 
 app.use((req, res, next) => {
-      console.log(req.path, req.method);
+      console.log("\x1b[33m", req.path, req.method);
       next();
     });
 
 app.use(express.json());
 app.use(cors());
 
+app.use("/candidates", candiates)
+app.use("/voter", voter)
+app.use("/admin", admin)
 
 
 app.listen(4000,()=>{
