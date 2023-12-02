@@ -25,7 +25,6 @@ const get_one_admin = async (req, res) => {
 //Post Routes
 
 const register_new_admin = async (req, res) => {
-  // const { id} = req.body;
   const { id, name, password, refferalCode } = req.body;
   const token = createToken(id);
 
@@ -34,12 +33,12 @@ const register_new_admin = async (req, res) => {
     res.json({error: "Fill all fields"})
   }
 
-  // const validReferralCode = await admin.exists({ refferalCode: refferalCode });
+  const validReferralCode = await admin.exists({ refferalCode: refferalCode });
 
-  // if(!validReferralCode){
-  //   res.status(400);
-  //   res.json({error: "Inavalid Refferal Code"})
-  // }
+  if(!validReferralCode){
+    res.status(400);
+    res.json({error: "Inavalid Refferal Code"})
+  }
   const fiveDigitCode = Math.floor(10000 + Math.random() * 90000);
 
   const salt = await bcrypt.genSalt(10);
@@ -54,12 +53,29 @@ const register_new_admin = async (req, res) => {
   });
 };
 const login = async (req, res) => {
-  const { id } = req.params;
+  const { id, password, } = req.body;
+  if(!id || !password){
+    res.status(400);
+    res.json({error: "Fill all fields"})
+  }
+  const user = await admin.findOne({ KPTMYK: id });
+  if(!user){
+    res.status(400);
+    res.json({error: "Invalid ID"})
+  }
+  const passwordMatch = await bcrypt.compare(password, user.password);
 
-  res.status(200).json({
-    message: "Admin",
-    msg: "added new candidate",
-  });
+  if(!passwordMatch){
+    res.status(400)
+    res.json({error: "Invalid Password"})
+  }
+
+  res.status(200)
+  res.json({
+    name: user.name,
+    KPTMYK: user.KPTMYK,
+    refferalCode: user.refferalCode,
+  })
 };
 
 const create_new_candidate = async (req, res) => {
