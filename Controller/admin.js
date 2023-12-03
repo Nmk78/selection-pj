@@ -1,103 +1,139 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const admin = require("../Model/admin");
+const candidate = require("../Model/candidates");
 
-const createToken = (id) => {
-  const payload = { id }; // Assuming _id is the property you want to include in the payload
+const createToken = (KPTMYK) => {
+  const payload = { KPTMYK }; 
   return jwt.sign(payload, process.env.JWT_secrect, { expiresIn: "7d" });
 };
 
 const get_all_admin = async (req, res) => {
-  res.status(200).json({
-    message: "All Admins",
-  });
+  try {
+    const allAdmins = await admin.find();
+
+    res.status(200).json({
+      allAdmins: allAdmins,
+    });
+  } catch (error) {
+    res.status(400);
+    res.json({ error: error.message });
+  }
 };
 
 const get_one_admin = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const adminById = await admin.findOne({KPTMYK: id });
 
-  res.status(200).json({
-    message: "Admin",
-    id: id,
-  });
+    res.status(200).json({
+      name:adminById.name,
+      KPTMYK:adminById.KPTMYK,
+    });
+  } catch (error) {
+    res.status(400);
+    res.json({ error: error.message });
+  }
 };
 
 //Post Routes
 
 const register_new_admin = async (req, res) => {
-  const { id, name, password, refferalCode } = req.body;
-  const token = createToken(id);
+  const { KPTMYK, name, password, refferalCode } = req.body;
+  const token = createToken(KPTMYK);
 
-  if (!name || !id || !refferalCode || !password) {
+  if (!name || !KPTMYK || !refferalCode || !password) {
     res.status(400);
-    res.json({error: "Fill all fields"})
+    res.json({ error: "Fill all fields" });
   }
 
-try {
-  const validReferralCode = await admin.exists({ refferalCode: refferalCode });
+  try {
+    const validReferralCode = await admin.exists({
+      refferalCode: refferalCode,
+    });
 
-  if(!validReferralCode){
+    if (!validReferralCode) {
+      res.status(400);
+      res.json({ error: "Inavalid Refferal Code" });
+    }
+    const fiveDigitCode = Math.floor(10000 + Math.random() * 90000);
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newAdmin = await admin.create({
+      name: name,
+      password: hashedPassword,
+      KPTMYK: KPTMYK,
+      refferalCode: fiveDigitCode,
+    });
+    console.log(newAdmin);
+    res.status(200).json({
+      name: newAdmin.name,
+      KPTMYK: newAdmin.KPTMYK,
+      refferalCode: newAdmin.refferalCode,
+      token: token,
+    });
+  } catch (error) {
     res.status(400);
-    res.json({error: "Inavalid Refferal Code"})
+    res.json({ error: error.message });
   }
-  const fiveDigitCode = Math.floor(10000 + Math.random() * 90000);
-
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  const newAdmin = await admin.create({name: name, password: hashedPassword, KPTMYK: id, refferalCode: fiveDigitCode})
-  console.log(newAdmin);
-  res.status(200).json({
-    name: newAdmin.name,
-    KPTMYK: newAdmin.KPTMYK,
-    refferalCode: newAdmin.refferalCode,
-    token: token,
-  });
-} catch (error) {
-  res.status(400);
-  res.json({error: error.message})
-}
 };
 
 const login = async (req, res) => {
-  const { id, password, } = req.body;
-  if(!id || !password){
+  const { KPTMYK, password } = req.body;
+  if (!KPTMYK || !password) {
     res.status(400);
-    res.json({error: "Fill all fields"})
+    res.json({ error: "Fill all fields" });
   }
   try {
-    const user = await admin.findOne({ KPTMYK: id });
-    if(!user){
+    const user = await admin.findOne({ KPTMYK: KPTMYK });
+    if (!user) {
       res.status(400);
-      res.json({error: "Invalid ID"})
+      res.json({ error: "Invalid KPTMYK" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
-  
-    if(!passwordMatch){
-      res.status(400)
-      res.json({error: "Invalid Password"})
+
+    if (!passwordMatch) {
+      res.status(400);
+      res.json({ error: "Invalid Password" });
     }
-  
-    const token = createToken(user.id);
-    console.log(user)
-    res.status(200)
+
+    const token = createToken(user.KPTMYK);
+    console.log(user);
+    res.status(200);
     res.json({
       name: user.name,
       KPTMYK: user.KPTMYK,
       refferalCode: user.refferalCode,
       token: token,
-    })
+    });
   } catch (error) {
     res.status(400);
-    res.json({error: error.message})  }
+    res.json({ error: error.message });
+  }
 };
 
 const create_new_candidate = async (req, res) => {
-  const { id } = req.params;
+  const { KPTMYK,name, heigh,weight, imageUrls, section, intro, hobbies } = req.body;
 
-  res.status(200).json({
-    message: "Admin",
-    msg: "added new candidate",
-  });
+try {
+  const newCandidate = await candidate.create({
+    KPTMYK: KPTMYK,
+    name: name,
+    section: section,
+    intro: intro,
+    hobbies: hobbies,
+    imageUrls: imageUrls,
+    heigh: heigh,
+    weight: weight,
+  })
+  if(newCandidate){
+    res.status(200).json(newCandidate);
+  }
+} catch (error) {
+  res.status(400);
+  res.json({ error: error.message });
+}
 };
 
 const add_new_voter = async (req, res) => {

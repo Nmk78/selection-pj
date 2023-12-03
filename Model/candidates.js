@@ -10,8 +10,16 @@ const candidateSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  class: {
+  section: {
     type: String,
+    required: true,
+  },
+  intro:{
+    type: String,
+    required: true,
+  },
+  hobbies:{
+    type: [String],
     required: true,
   },
   heigh: {
@@ -23,7 +31,11 @@ const candidateSchema = new mongoose.Schema({
       required: true,
       },
   voteCount: {
-    type: [string],
+    type: [String],
+  }, 
+  imageUrls: {
+    type: [String],
+    required: true,
   }
 },
 {timestamps: true});
