@@ -12,10 +12,14 @@ const voterSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  class: {
+  section: {
     type: String,
     required: true,
   },
+  voted:{
+    type:Boolean,
+    required:true,
+}
 }
 ,{timestamps: true});
 

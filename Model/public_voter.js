@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 
 const public_voterSchema = new mongoose.Schema({
-  secrect: {
+  secret: {
     type: String,
+    unique: true,
     lowercase: false,
     required: true,
   },
+  voted:{
+      type:Boolean,
+      required:true,
+  }
 }
 );
 

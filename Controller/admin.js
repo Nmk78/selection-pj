@@ -2,6 +2,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const admin = require("../Model/admin");
 const candidate = require("../Model/candidates");
+const voter = require("../Model/voter");
+const public_voter = require("../Model/public_voter");
+
 
 const createToken = (KPTMYK) => {
   const payload = { KPTMYK }; 
@@ -10,11 +13,9 @@ const createToken = (KPTMYK) => {
 
 const get_all_admin = async (req, res) => {
   try {
-    const allAdmins = await admin.find();
+    const allAdmins = await admin.find().select('name KPTMYK');
 
-    res.status(200).json({
-      allAdmins: allAdmins,
-    });
+    res.status(200).json(allAdmins);
   } catch (error) {
     res.status(400);
     res.json({ error: error.message });
@@ -24,12 +25,9 @@ const get_all_admin = async (req, res) => {
 const get_one_admin = async (req, res) => {
   try {
     const { id } = req.params;
-    const adminById = await admin.findOne({KPTMYK: id });
+    const adminById = await admin.findOne({KPTMYK: id }).select('name KPTMYK refferalCode');
 
-    res.status(200).json({
-      name:adminById.name,
-      KPTMYK:adminById.KPTMYK,
-    });
+    res.status(200).json(adminById);
   } catch (error) {
     res.status(400);
     res.json({ error: error.message });
@@ -113,6 +111,7 @@ const login = async (req, res) => {
   }
 };
 
+///Create New Data
 const create_new_candidate = async (req, res) => {
   const { KPTMYK,name, heigh,weight, imageUrls, section, intro, hobbies } = req.body;
 
@@ -137,21 +136,34 @@ try {
 };
 
 const add_new_voter = async (req, res) => {
-  const { id } = req.params;
+  const { KPTMYK, name, section } = req.body;
 
-  res.status(200).json({
-    message: "Admin",
-    msg: "added new Voter",
-  });
+try {
+  const newVoter = await voter.create({
+    KPTMYK: KPTMYK,
+    name: name,
+    section: section,
+    voted: false,
+  })
+  res.status(200).json(newVoter);
+} catch (error) {
+  res.status(400);
+  res.json({ error: error.message });
+}
 };
 
 const add_new_public_voter = async (req, res) => {
-  const { id } = req.params;
-
-  res.status(200).json({
-    message: "Admin",
-    msg: "added new Voter",
-  });
+const {secret} = req.body;
+  try {
+    const newPublic_voter = await public_voter.create({
+      secret: secret,
+      voted: false,
+    })
+    res.status(200).json(newPublic_voter);
+  } catch (error) {
+    res.status(400);
+    res.json({ error: error.message });
+  }
 };
 
 module.exports = {

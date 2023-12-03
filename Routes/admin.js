@@ -1,9 +1,21 @@
 const express = require("express");
 const {get_all_admin, get_one_admin, create_new_candidate, add_new_voter, login, register_new_admin, add_new_public_voter} = require("../Controller/admin");
+const verifyToken = require("../Middleware/authValidator");
 
 const router = express.Router();
 
 // 		"/admin/"
+
+router.
+	route("/register").
+		post(register_new_admin)
+
+router.
+	route("/login")
+		.post(login)
+
+
+router.use(verifyToken);	//Protect all route below by JWT
 
 router.
 	route("/")
@@ -14,15 +26,6 @@ router.
 		get(get_one_admin)
 
 //	Post Routes
-
-router.
-	route("/register").
-		post(register_new_admin)
-
-router.
-	route("/login").
-		post(login)
-
 router
 	.route("/new/candidate")
 		.post(create_new_candidate)
@@ -31,7 +34,7 @@ router
       .route("/new/voter")
 		.post(add_new_voter)
 router
-      .route("/new/public/voter")
+      .route("/new/public-voter")
 		.post(add_new_public_voter)
 
 

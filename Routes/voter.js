@@ -9,9 +9,9 @@ router.
 	route("/").
 		get(get_all_voter)
 
-router.
-	route("/register").
-		get(get_all_voter)
+// router.
+// 	route("/register").
+// 		get(get_all_voter)
 
 router.
 	route("/:id").
