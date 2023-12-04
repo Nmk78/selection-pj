@@ -29,8 +29,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cors());
 
-app.use("/candidates", candiates)
+
 app.use("/voter", voter)
+app.use("/candidates", candiates)
 app.use("/admin", admin)
 
 

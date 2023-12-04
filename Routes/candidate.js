@@ -10,7 +10,7 @@ router.
 		get(get_all_candidates)
 
 router.
-	route("/profile/:id").
+	route("/:id").
 		get(get_one_candidate)
 
 

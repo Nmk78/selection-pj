@@ -140,7 +140,7 @@ const login = async (req, res) => {
 
 ///Create New Data
 const create_new_candidate = async (req, res) => {
-  const { KPTMYK, name, heigh, weight, imageUrls, section, intro, hobbies } =
+  const { KPTMYK, name, heigh, weight,gender, imageUrls, section, intro, hobbies } =
     req.body;
   if (
     !KPTMYK ||
@@ -150,6 +150,7 @@ const create_new_candidate = async (req, res) => {
     !hobbies ||
     !imageUrls ||
     !heigh ||
+    !gender ||
     !weight 
   ) {
     res.status(400);
@@ -165,6 +166,7 @@ const create_new_candidate = async (req, res) => {
       hobbies: hobbies,
       imageUrls: imageUrls,
       heigh: heigh,
+      gender:gender,
       weight: weight,
       voteCount: [],
       canVoteNow: false,
@@ -228,3 +230,6 @@ module.exports = {
   add_new_public_voter,
   toggle_vote_feature,
 };
+
+
+//  All Done

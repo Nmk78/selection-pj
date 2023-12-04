@@ -14,6 +14,8 @@ const get_all_voter = async (req, res) => {
   }
 };
 
+
+//this can use for checking information
 const get_one_voter = async (req, res) => {
   try {
     const { id } = req.params;
@@ -157,4 +159,86 @@ const add_public_vote = async (req, res) => {
   });
 };
 
-module.exports = { get_one_voter, get_all_voter, add_vote, add_public_vote };
+const result = async (req,res)=>{
+  try {
+    const result = await candidate.aggregate([
+      {
+        $group: {
+          _id: "$gender",
+          candidates: {
+            $push: {
+              name: "$name",
+              KPTMYK: "$KPTMYK",
+              voteCount: "$voteCount",
+              imageUrls: "$imageUrls",
+              gender: "$gender",
+              totalVotes: { $size: "$voteCount" },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          gender: "$_id",
+          candidates: {
+            $slice: ["$candidates", 2], // Limit to the top 2 candidates
+          },
+        },
+      },
+    ])
+    // .aggregate([
+    //   {
+    //     $match: { gender: "male" }, // Adjust the field and value based on your data structure
+    //   },
+    //   {
+    //     $project: {
+    //       name: 1,
+    //       KPTMYK: 1,
+    //       voteCount: 1,
+    //       imageUrls:1,
+    //       gender: 1,
+    //       totalVotes: { $size: "$voteCount" },
+    //     },
+    //   },
+    //   { $sort: { totalVotes: -1 } },
+    //   { $limit: 2 },
+    // ])
+    // .exec();
+
+    // const femaleResult = await candidate
+    // .aggregate([
+    //   {
+    //     $match: { gender: "female" },
+    //   },
+    //   {
+    //     $project: {
+    //       name: 1,
+    //       voteCount: 1,
+    //       gender: 1,
+    //       totalVotes: { $size: "$voteCount" },
+    //     },
+    //   },
+    //   { $sort: { totalVotes: -1 } },
+    //   { $limit: 2 },
+    // ])
+    .exec();
+
+    // if(maleResult.length === 0 || femaleResult.length === 0){
+    if(maleResult.length === 0 ){
+      res.status(400).json({error: 'No result found'});
+      return;
+    }
+    // res.status(200).json({maleResult,femaleResult});
+    res.status(200).json({maleResult});
+
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+}
+
+
+module.exports = { get_one_voter, get_all_voter, add_vote, add_public_vote,result };
+
+
+//  All Done

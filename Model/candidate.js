@@ -30,6 +30,10 @@ const candidateSchema = new mongoose.Schema({
       type: Number,
       required: true,
       },
+  gender:{
+    type: String,
+    required: true,
+  },
   voteCount: [
     {
       type: String,
@@ -46,6 +50,9 @@ const candidateSchema = new mongoose.Schema({
   }
 },
 {timestamps: true});
+candidateSchema.index({ voteCount: 1 }, { unique: false });
+// Recreate non-unique index on voteCount
+candidateSchema.index({ voteCount: 1 });
 
 const candidate = mongoose.model("candidate", candidateSchema);
 

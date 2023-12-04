@@ -1,9 +1,13 @@
 const express = require("express");
-const {get_all_voter, get_one_voter, add_vote, add_public_vote} = require("../Controller/voter")
+const {get_all_voter, get_one_voter, add_vote, add_public_vote, result} = require("../Controller/voter")
 
 const router = express.Router();
 
 // "/voter"
+router
+	.route("/result")
+		.get(result)
+
 router.
 	route("/:id").
 		get(get_one_voter)
@@ -18,6 +22,8 @@ router
 router
 	.route("/public/vote")
 		.patch(add_public_vote)
+
+
 
 
 
