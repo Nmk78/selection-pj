@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const candidate = require("../Model/candidate");
 const voter = require("../Model/voter");
+const public_voter = require("../Model/public_voter");
 
 const get_all_voter = async (req, res) => {
   try {
@@ -97,7 +98,59 @@ const add_vote = async (req, res) => {
 };
 
 const add_public_vote = async (req, res) => {
-  const { id } = req.params;
+  let session;
+  try {
+    const { secret, candidateKPTMYK } = req.body;
+    if (!secret || !candidateKPTMYK) {
+      res.status(400);
+      res.json({ error: "Incomplete secret key or Incomplete candidate KPTMYK" });
+      return;
+    }
+    session = await mongoose.startSession();
+    session.startTransaction();
+
+    const requestedSecretKey = await public_voter.findOne({ secret: secret }).session(session);
+
+    if (!requestedSecretKey) {
+      res.status(400);
+      res.json({ error: "Invalid secret key" });
+      return;
+    }
+
+    if (requestedSecretKey.voted) {
+      res.status(400);
+      res.json({ error: "Already voted" });
+      return;
+    }
+    const voteWasOpen = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
+    if (!voteWasOpen ||!voteWasOpen.canVoteNow) {
+      res.status(400);
+      res.json({error: 'Candidate not found or vote is closed'});
+      return;
+    }
+    const result = await candidate.updateOne(
+      { KPTMYK: candidateKPTMYK },
+      { $push: { voteCount: secret } }
+    ).session(session);
+      const resultVoter = await public_voter.updateOne(
+        { secret: secret },
+        { $set: { voted: true } }
+      ).session(session);
+      await session.commitTransaction();
+
+      res.status(200).json({
+        message: "Successfully Voted",
+        voted: resultVoter.voted,
+      });
+      return;
+  } catch (error) {
+    session.abortTransaction();
+
+    res.status(400);
+    res.json({ error: error.message });
+  } finally {
+    session.endSession();
+  }
 
   res.status(200).json({
     message: "added one public vote",
