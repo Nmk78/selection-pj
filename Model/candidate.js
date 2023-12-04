@@ -31,11 +31,15 @@ const candidateSchema = new mongoose.Schema({
       required: true,
       },
   voteCount: {
-    type: [String],
+      type: String,
   }, 
   imageUrls: {
     type: [String],
     required: true,
+  },
+  canVoteNow:{
+    type: Boolean,
+    require: true,
   }
 },
 {timestamps: true});
