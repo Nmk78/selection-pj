@@ -30,9 +30,12 @@ const candidateSchema = new mongoose.Schema({
       type: Number,
       required: true,
       },
-  voteCount: {
+  voteCount: [
+    {
       type: String,
-  }, 
+      default: 0, // Default value to 0
+    },
+  ], 
   imageUrls: {
     type: [String],
     required: true,

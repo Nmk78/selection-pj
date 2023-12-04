@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const candidate = require("../Model/candidate");
 const voter = require("../Model/voter");
 
@@ -30,6 +31,7 @@ const get_one_voter = async (req, res) => {
 };
 
 const add_vote = async (req, res) => {
+  let session;
   try {
     const { name, KPTMYK, candidateKPTMYK } = req.body;
     if (!name || !KPTMYK || !candidateKPTMYK) {
@@ -37,16 +39,22 @@ const add_vote = async (req, res) => {
       res.json({ error: "Incomplete input" });
       return;
     }
-    const trimmedName = name.toLowerCase().trim().replace(/\s+/g, "").toLowerCase();
-console.log(trimmedName);
-    const requestedVoter = await voter.findOne({ KPTMYK: KPTMYK });
+    const trimmedName = name
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "")
+      .toLowerCase();
+
+    session = await mongoose.startSession();
+    session.startTransaction();
+
+    const requestedVoter = await voter.findOne({ KPTMYK: KPTMYK }).session(session);
 
     if (!requestedVoter) {
       res.status(400);
       res.json({ error: "Invalid KPTMYK" });
       return;
     }
-console.log(requestedVoter);
     if (trimmedName != requestedVoter.name) {
       res.status(400);
       res.json({ error: "You cannot vote. KPTMYK don't match up with name" });
@@ -57,24 +65,34 @@ console.log(requestedVoter);
       res.json({ error: "Already voted" });
       return;
     }
-
+    const voteWasOpen = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
+    if (!voteWasOpen ||!voteWasOpen.canVoteNow) {
+      res.status(400);
+      res.json({error: 'Candidate not found or vote is closed'});
+      return;
+    }
     const result = await candidate.updateOne(
       { KPTMYK: candidateKPTMYK },
       { $push: { voteCount: KPTMYK } }
-    );
-console.log(result);
-    if (result.modifiedCount > 0 && result.matchedCount  > 0) {
-      const resultVoter = await voter.updateOne({ KPTMYK: KPTMYK }, { $set: { voted: true } });
-console.log(resultVoter);
+    ).session(session);
+      const resultVoter = await voter.updateOne(
+        { KPTMYK: KPTMYK },
+        { $set: { voted: true } }
+      ).session(session);
+      await session.commitTransaction();
+
       res.status(200).json({
         message: "Successfully Voted",
-        voted: resultVoter.voted ,
+        voted: resultVoter.voted,
       });
       return;
-    }
   } catch (error) {
+    session.abortTransaction();
+
     res.status(400);
     res.json({ error: error.message });
+  } finally {
+    session.endSession();
   }
 };
 

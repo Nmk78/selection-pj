@@ -166,6 +166,7 @@ const create_new_candidate = async (req, res) => {
       imageUrls: imageUrls,
       heigh: heigh,
       weight: weight,
+      voteCount: [],
       canVoteNow: false,
     });
     if (newCandidate) {
