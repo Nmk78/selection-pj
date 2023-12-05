@@ -4,6 +4,7 @@ const admin = require("../Model/admin");
 const candidate = require("../Model/candidate");
 const voter = require("../Model/voter");
 const public_voter = require("../Model/public_voter");
+const { default: mongoose } = require("mongoose");
 
 const createToken = (KPTMYK) => {
   const payload = { KPTMYK };
@@ -138,6 +139,33 @@ const login = async (req, res) => {
   }
 };
 
+    //Restarting
+
+const restart = async (req, res) => {
+      let session;
+      try {
+        session = await mongoose.startSession(); 
+        session.startTransaction();
+    
+        const candidateResult = await candidate.deleteMany({}).session(session);
+        const voterResults = await voter.deleteMany({}).session(session);
+        const publicVoterResults = await public_voter.deleteMany({}).session(session);
+    console.log(publicVoterResults);
+        if (!candidateResult || !voterResults || !publicVoterResults) {
+          res.status(400).json({ error: 'Error deleting data' });
+          return;
+        }
+    
+        await session.commitTransaction();
+        res.status(200).json({ message: 'Data deleted' });
+      } catch (error) {
+        await session.abortTransaction();
+        res.status(400).json({ error: error.message });
+      } finally {
+        await session.endSession();
+      }
+};
+    
 ///Create New Data
 const create_new_candidate = async (req, res) => {
   const { KPTMYK, name, heigh, weight,gender, imageUrls, section, intro, hobbies } =
@@ -229,6 +257,7 @@ module.exports = {
   create_new_candidate,
   add_new_public_voter,
   toggle_vote_feature,
+  restart,
 };
 
 

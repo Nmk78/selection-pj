@@ -186,51 +186,54 @@ const result = async (req,res)=>{
           },
         },
       },
-    ])
-    // .aggregate([
-    //   {
-    //     $match: { gender: "male" }, // Adjust the field and value based on your data structure
-    //   },
-    //   {
-    //     $project: {
-    //       name: 1,
-    //       KPTMYK: 1,
-    //       voteCount: 1,
-    //       imageUrls:1,
-    //       gender: 1,
-    //       totalVotes: { $size: "$voteCount" },
-    //     },
-    //   },
-    //   { $sort: { totalVotes: -1 } },
-    //   { $limit: 2 },
-    // ])
-    // .exec();
+    ])    .exec();
 
-    // const femaleResult = await candidate
-    // .aggregate([
-    //   {
-    //     $match: { gender: "female" },
-    //   },
-    //   {
-    //     $project: {
-    //       name: 1,
-    //       voteCount: 1,
-    //       gender: 1,
-    //       totalVotes: { $size: "$voteCount" },
-    //     },
-    //   },
-    //   { $sort: { totalVotes: -1 } },
-    //   { $limit: 2 },
-    // ])
+/**    
+ * .aggregate([
+      {
+        $match: { gender: "male" }, // Adjust the field and value based on your data structure
+      },
+      {
+        $project: {
+          name: 1,
+          KPTMYK: 1,
+          voteCount: 1,
+          imageUrls:1,
+          gender: 1,
+          totalVotes: { $size: "$voteCount" },
+        },
+      },
+      { $sort: { totalVotes: -1 } },
+      { $limit: 2 },
+    ])
     .exec();
 
+    const femaleResult = await candidate
+    .aggregate([
+      {
+        $match: { gender: "female" },
+      },
+      {
+        $project: {
+          name: 1,
+          voteCount: 1,
+          gender: 1,
+          totalVotes: { $size: "$voteCount" },
+        },
+      },
+      { $sort: { totalVotes: -1 } },
+      { $limit: 2 },
+    ])
+    .exec(); 
+    */
+
     // if(maleResult.length === 0 || femaleResult.length === 0){
-    if(maleResult.length === 0 ){
+    if(result.length === 0 ){
       res.status(400).json({error: 'No result found'});
       return;
     }
     // res.status(200).json({maleResult,femaleResult});
-    res.status(200).json({maleResult});
+    res.status(200).json({result});
 
   } catch (error) {
     res.status(400).json({error: error.message});

@@ -13,9 +13,30 @@ connectDB();
 
 app.get("/",(req,res)=>{
       res.status(200).json({
-            message: "Welcome",
             guide: {
-              userRoutes: "/",
+              voterRoutes: {
+                  getResult: "/voter/result",
+                  getAllVoters: "/voter/",
+                  getOneVoters: "/voter/:id",
+                  vote: "/voter/vote",
+                  publicVote: "/voter/public/vote",
+              },
+              candidateRoutes: {
+                  getAllCandidate:"/candidates/",
+                  getOneCandidate:"/candidates/:id",
+              },
+              adminRoutes: {
+                  loginAdmin:"/admin/login",
+                  loginAdmin:"/admin/login",
+                  getAllAdmin:"/admin",
+                  getOneAdmin:"/admin/:id",
+                  registerAdmin:"/admin/register",
+                  toggleVote:"/admin/toggle-vote-feature",
+                  addNewCandidate:"/admin/new/candidate",
+                  addNewVoter:"/admin/new/voter",
+                  addNewPublicVoter:"/admin/new/public-voter",
+
+              },
               
             },
       })
