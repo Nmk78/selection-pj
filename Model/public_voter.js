@@ -7,7 +7,10 @@ const public_voterSchema = new mongoose.Schema({
     lowercase: false,
     required: true,
   },
-  voted:{
+  maleVoted:{
+      type:Boolean,
+      required:true,
+  },  femaleVoted:{
       type:Boolean,
       required:true,
   }

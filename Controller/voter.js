@@ -63,30 +63,32 @@ const add_vote = async (req, res) => {
       res.json({ error: "You cannot vote. KPTMYK don't match up with name" });
       return;
     }
-    if (requestedVoter.voted) {
-      res.status(400);
-      res.json({ error: "Already voted" });
-      return;
-    }
-    const voteWasOpen = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
-    if (!voteWasOpen ||!voteWasOpen.canVoteNow) {
+    const checkedCandidate = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
+    if (!checkedCandidate ||!checkedCandidate.canVoteNow) {
       res.status(400);
       res.json({error: 'Candidate not found or vote is closed'});
       return;
     }
+    if ((checkedCandidate.gender === "male" && requestedVoter.maleVoted) || (checkedCandidate.gender === "female" && requestedVoter.femaleVoted) ) {
+      res.status(400);
+      res.json({ error: "Already voted" });
+      return;
+    }
+    const gender = checkedCandidate.gender + "Voted"
+
     const result = await candidate.updateOne(
       { KPTMYK: candidateKPTMYK },
       { $push: { voteCount: KPTMYK } }
     ).session(session);
       const resultVoter = await voter.updateOne(
         { KPTMYK: KPTMYK },
-        { $set: { voted: true } }
+        { $set: { [gender]: true } }
       ).session(session);
       await session.commitTransaction();
 
       res.status(200).json({
         message: "Successfully Voted",
-        voted: resultVoter.voted,
+        [gender]: true,
       });
       return;
   } catch (error) {
@@ -119,24 +121,28 @@ const add_public_vote = async (req, res) => {
       return;
     }
 
-    if (requestedSecretKey.voted) {
-      res.status(400);
-      res.json({ error: "Already voted" });
-      return;
-    }
-    const voteWasOpen = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
-    if (!voteWasOpen ||!voteWasOpen.canVoteNow) {
+    const checkedCandidate = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
+
+    if (!checkedCandidate ||!checkedCandidate.canVoteNow) {
       res.status(400);
       res.json({error: 'Candidate not found or vote is closed'});
       return;
     }
+
+    if ((checkedCandidate.gender === "male" && requestedSecretKey.maleVoted) || (checkedCandidate.gender === "female" && requestedSecretKey.femaleVoted) ) {
+      res.status(400);
+      res.json({ error: "Already voted" });
+      return;
+    }
+    const gender = checkedCandidate.gender + "Voted"
+    console.log(gender);
     const result = await candidate.updateOne(
       { KPTMYK: candidateKPTMYK },
       { $push: { voteCount: secret } }
     ).session(session);
       const resultVoter = await public_voter.updateOne(
         { secret: secret },
-        { $set: { voted: true } }
+        { $set: { [gender]: true } }
       ).session(session);
       await session.commitTransaction();
 
@@ -161,35 +167,36 @@ const add_public_vote = async (req, res) => {
 
 const result = async (req,res)=>{
   try {
-    const result = await candidate.aggregate([
-      {
-        $group: {
-          _id: "$gender",
-          candidates: {
-            $push: {
-              name: "$name",
-              KPTMYK: "$KPTMYK",
-              voteCount: "$voteCount",
-              imageUrls: "$imageUrls",
-              gender: "$gender",
-              totalVotes: { $size: "$voteCount" },
-            },
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          gender: "$_id",
-          candidates: {
-            $slice: ["$candidates", 2], // Limit to the top 2 candidates
-          },
-        },
-      },
-    ])    .exec();
+    const result = await candidate
+    //.aggregate([
+    //   {
+    //     $group: {
+    //       _id: "$gender",
+    //       candidates: {
+    //         $push: {
+    //           name: "$name",
+    //           KPTMYK: "$KPTMYK",
+    //           voteCount: "$voteCount",
+    //           imageUrls: "$imageUrls",
+    //           gender: "$gender",
+    //           totalVotes: { $size: "$voteCount" },
+    //         },
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       _id: 0,
+    //       gender: "$_id",
+    //       candidates: {
+    //         $slice: ["$candidates", 2], // Limit to the top 2 candidates
+    //       },
+    //     },
+    //   },
+    // ])    .exec();
 
-/**    
- * .aggregate([
+    
+  .aggregate([
       {
         $match: { gender: "male" }, // Adjust the field and value based on your data structure
       },
@@ -225,15 +232,14 @@ const result = async (req,res)=>{
       { $limit: 2 },
     ])
     .exec(); 
-    */
 
-    // if(maleResult.length === 0 || femaleResult.length === 0){
-    if(result.length === 0 ){
+    if(result.length === 0 || femaleResult.length === 0){
+    // if(result.length === 0 ){
       res.status(400).json({error: 'No result found'});
       return;
     }
-    // res.status(200).json({maleResult,femaleResult});
-    res.status(200).json({result});
+    res.status(200).json({result,femaleResult});
+    // res.status(200).json({result});
 
   } catch (error) {
     res.status(400).json({error: error.message});

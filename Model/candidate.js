@@ -22,7 +22,7 @@ const candidateSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
-  heigh: {
+  height: {
       type: Number,
       required: true,
   },

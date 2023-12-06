@@ -168,7 +168,7 @@ const restart = async (req, res) => {
     
 ///Create New Data
 const create_new_candidate = async (req, res) => {
-  const { KPTMYK, name, heigh, weight,gender, imageUrls, section, intro, hobbies } =
+  const { KPTMYK, name, height, weight,gender, imageUrls, section, intro, hobbies } =
     req.body;
   if (
     !KPTMYK ||
@@ -177,7 +177,7 @@ const create_new_candidate = async (req, res) => {
     !intro ||
     !hobbies ||
     !imageUrls ||
-    !heigh ||
+    !height ||
     !gender ||
     !weight 
   ) {
@@ -193,7 +193,7 @@ const create_new_candidate = async (req, res) => {
       intro: intro,
       hobbies: hobbies,
       imageUrls: imageUrls,
-      heigh: heigh,
+      height: height,
       gender:gender,
       weight: weight,
       voteCount: [],
@@ -220,7 +220,8 @@ const add_new_voter = async (req, res) => {
       KPTMYK: KPTMYK,
       name: name,
       section: section,
-      voted: false,
+      maleVoted: false,
+      femaleVoted: false,
     });
     res.status(200).json(newVoter);
   } catch (error) {
@@ -239,8 +240,8 @@ const add_new_public_voter = async (req, res) => {
   try {
     const newPublic_voter = await public_voter.create({
       secret: secret,
-      voted: false,
-    });
+      maleVoted: false,
+      femaleVoted: false,    });
     res.status(200).json(newPublic_voter);
   } catch (error) {
     res.status(400);
