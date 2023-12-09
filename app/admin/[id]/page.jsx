@@ -1,9 +1,12 @@
-import React from 'react'
+import AdminProfile from "components/AdminProfile";
+import React from "react";
 
 const page = () => {
   return (
-    <div>admin/id</div>
-  )
-}
+    <>
+      <AdminProfile />
+    </>
+  );
+};
 
-export default page
+export default page;

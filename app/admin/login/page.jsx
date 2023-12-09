@@ -1,8 +1,9 @@
+import Form from 'components/Form'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>admin/login</div>
+    <div><Form mode="login" /></div>
   )
 }
 

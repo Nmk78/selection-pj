@@ -3,3 +3,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.c {
+  color: #037d90;
+}
+
+.bgC {
+  background-color: #037d90;
+}
+
+.hv {
+  /* background-color: #046e7f; */
+  background-color: #23047f;
+}
