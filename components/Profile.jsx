@@ -1,6 +1,51 @@
 import React from "react";
 
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogFooter,
+  Typography,
+  Card,
+  CardFooter,
+} from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
+
 const Profile = () => {
+  const router = useRouter();
+
+  const [open, setOpen] = React.useState(false);
+  const [student, setStudent] = React.useState(false);
+
+  const [voterCard, setVoteCard] = React.useState(false);
+
+  // const handleVoteOpen = () => setVoteCard((cur) => !cur);
+
+  const handleOpen = () => {
+    console.log("clicked");
+    setOpen(!open);
+  };
+  const handleVoteOpen = ({ mode }) => {
+    switch (mode) {
+      case "student":
+        setVoteCard(!voterCard);
+        setStudent(true);
+        setOpen(!open);
+
+        break;
+      case "public":
+        setVoteCard(!voterCard);
+        setStudent(false);
+        setOpen(!open);
+
+        break;
+
+      default:
+        setVoteCard(!voterCard);
+        break;
+    }
+  };
+
   return (
     <div id="Profile" className="w-full flex flex-col items-center pt-10 pb-20">
       <div id="profile-img" className=" ">
@@ -22,7 +67,7 @@ const Profile = () => {
         </div>
       </div>
       <div id="candidate-intro">
-        <p className="font-md text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
+        <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero cumque
           facere, mollitia, facilis iure a consequuntur quam recusandae vel
           voluptate expedita perspiciatis dolore, fuga aspernatur molestiae
@@ -82,16 +127,120 @@ const Profile = () => {
       </div>
 
       <div id="buttons">
-        <button
-          data-modal-target="authentication-modal"
-          data-modal-toggle="authentication-modal"
-          className="px-3 py-2 text-gray-100 bg-teal-500 rounded-lg text-center font-bold hover:bg-teal-600 focus:ring-1 focus:ring-teal-700"
+        <Button
+          onClick={handleOpen}
+          className="px-4 py-3 text-gray-100 bg-teal-500 rounded-lg text-center font-bold hover:bg-teal-600 focus:ring-1 focus:ring-teal-700"
+          // variant="gradient"
         >
           👑 Vote
-        </button>
+        </Button>
+
+        {/* Fitst Dialog */}
+        <Dialog open={open} handler={handleOpen}>
+          <DialogHeader>You are ____ voter. </DialogHeader>
+          {/* <DialogBody>
+          
+        </DialogBody> */}
+          <DialogFooter>
+            <Button
+              variant="Stued"
+              color="blue"
+              // onClick={handleVoteOpen}
+              onClick={() => {
+                handleVoteOpen({ mode: "public" });
+              }}
+              className="mr-1"
+            >
+              <span>Public</span>
+            </Button>
+            <Button
+              variant="gradient"
+              color="teal"
+              onClick={() => {
+                handleVoteOpen({ mode: "student" });
+              }}
+            >
+              <span>Student</span>
+            </Button>
+          </DialogFooter>
+        </Dialog>
+
+        {/* Second Dialog */}
+        <Dialog
+          size="xs"
+          open={voterCard}
+          handler={handleVoteOpen}
+          className="bg-transparent shadow-none"
+        >
+          <Card className="mx-auto w-full max-w-[24rem] p-8">
+            <Typography variant="h4" color="teal" className="mb-4">
+              Vote
+            </Typography>{" "}
+            {student ? (
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="name"
+                  className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Name
+                </label>
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="decimal"
+                name="KPTMYK"
+                id="KPTMYK"
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="KPTMYK"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                {student ? "KPTMYK" : "Secret"}
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="numeric"
+                name="candidate"
+                id="candidate"
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="candidate"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Candidate KPTMYK
+              </label>
+            </div>
+            <CardFooter className="pt-0 flex justify-center">
+              <Button
+                variant="gradient"
+                onClick={handleVoteOpen}
+                color="teal"
+                className="px-4 py-3 text-gray-100 bg-teal-500 rounded-lg text-center font-bold hover:bg-teal-600 focus:ring-1 focus:ring-teal-700"
+              >
+                👑 Vote
+              </Button>
+            </CardFooter>
+          </Card>
+        </Dialog>
       </div>
-
-
     </div>
   );
 };

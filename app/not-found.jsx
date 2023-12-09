@@ -7,8 +7,8 @@ const NotFound = () => {
       <span className=' font-bold text-5xl text-red-600 '>
             404
       </span>
-      <span className='font-bold text-4xl dark:text-sky-500   text-sky-600'>Page Not Found</span>
-      <Link href="/" className='underline'>
+      <span className='font-bold text-4xl dark:text-sky-500   text-teal-600'>Page Not Found</span>
+      <Link href="/" className='underline text-teal-500'>
             Back to home page?
       </Link>
     </main>

@@ -5,6 +5,9 @@ import { ReactQueryProvider } from "util/ReactQueryProvider";
 export const metadata = {
   title: "UCS(Myeik) | Online Selection Voting.",
   description: "Online Voting System For UCS(Myeik), Builded by Nay Myo Khant.",
+  meta: [
+    { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
+  ],
 };
 
 const RootLayout = ({ children }) => {
