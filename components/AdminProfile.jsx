@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 const AdminProfile = () => {
-  let id = 1
+  let id = 1;
   return (
     <div id="Admin Profile" className="w-full flex flex-col items-center">
       <div
@@ -22,25 +22,20 @@ const AdminProfile = () => {
 
       <div className="flex flex-wrap items-center justify-center ">
         <Link href={`/admin/${id}/create`}>
-          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2 mr-4 mb-2  rounded-lg">
-            Add Candidate
-          </p>
-        </Link>        <Link href={`/admin/${id}/create`}>
-          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2 mr-4 mb-2  rounded-lg">
-            Add stuednt Voter
-          </p>
-        </Link>        <Link href={`/admin/${id}/create`}>
-          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2 mr-4 mb-2  rounded-lg">
-            Add public Voter
-          </p>
-        </Link>        <Link href={`/admin/${id}/create`}>
-          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2 mr-4 mb-2  rounded-lg">
-            Add Metadata
+          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
+            Add New
           </p>
         </Link>
-        
-        <button className=" text-white font-semibold bg-teal-500 px-2.5 py-2 mr-4 mb-2  rounded-lg">
+        {/* <Link href={`/admin/${id}/create`}>
+          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
+            Add Metadata
+          </p>
+        </Link> */}
+        <button className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
           Allow Vote
+        </button>
+        <button className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
+          Log Out
         </button>
       </div>
     </div>

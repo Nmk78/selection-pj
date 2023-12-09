@@ -1,6 +1,8 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 
 const Form = ({ mode }) => {
+  const [gender, setGender] = useState("")
   //addCandidate
   //className
   //publicVote
@@ -48,38 +50,41 @@ const Form = ({ mode }) => {
             </div>
           </>
         ) : mode === "check" ? (
-          <>            <div className="relative z-0 w-full mb-5 group">
-		  <input
-			type="text"
-			name="name"
-			id="name"
-			className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
-			placeholder=" "
-			required
-		  />
-		  <label
-			for="name"
-			className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-		  >
-			Name
-		  </label>
-		</div>
-		<div className="relative z-0 w-full mb-5 group">
-		  <input
-			type="decimal"
-			name="KPTMYK"
-			id="KPTMYK"
-			className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
-			placeholder=" "
-			required
-		  />
-		  <label
-			for="KPTMYK"
-			className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-		  >
-			KPTMYK
-		  </label>
-		</div></>
+          <>
+            {" "}
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="name"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Name
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="decimal"
+                name="KPTMYK"
+                id="KPTMYK"
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="KPTMYK"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                KPTMYK
+              </label>
+            </div>
+          </>
         ) : mode === "studentVote" ? (
           <>
             {" "}
@@ -307,6 +312,7 @@ const Form = ({ mode }) => {
               </label>
             </div>
           </>
+
         ) : mode == "addCandidate" ? (
           <>
             <div className="relative z-0 w-full mb-5 group">
@@ -421,40 +427,50 @@ const Form = ({ mode }) => {
                 Image Links (eg: #abc.com #efg.com)
               </label>
             </div>
-            <div id="gender" className="flex justify-around mb-5">
-              <div className="flex w-5/12 items-center ps-4 border border-teal-200 rounded dark:border-teal-700">
+            <ul id="gender" className="flex justify-around mb-5">
+              <li>
                 <input
-                  id="male"
                   type="radio"
+                  id="male"
+                  name="mode"
                   value="male"
-                  name="gender"
+                  class="hidden peer"
                   required
-                  className="w-4 h-4 text-teal-600 bg-teal-100 border-teal-300 focus:ring-teal-500 "
                 />
                 <label
                   for="male"
-                  className="w-full py-4 ms-2 text-sm font-medium text-teal-900"
+                  onClick={() => {
+                    setGender("male");
+                  }}
+                  class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
-                  Male
+                  <div class="block">
+                    <div class="w-full text-lg font-semibold">Male</div>
+                  </div>
                 </label>
-              </div>
-              <div className="flex w-5/12 items-center ps-4 border border-teal-200 rounded dark:border-teal-700">
+              </li>{" "}
+              <li>
                 <input
-                  id="female"
                   type="radio"
+                  id="female"
+                  name="mode"
                   value="female"
-                  name="gender"
+                  class="hidden peer"
                   required
-                  className="w-4 h-4  text-teal-600 bg-teal-100 border-teal-300 focus:ring-teal-500 "
                 />
                 <label
                   for="female"
-                  className="w-full py-4 ms-2 text-sm font-medium text-teal-900"
+                  onClick={() => {
+                    setGender("female");
+                  }}
+                  class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
-                  Female
+                  <div class="block">
+                    <div class="w-full text-lg font-semibold">Female</div>
+                  </div>
                 </label>
-              </div>
-            </div>
+              </li>{" "}
+            </ul>
             <textarea
               id="intro"
               rows="4"

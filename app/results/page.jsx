@@ -1,8 +1,9 @@
+import Results from 'components/Results'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <><Results /></>
   )
 }
 

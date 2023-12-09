@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <div id="Home" className="w-full max-w-full pt-5  h-full bg-slate-300">
       <div id="carousel" className="w-full p-2 ">
-        {/* <MTCarousel /> */}
+        <MTCarousel />
       </div>
 
       <div id="Disclaimer">
