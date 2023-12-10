@@ -8,23 +8,16 @@ import { useRouter } from "next/navigation";
 import Profile from "components/Profile";
 const page = () => {
   const id = window.location.pathname.split("/").pop();
-
+console.log(id);
   // const router = useRouter();
 
   // console.log("ID = ", router.query);
   // const {id} = router.query
 
-  const { data, isLoading, isSuccess, isError } = useQuery({
-    //refetchInterval: ms,
-    queryKey: ["candidate", id],
-    queryFn: getOneCandidate(id),
-  });
+
   return (
     <div>
-      <Profile />
-      <div>{JSON.stringify(data)}</div>
-      {/* <div>{data.title}</div> */}
-      {/* <Form mode="studentVote" /> */}
+      <Profile id={id} />
     </div>
   );
 };

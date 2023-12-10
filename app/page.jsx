@@ -5,7 +5,7 @@ import React from "react";
 const page = () => {
   return (
     <>
-      <section className="w-screen">
+      <section className="w-screen select-none">
         <Home />
         <Footer />
       </section>

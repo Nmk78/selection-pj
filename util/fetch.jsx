@@ -4,9 +4,9 @@ require('dotenv').config();
 
 export const getAllCandidates = async () => {
   try {
-      console.log("API-",process.env.API);
-    const res = await axios.get(process.env.API || 'https://jsonplaceholder.typicode.com/todos/');
-    console.log(res.data);
+    console.log(process.env.NEXT_PUBLIC_API);
+    const res = await axios.get(process.env.NEXT_PUBLIC_API + "/candidates");
+    // console.log(res);
     return res.data;
   } catch (error) {
     console.error("Error fetching candidates:", error.message);
@@ -17,9 +17,9 @@ export const getAllCandidates = async () => {
 
 export const getOneCandidate = async ({id}) => {
   try {
+    console.log(id);
     
-      console.log("API-",process.env.API);
-      const res = await axios.get(process.env.API + id || 'https://jsonplaceholder.typicode.com/todos/123');
+      const res = await axios.get(process.env.NEXT_PUBLIC_NEXT_PUBLIC_API + id);
       console.log(res.data);
     return res.data;
   } catch (error) {
@@ -30,8 +30,8 @@ export const getOneCandidate = async ({id}) => {
 
 export const getOneUser = async ({id}) => {
   try {
-      console.log("API-",process.env.API);
-    const res = await axios.get(process.env.API + id || 'https://jsonplaceholder.typicode.com/todos/' + id);
+      console.log("NEXT_PUBLIC_API-",process.env.NEXT_PUBLIC_API);
+    const res = await axios.get(process.env.NEXT_PUBLIC_API + id);
     console.log(res.data);
     return res.data;
   } catch (error) {

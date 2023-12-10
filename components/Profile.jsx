@@ -10,8 +10,19 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getOneCandidate } from "util/fetch";
 
-const Profile = () => {
+const Profile = ({id}) => {
+
+  console.log("id=", id);
+
+  const { data, isLoading, isSuccess, isError } = useQuery({
+    //refetchInterval: ms,
+    queryKey: ["candidate", id],
+    queryFn: getOneCandidate(id),
+  });
+
   const router = useRouter();
 
   const [open, setOpen] = React.useState(false);
