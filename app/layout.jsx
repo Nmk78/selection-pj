@@ -15,9 +15,9 @@ const RootLayout = ({ children }) => {
     <html lang="en">
       <body>
         <ReactQueryProvider>
-          <main className="app w-screen h-screen flex flex-col items-center bg-gray-200 relative">
+          <main className="app w-screen h-screen flex flex-col items-center overflow-x-hidden bg-gray-200 relative">
             <Nav />
-            <section className="w-full h-full  flex justify-start flex-col overflow-auto">
+            <section className="w-screen h-full  flex justify-start flex-col overflow-auto overflow-x-hidden">
               {children}
             </section>
           </main>

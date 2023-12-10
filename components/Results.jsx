@@ -6,7 +6,12 @@ import { MTCarousel } from "./Carousel";
 const beautifulFont = localFont({ src: "../font/quindelia.regular.ttf" });
 
 const Results = () => {
-  const toggler = () => document.getElementById("my_modal_2").showModal();
+  const kingToggler = () => document.getElementById("kingModal").showModal();
+  const queenToggler = () => document.getElementById("queenModal").showModal();
+  const princeToggler = () =>
+    document.getElementById("princeModal").showModal();
+  const princessToggler = () =>
+    document.getElementById("princessModal").showModal();
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       {/* <div style={beautifulFont.style} className="text-2xl c font-bold text-center my-5 mt-10">Result is ready to see.</div>
@@ -23,13 +28,13 @@ const Results = () => {
         <div id="buttons" className="w-full flex items-center justify-around">
           <button
             className="btn w-1/3 bg-teal-500 text-white ring-0 border-0"
-            onClick={toggler}
+            onClick={kingToggler}
           >
             King
           </button>
           <button
             className="btn w-1/3 bg-pink-500 text-white ring-0 border-0"
-            onClick={toggler}
+            onClick={queenToggler}
           >
             Queen
           </button>
@@ -47,27 +52,186 @@ const Results = () => {
         <div id="buttons" className="w-full flex items-center justify-around">
           <button
             className="btn w-1/3 bg-teal-400 text-white ring-0 border-0"
-            onClick={toggler}
+            onClick={princeToggler}
           >
-            King
+            Prince
           </button>
           <button
             className="btn w-1/3 bg-pink-400 text-white ring-0 border-0"
-            onClick={toggler}
+            onClick={princessToggler}
           >
-            Queen
+            Princess
           </button>
         </div>
       </div>
       {/* ///////////////////////////////// */}
-      <dialog id="my_modal_2" className="modal p-4">
+      <dialog id="kingModal" className="modal p-4">
         <div className="modal-box w-full  bg-gray-200">
           <div
             id="profileDetails"
             className=" w-full flex flex-col items-center"
           >
-            <div id="profile-img" className="w-full flex flex-col items-center ">
+            <div
+              id="profile-img"
+              className="w-full flex flex-col items-center "
+            >
               <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
+              <img
+                className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                alt="profile"
+              />
+            </div>
+            <div id="profile-name" className=" font-bold text-xl my-3 c">
+              John Ray
+            </div>
+            <div id="candidate-detail" className="flex flex-col text-center c">
+              <div id="Section">Section - C </div>
+
+              <div className="flex w-full ">
+                <div id="Heigh"> Height - 150 | </div>
+                <div id="Weigh"> Weight - 90</div>
+              </div>
+            </div>
+            {/* <div id="candidate-intro" className="-mx-5">
+              <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
+                cumque facere, mollitia, facilis iure a consequuntur quam
+                recusandae vel voluptate expedita perspiciatis dolore, fuga
+                aspernatur molestiae officiis! Molestiae tempore impedit dolorum
+                cumque perspiciatis, repudiandae quod ab nemo praesentium dicta
+                inventore modi, nihil laboriosam eaque autem. Cupiditate
+                molestias aspernatur magnam
+              </p>
+            </div> */}
+          </div>
+          <div id="carousel" className="my-3">
+            <MTCarousel />
+          </div>
+        </div>
+        <form
+          method="dialog"
+          id="thisIsResponsibleForCloseWhenOutside"
+          className="modal-backdrop "
+        >
+          <button>close</button>
+        </form>
+      </dialog>{" "}
+      <dialog id="queenModal" className="modal p-4">
+        <div className="modal-box w-full  bg-gray-200">
+          <div
+            id="profileDetails"
+            className=" w-full flex flex-col items-center"
+          >
+            <div
+              id="profile-img"
+              className="w-full flex flex-col items-center "
+            >
+              <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
+              <img
+                className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                alt="profile"
+              />
+            </div>
+            <div id="profile-name" className=" font-bold text-xl my-3 c">
+              John Ray
+            </div>
+            <div id="candidate-detail" className="flex flex-col text-center c">
+              <div id="Section">Section - C </div>
+
+              <div className="flex w-full ">
+                <div id="Heigh"> Height - 150 | </div>
+                <div id="Weigh"> Weight - 90</div>
+              </div>
+            </div>
+            {/* <div id="candidate-intro" className="-mx-5">
+              <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
+                cumque facere, mollitia, facilis iure a consequuntur quam
+                recusandae vel voluptate expedita perspiciatis dolore, fuga
+                aspernatur molestiae officiis! Molestiae tempore impedit dolorum
+                cumque perspiciatis, repudiandae quod ab nemo praesentium dicta
+                inventore modi, nihil laboriosam eaque autem. Cupiditate
+                molestias aspernatur magnam
+              </p>
+            </div> */}
+          </div>
+          <div id="carousel" className="my-3">
+            <MTCarousel />
+          </div>
+        </div>
+        <form
+          method="dialog"
+          id="thisIsResponsibleForCloseWhenOutside"
+          className="modal-backdrop "
+        >
+          <button>close</button>
+        </form>
+      </dialog>{" "}
+      <dialog id="princeModal" className="modal p-4">
+        <div className="modal-box w-full  bg-gray-200">
+          <div
+            id="profileDetails"
+            className=" w-full flex flex-col items-center"
+          >
+            <div
+              id="profile-img"
+              className="w-full flex flex-col items-center "
+            >
+              <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
+              <img
+                className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                alt="profile"
+              />
+            </div>
+            <div id="profile-name" className=" font-bold text-xl my-3 c">
+              John Ray
+            </div>
+            <div id="candidate-detail" className="flex flex-col text-center c">
+              <div id="Section">Section - C </div>
+
+              <div className="flex w-full ">
+                <div id="Heigh"> Height - 150 | </div>
+                <div id="Weigh"> Weight - 90</div>
+              </div>
+            </div>
+            {/* <div id="candidate-intro" className="-mx-5">
+              <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
+                cumque facere, mollitia, facilis iure a consequuntur quam
+                recusandae vel voluptate expedita perspiciatis dolore, fuga
+                aspernatur molestiae officiis! Molestiae tempore impedit dolorum
+                cumque perspiciatis, repudiandae quod ab nemo praesentium dicta
+                inventore modi, nihil laboriosam eaque autem. Cupiditate
+                molestias aspernatur magnam
+              </p>
+            </div> */}
+          </div>
+          <div id="carousel" className="my-3">
+            <MTCarousel />
+          </div>
+        </div>
+        <form
+          method="dialog"
+          id="thisIsResponsibleForCloseWhenOutside"
+          className="modal-backdrop "
+        >
+          <button>close</button>
+        </form>
+      </dialog>{" "}
+      <dialog id="princessModal" className="modal p-4">
+        <div className="modal-box w-full  bg-gray-200">
+          <div
+            id="profileDetails"
+            className=" w-full flex flex-col items-center"
+          >
+            <div
+              id="profile-img"
+              className="w-full flex flex-col items-center "
+            >
+              <div id="crown" className="princessCrown w-full h-[149px] -mb-[65px] "></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"

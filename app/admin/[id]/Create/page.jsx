@@ -6,7 +6,7 @@ const page = () => {
   const [mode, setMode] = useState("addStudentVoter")
   return (
     <div className="my-20">
-      <div className="text-2xl text-center font-bold">Create</div>
+      <div className="text-2xl text-center font-bold mb-5">Create</div>
       <ul className="w-full flex items-center justify-center">
         <li>
           <input

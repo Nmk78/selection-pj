@@ -79,6 +79,7 @@ const Home = () => {
       <CandidateCard />
       <CandidateCard />
       <CandidateCard />
+      {/* <CandidateCard />
       <CandidateCard />
       <CandidateCard />
       <CandidateCard />
@@ -93,8 +94,7 @@ const Home = () => {
       <CandidateCard />
       <CandidateCard />
       <CandidateCard />
-      <CandidateCard />
-      <CandidateCard />
+      <CandidateCard /> */}
 </div>
     </div>
   );

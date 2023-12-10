@@ -44,7 +44,27 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url("../public/pngwing.com.png");
+  background-image: url("../public/queen.png");
+}
+.princessCrown {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../public/princess.png");
+}
+.githubIcon {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../public/icons8-github.svg");
+}.gmailIcon {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../public/icons8-gmail-96.png");
 }
 
 .folded {
