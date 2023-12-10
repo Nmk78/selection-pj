@@ -434,7 +434,7 @@ const Form = ({ mode }) => {
                   id="male"
                   name="mode"
                   value="male"
-                  class="hidden peer"
+                  className="hidden peer"
                   required
                 />
                 <label
@@ -442,10 +442,10 @@ const Form = ({ mode }) => {
                   onClick={() => {
                     setGender("male");
                   }}
-                  class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                  className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">Male</div>
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">Male</div>
                   </div>
                 </label>
               </li>{" "}
@@ -455,7 +455,7 @@ const Form = ({ mode }) => {
                   id="female"
                   name="mode"
                   value="female"
-                  class="hidden peer"
+                  className="hidden peer"
                   required
                 />
                 <label
@@ -463,10 +463,10 @@ const Form = ({ mode }) => {
                   onClick={() => {
                     setGender("female");
                   }}
-                  class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                  className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">Female</div>
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">Female</div>
                   </div>
                 </label>
               </li>{" "}

@@ -48,6 +48,7 @@ const Profile = () => {
 
   return (
     <div id="Profile" className="w-full flex flex-col items-center pt-10 pb-20">
+      <div id="profileDetails" className=" w-full flex flex-col items-center">
       <div id="profile-img" className=" ">
         <img
           className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
@@ -75,6 +76,7 @@ const Profile = () => {
           repudiandae quod ab nemo praesentium dicta inventore modi, nihil
           laboriosam eaque autem. Cupiditate molestias aspernatur magnam
         </p>
+      </div>
       </div>
       <div id="carousel" className="w-full my-5 flex items-center">
         <div className="carousel rounded-box w-full mx-2">

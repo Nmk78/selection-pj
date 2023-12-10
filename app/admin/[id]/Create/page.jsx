@@ -7,23 +7,23 @@ const page = () => {
   return (
     <div className="my-20">
       <div className="text-2xl text-center font-bold">Create</div>
-      <ul class="w-full flex items-center justify-center">
+      <ul className="w-full flex items-center justify-center">
         <li>
           <input
             type="radio"
             id="student"
             name="mode"
             value="student"
-            class="hidden peer"
+            className="hidden peer"
             required
           />
           <label
             for="student"
             onClick={()=>{setMode("addStudentVoter")}}
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Student</div>
+            <div className="block">
+              <div className="w-full text-lg font-semibold">Student</div>
             </div>
           </label>
         </li>{" "}
@@ -33,16 +33,16 @@ const page = () => {
             id="public"
             name="mode"
             value="public"
-            class="hidden peer"
+            className="hidden peer"
             required
           />
           <label
             for="public"
             onClick={()=>{setMode("addPublicVoter")}}
-            class=" inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer  peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 "
+            className=" inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer  peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 "
           >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Public</div>
+            <div className="block">
+              <div className="w-full text-lg font-semibold">Public</div>
             </div>
           </label>
         </li>
@@ -52,15 +52,15 @@ const page = () => {
             id="candidate"
             name="mode"
             value="candidate"
-            class="hidden peer"
+            className="hidden peer"
           />
           <label
             for="candidate"
             onClick={()=>{setMode("addCandidate")}}  
-            class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Candidate</div>
+            <div className="block">
+              <div className="w-full text-lg font-semibold">Candidate</div>
             </div>
           </label>
         </li>

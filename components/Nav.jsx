@@ -2,10 +2,12 @@ import Link from "next/link";
 import React from "react";
 
 const Nav = () => {
+  
+
   return (
     <div
       id="Nav"
-      className="bg-gray-100 w-full h-20 shadow-lg shadow-teal-300 flex flex-row p-2 justify-between sticky -top-10 z-50 "
+      className="bg-gray-100 w-full h-20 shadow-lg shadow-teal-300 flex flex-row p-2 justify-between sticky top-0 z-50 "
     >
       <Link href="/">
         {" "}

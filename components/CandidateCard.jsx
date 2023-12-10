@@ -16,7 +16,7 @@ const CandidateCard = () => {
               className="w-32 group-hover:w-36 group-hover:h-36 h-32 object-center object-cover rounded-full transition-all duration-500 delay-500 transform"
             />
             <div className="w-fit transition-all transform duration-500">
-              <h1 className="text-teal-600 text-lg  font-bold">Nay Myo Khant</h1>
+              <h1 className="text-teal-600 text-lg  font-bold">Dallar Street</h1>
               <p className="text-teal-400">KPTMYK-001568</p>
               <p className="text-xs text-teal-500  group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
                 Section - C
