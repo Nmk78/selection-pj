@@ -5,6 +5,8 @@ const candidate = require("../Model/candidate");
 const voter = require("../Model/voter");
 const public_voter = require("../Model/public_voter");
 const { default: mongoose } = require("mongoose");
+const data = require("../Model/data");
+const { result } = require("./voter");
 
 const createToken = (KPTMYK) => {
   const payload = { KPTMYK };
@@ -13,14 +15,15 @@ const createToken = (KPTMYK) => {
 
 const toggle_vote_feature = async (req, res) => {
   try {
-    const {initialState} = req.body;
+    // const {} = req.body;
     // if(initialState != true || initialState != false){
     //   res.status(400);
     //   res.json({error:"Invalid Initial State"})
     // }
-    const result = await candidate.updateMany(
+    const requestedData = await data.findOne({});
+    const result = await data.updateOne(
       {},
-      { $set: { canVoteNow: !initialState } }
+      { $set: { voteAllow: !requestedData.voteAllow } }
     );
     if (result.modifiedCount == result.matchedCount) {
       console.log(result);
@@ -249,6 +252,8 @@ const add_new_public_voter = async (req, res) => {
     res.json({ error: error.message });
   }
 };
+
+const add_configure_data = async (req, res) => {}
 
 module.exports = {
   register_new_admin,

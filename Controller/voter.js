@@ -34,78 +34,144 @@ const get_one_voter = async (req, res) => {
   }
 };
 
+// const add_vote = async (req, res) => {
+//   let session;
+//   try {
+//     const { name, KPTMYK, secret, candidateKPTMYK } = req.body;
+//     if (!name || !KPTMYK ||  !secret || !candidateKPTMYK) {
+//       res.status(400);
+//       res.json({ error: "Incomplete input" });
+//       return;
+//     }
+    
+//     const trimmedName = name
+//       .toLowerCase()
+//       .trim()
+//       .replace(/\s+/g, "")
+//       .toLowerCase();
+
+//     session = await mongoose.startSession();
+//     session.startTransaction();
+
+//     const requestedVoter = await voter.findOne({ KPTMYK: KPTMYK }).session(session);
+
+//     if (!requestedVoter) {
+//       res.status(400);
+//       res.json({ error: "Invalid KPTMYK" });
+//       return;
+//     }
+//     if (trimmedName != requestedVoter.name) {
+//       res.status(400);
+//       res.json({ error: "You cannot vote. KPTMYK don't match up with name" });
+//       return;
+//     }
+//    if (secret != requestedVoter.secret) {
+//       res.status(400);
+//       res.json({ error: "Invalid secret" });
+//       return;
+//     }
+//     const checkedCandidate = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
+//     const requestedData = await data.findOne({}).session(session)
+//     if (!requestedData.voteAllow) {
+//       res.status(400);
+//       res.json({error: 'Vote is closed'});
+//       return;
+//     }
+//     if ((checkedCandidate.gender === "male" && requestedVoter.maleVoted) || (checkedCandidate.gender === "female" && requestedVoter.femaleVoted) ) {
+//       res.status(400);
+//       res.json({ error: "Already voted" });
+//       return;
+//     }
+//     const gender = checkedCandidate.gender + "Voted"
+
+//     const result = await candidate.updateOne(
+//       { KPTMYK: candidateKPTMYK },
+//       { $push: { voteCount: KPTMYK } }
+//     ).session(session);
+//       const resultVoter = await voter.updateOne(
+//         { KPTMYK: KPTMYK },
+//         { $set: { [gender]: true } }
+//       ).session(session);
+//       await session.commitTransaction();
+
+//       session.endSession();
+//       res.status(200).json({
+//         message: "Successfully Voted",
+//         [gender]: true,
+//       });
+//       return;
+//   } catch (error) {
+//     session.abortTransaction();
+
+//     res.status(400);
+//     res.json({ error: error.message });
+//   } finally {
+//     // session.endSession();
+//   }
+// };
+
 const add_vote = async (req, res) => {
   let session;
+
   try {
     const { name, KPTMYK, secret, candidateKPTMYK } = req.body;
-    if (!name || !KPTMYK ||  !secret || !candidateKPTMYK) {
-      res.status(400);
-      res.json({ error: "Incomplete input" });
-      return;
+
+    if (!name || !KPTMYK || !secret || !candidateKPTMYK) {
+      return res.status(400).json({ error: "Incomplete input" });
     }
-    
-    const trimmedName = name
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "")
-      .toLowerCase();
+
+    const trimmedName = name.toLowerCase().trim().replace(/\s+/g, "");
 
     session = await mongoose.startSession();
     session.startTransaction();
 
-    const requestedVoter = await voter.findOne({ KPTMYK: KPTMYK }).session(session);
+    const requestedVoter = await voter.findOne({ KPTMYK }).session(session);
 
     if (!requestedVoter) {
-      res.status(400);
-      res.json({ error: "Invalid KPTMYK" });
-      return;
+      return res.status(400).json({ error: "Invalid KPTMYK" });
     }
-    if (trimmedName != requestedVoter.name) {
-      res.status(400);
-      res.json({ error: "You cannot vote. KPTMYK don't match up with name" });
-      return;
-    }
-   if (secret != requestedVoter.secret) {
-      res.status(400);
-      res.json({ error: "Invalid secret" });
-      return;
-    }
-    const checkedCandidate = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
-    const data = await data.findOne({}).session(session)
-    if (!data.voteAllow) {
-      res.status(400);
-      res.json({error: 'Vote is closed'});
-      return;
-    }
-    if ((checkedCandidate.gender === "male" && requestedVoter.maleVoted) || (checkedCandidate.gender === "female" && requestedVoter.femaleVoted) ) {
-      res.status(400);
-      res.json({ error: "Already voted" });
-      return;
-    }
-    const gender = checkedCandidate.gender + "Voted"
 
-    const result = await candidate.updateOne(
+    if (trimmedName !== requestedVoter.name) {
+      return res.status(400).json({ error: "Name does not match KPTMYK" });
+    }
+
+    if (secret !== requestedVoter.secret) {
+      return res.status(400).json({ error: "Invalid secret" });
+    }
+
+    const checkedCandidate = await candidate.findOne({ KPTMYK: candidateKPTMYK }).session(session);
+    const requestedData = await data.findOne({}).session(session);
+
+    if (!requestedData.voteAllow) {
+      return res.status(400).json({ error: 'Vote is closed' });
+    }
+
+    const gender = checkedCandidate.gender + "Voted";
+
+    if ((checkedCandidate.gender === "male" && requestedVoter.maleVoted) || (checkedCandidate.gender === "female" && requestedVoter.femaleVoted)) {
+      return res.status(400).json({ error: "Already voted" });
+    }
+
+    const resultCandidate = await candidate.updateOne(
       { KPTMYK: candidateKPTMYK },
       { $push: { voteCount: KPTMYK } }
     ).session(session);
-      const resultVoter = await voter.updateOne(
-        { KPTMYK: KPTMYK },
-        { $set: { [gender]: true } }
-      ).session(session);
-      await session.commitTransaction();
 
-      res.status(200).json({
-        message: "Successfully Voted",
-        [gender]: true,
-      });
-      return;
+    const resultVoter = await voter.updateOne(
+      { KPTMYK },
+      { $set: { [gender]: true } }
+    ).session(session);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.status(200).json({
+      message: "Successfully Voted",
+      [gender]: true,
+    });
   } catch (error) {
     session.abortTransaction();
-
-    res.status(400);
-    res.json({ error: error.message });
-  } finally {
-    session.endSession();
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -167,7 +233,7 @@ const add_public_vote = async (req, res) => {
   } finally {
     session.endSession();
   }
-
+  // session.endSession();
   res.status(200).json({
     message: "added one public vote",
   });
