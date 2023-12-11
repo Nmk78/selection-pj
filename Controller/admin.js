@@ -8,7 +8,7 @@ const { default: mongoose } = require("mongoose");
 
 const createToken = (KPTMYK) => {
   const payload = { KPTMYK };
-  return jwt.sign(payload, process.env.JWT_secrect, { expiresIn: "7d" });
+  return jwt.sign(payload, process.env.JWT_secret, { expiresIn: "7d" });
 };
 
 const toggle_vote_feature = async (req, res) => {
@@ -209,7 +209,7 @@ const create_new_candidate = async (req, res) => {
 };
 
 const add_new_voter = async (req, res) => {
-  const { KPTMYK, name, section } = req.body;
+  const { KPTMYK, secret, name, section } = req.body;
   if (!KPTMYK || !name || !section) {
     res.status(400);
     res.json({ error: "Fill all fields" });
@@ -218,6 +218,7 @@ const add_new_voter = async (req, res) => {
   try {
     const newVoter = await voter.create({
       KPTMYK: KPTMYK,
+      secret: secret,
       name: name,
       section: section,
       maleVoted: false,

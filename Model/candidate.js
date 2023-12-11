@@ -43,10 +43,6 @@ const candidateSchema = new mongoose.Schema({
   imageUrls: {
     type: [String],
     required: true,
-  },
-  canVoteNow:{
-    type: Boolean,
-    require: true,
   }
 },
 {timestamps: true});

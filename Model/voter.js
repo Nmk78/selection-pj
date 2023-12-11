@@ -13,6 +13,11 @@ const voterSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    secret:{
+      type: String,
+      unique: true,
+      required: true,
+    },
     section: {
       type: String,
       required: true,

@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const candidate = require("../Model/candidate");
 const voter = require("../Model/voter");
 const public_voter = require("../Model/public_voter");
+const data = require("../Model/data");
 
 const get_all_voter = async (req, res) => {
   try {
@@ -36,12 +37,13 @@ const get_one_voter = async (req, res) => {
 const add_vote = async (req, res) => {
   let session;
   try {
-    const { name, KPTMYK, candidateKPTMYK } = req.body;
-    if (!name || !KPTMYK || !candidateKPTMYK) {
+    const { name, KPTMYK, secret, candidateKPTMYK } = req.body;
+    if (!name || !KPTMYK ||  !secret || !candidateKPTMYK) {
       res.status(400);
       res.json({ error: "Incomplete input" });
       return;
     }
+    
     const trimmedName = name
       .toLowerCase()
       .trim()
@@ -63,10 +65,16 @@ const add_vote = async (req, res) => {
       res.json({ error: "You cannot vote. KPTMYK don't match up with name" });
       return;
     }
-    const checkedCandidate = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
-    if (!checkedCandidate ||!checkedCandidate.canVoteNow) {
+   if (secret != requestedVoter.secret) {
       res.status(400);
-      res.json({error: 'Candidate not found or vote is closed'});
+      res.json({ error: "Invalid secret" });
+      return;
+    }
+    const checkedCandidate = await candidate.findOne({KPTMYK: candidateKPTMYK}).session(session);
+    const data = await data.findOne({}).session(session)
+    if (!data.voteAllow) {
+      res.status(400);
+      res.json({error: 'Vote is closed'});
       return;
     }
     if ((checkedCandidate.gender === "male" && requestedVoter.maleVoted) || (checkedCandidate.gender === "female" && requestedVoter.femaleVoted) ) {
