@@ -9,22 +9,14 @@ import {
   Card,
   CardFooter,
 } from "@material-tailwind/react";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOneCandidate } from "util/fetch";
 
-const Profile = ({id}) => {
+const Profile = ({name, KPTMYK, section, height, weight, intro, hobbies, imageUrls}) => {
 
-  console.log("id=", id);
 
-  const { data, isLoading, isSuccess, isError } = useQuery({
-    //refetchInterval: ms,
-    queryKey: ["candidate", id],
-    queryFn: getOneCandidate(id),
-  });
-
-  const router = useRouter();
-
+console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
   const [open, setOpen] = React.useState(false);
   const [student, setStudent] = React.useState(false);
 
@@ -68,24 +60,26 @@ const Profile = ({id}) => {
         />
       </div>
       <div id="profile-name" className=" font-bold text-xl my-5 c">
-        John Ray
+        {name}
       </div>
       <div id="candidate-detail" className="flex flex-col text-center c">
-        <div id="Section">Section - C </div>
+        <div id="Section">Section - {section} </div>
 
         <div className="flex w-full ">
-          <div id="Heigh"> Height - 150 | </div>
-          <div id="Weigh"> Weight - 90</div>
+          <div id="Heigh"> Height - {height} | </div>
+          <div id="Weigh"> Weight - {weight}</div>
         </div>
+      </div>
+      <div id="hobbies">
+        {hobbies.map((hobby) => (
+          <div id="hobby" className="px-3 py-1.5 ring-teal-400 ring-1 rounded-lg">
+            {hobby}
+          </div>
+        ))}
       </div>
       <div id="candidate-intro">
         <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero cumque
-          facere, mollitia, facilis iure a consequuntur quam recusandae vel
-          voluptate expedita perspiciatis dolore, fuga aspernatur molestiae
-          officiis! Molestiae tempore impedit dolorum cumque perspiciatis,
-          repudiandae quod ab nemo praesentium dicta inventore modi, nihil
-          laboriosam eaque autem. Cupiditate molestias aspernatur magnam
+          {intro}
         </p>
       </div>
       </div>

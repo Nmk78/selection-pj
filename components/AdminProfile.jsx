@@ -22,7 +22,7 @@ const AdminProfile = () => {
 
       <div className="flex flex-wrap items-center justify-center ">
         <Link href={`/admin/${id}/create`}>
-          <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
+          <p className=" text-white font-semibold bg-blue-500 px-2.5 py-2  m-2  rounded-lg">
             Add New
           </p>
         </Link>
@@ -31,10 +31,12 @@ const AdminProfile = () => {
             Add Metadata
           </p>
         </Link> */}
-        <button className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
-          Allow Vote
+        <button className=" text-white font-semibold bg-green-500 px-2.5 py-2  m-2  rounded-lg">
+          Open voting
         </button>
-        <button className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
+        <button className=" text-white font-semibold bg-red-500 px-2.5 py-2  m-2  rounded-lg">
+          Restart
+        </button>        <button className=" text-white font-semibold bg-orange-500 px-2.5 py-2  m-2  rounded-lg">
           Log Out
         </button>
       </div>

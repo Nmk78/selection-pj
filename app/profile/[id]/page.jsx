@@ -1,25 +1,35 @@
 "use client";
 
-import Form from "components/Form";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getOneCandidate } from "util/fetch";
-import { useRouter } from "next/navigation";
 import Profile from "components/Profile";
-const page = () => {
-  const id = window.location.pathname.split("/").pop();
-console.log(id);
-  // const router = useRouter();
+import { useParams } from "next/navigation";
 
-  // console.log("ID = ", router.query);
-  // const {id} = router.query
+const CandidatePage = () => {
+  const id = useParams();
+  // console.log(id);
 
+  const { data, isLoading, isSuccess, isError } = useQuery({
+    queryKey: ["candidate", id],
+    queryFn: () => getOneCandidate(id),
+  });
 
-  return (
-    <div>
-      <Profile id={id} />
-    </div>
-  );
+  console.log("Data-", data);
+
+  if (isLoading) {
+    return <div className="text-red-700">Loading...</div>;
+  }
+
+  if (isError) {
+    return <div className="text-red-700">Error loading candidate details.</div>;
+  }
+  if (isSuccess) {
+    console.log("Success and rendering");
+    const { name, KPTMYK, section, height, weight, intro, hobbies, imageUrls } = data[0];
+    console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
+    return <Profile key={KPTMYK} name={name} KPTMYK={KPTMYK} section={section} height={height} weight={weight} intro={intro} hobbies={hobbies} imageUrls={imageUrls} />;
+  }
 };
 
-export default page;
+export default CandidatePage;

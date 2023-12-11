@@ -1,7 +1,14 @@
+"use client"
 import Form from "components/Form";
 import React from "react";
-
+import { useQuery } from "react-query";
 const page = () => {
+
+  const { data, isLoading, isSuccess, isError } = useQuery({
+    queryKey: ["adminLogin"],
+    queryFn: ()=>loginAsAdmin(KPTMYK, Password),
+  });
+
   return (
     <div className="h-full w-full mt-44">
       <p className="text-xl c font-bold text-center ">Login</p>
