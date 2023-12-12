@@ -272,7 +272,7 @@ const add_configure_data = async (req, res) => {
 
   const createdData = await data.findOne({});
   try {
-    if(!requestedData){
+    if(!createdData){
       const createdData = await data.create({
         voteAllow: false,
         resultOpen: false,
