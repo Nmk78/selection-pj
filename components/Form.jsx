@@ -1,5 +1,5 @@
-"use client";
-import React, { useState } from "react";
+// "use client";
+import React, { useEffect, useState } from "react";
 
 const Form = ({ mode, handler }) => {
   const [name, setName] = useState(""); //
@@ -20,13 +20,30 @@ const Form = ({ mode, handler }) => {
   const [error, setError] = useState(false); //
   const [loading, setLoading] = useState(false); //
 
+  let res;
+  // useEffect(() => {
+  //   setName("");
+  //   setKPTMYK("");
+  //   setPassword("");
+  //   setSection("");
+  //   setGender("");
+  //   setIntro("");
+  //   setHeight("");
+  //   setWeight("");
+  //   setRefferalCode("");
+  //   setSecret("");
+  //   setHobbies([]);
+  //   setProfilePic("");
+  //   setImageUrls("");
+  // }, [mode]);
+
   const formHandler = async (e) => {
     setError(false);
     setLoading(true);
     e.preventDefault();
 
     try {
-      let res = await handler({
+      res = await handler({
         name,
         KPTMYK,
         password,
@@ -42,14 +59,15 @@ const Form = ({ mode, handler }) => {
         imageUrls,
       });
 
-      console.log(res.status);
+      console.log(res);
 
       if (res.status !== 200) {
         setError(true);
-      } else {
-        setError(false);
       }
-      if (res.status == 200) {
+      if (res.status === 200) {
+        setError(false);
+        setLoading(false);
+
         setName("");
         setKPTMYK("");
         setPassword("");
@@ -71,9 +89,9 @@ const Form = ({ mode, handler }) => {
       setLoading(false);
     }
   };
-
   return (
     <>
+    <div>{res?.status}</div>
       {/* <p className="m-10"> Mode: {mode}</p> */}
       {loading && (
         <div className="text-2xl font-bold text-center text-red-500">
@@ -85,6 +103,8 @@ const Form = ({ mode, handler }) => {
           Something went wrong.
         </div>
       )}
+
+      
       <form
         onSubmit={formHandler}
         className="max-w-md w-5/6 mx-auto px-6 py-6 bg-gray-200"
@@ -112,7 +132,7 @@ const Form = ({ mode, handler }) => {
                 Secret
               </label>
             </div>
-            <div className="relative z-0 w-full mb-5 group">
+            {/* <div className="relative z-0 w-full mb-5 group">
               <input
                 type="numeric"
                 name="candidate"
@@ -127,7 +147,7 @@ const Form = ({ mode, handler }) => {
               >
                 Candidate KPTMYK
               </label>
-            </div>
+            </div> */}
           </>
         ) : mode === "check" ? (
           <>
@@ -255,7 +275,7 @@ const Form = ({ mode, handler }) => {
                 KPTMYK
               </label>
             </div>
-            <div className="relative z-0 w-full mb-5 group">
+            {/* <div className="relative z-0 w-full mb-5 group">
               <input
                 type="numeric"
                 name="candidate"
@@ -274,7 +294,7 @@ const Form = ({ mode, handler }) => {
               >
                 Candidate KPTMYK
               </label>
-            </div>
+            </div> */}
           </>
         ) : mode === "login" ? (
           <>

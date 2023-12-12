@@ -1,17 +1,15 @@
-"use client";
-import { useQuery } from "@tanstack/react-query";
-import Form from "components/Form";
+'use client'
+
 import User from "components/User";
-import React from "react";
-// import { useQuery } from 'react-query';
-import { getOneUser } from "util/fetch";
+import React, { useEffect } from "react";
+
+
+
 
 const page = () => {
-  const { data, isLoading, isSuccess, isError } = useQuery({
-    //refetchInterval: ms,
-    queryKey: ["user"],
-    queryFn: getOneUser,
-  });
+  useEffect(() => {
+
+  }, [])
   return (
     <>
       <User />

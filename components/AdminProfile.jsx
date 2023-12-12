@@ -1,19 +1,21 @@
-"use client"
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
-import { getOneAdmin, toggleResult, toggleVote } from "util/fetch";
+import { getOneAdmin, loadInitialData, toggleResult, toggleVote } from "util/fetch";
 
 const AdminProfile = () => {
-  const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
-  const id = typeof window !== "undefined" ? window.localStorage.getItem("adminId") : "";
-  if(!token){
+  const token =
+    typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
+  const id =
+    typeof window !== "undefined" ? window.localStorage.getItem("adminId") : "";
+  if (!token) {
     window.location.href = "/admin/login";
   }
   const { data, isLoading, isSuccess, error, isError } = useQuery({
     queryKey: ["admin", id],
-    queryFn:() => getOneAdmin(id, token) ,
+    queryFn: () => getOneAdmin(id, token),
   });
 
   console.log("Admin Data-", data);
@@ -26,7 +28,7 @@ const AdminProfile = () => {
     return <div className="text-red-700">Error loading Admin details.</div>;
   }
   if (isSuccess) {
-    const {name, KPTMYK, refferalCode} = data;
+    const { name, KPTMYK, refferalCode } = data;
     return (
       <div id="Admin Profile" className="w-full flex flex-col items-center">
         <div
@@ -43,29 +45,35 @@ const AdminProfile = () => {
             Refferal Code - {refferalCode}
           </div>
         </div>
-  
+
         <div className="flex flex-wrap items-center justify-center ">
           <Link href={`/admin/${id}/create`}>
             <p className=" text-white font-semibold bg-blue-500 px-2.5 py-2  m-2  rounded-lg">
               Add New
             </p>
           </Link>
-          {/* <Link href={`/admin/${id}/create`}>
-            <p className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg">
-              Add Metadata
-            </p>
-          </Link> */}
-          <button className=" text-white font-semibold bg-green-500 px-2.5 py-2  m-2  rounded-lg"
-          onClick={()=>toggleVote(token)}>
-            Open voting
+          <button
+            className=" text-white font-semibold bg-purple-500 px-2.5 py-2  m-2  rounded-lg"
+            onClick={() => loadInitialData(token)}
+          >
+            Load Initialdata
           </button>
-          <button className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg"
-          onClick={()=>toggleResult(token)}>
+          <button
+            className=" text-white font-semibold bg-green-500 px-2.5 py-2  m-2  rounded-lg"
+            onClick={() => toggleVote(token)}
+          >
+            Open Voting
+          </button>
+          <button
+            className=" text-white font-semibold bg-teal-500 px-2.5 py-2  m-2  rounded-lg"
+            onClick={() => toggleResult(token)}
+          >
             Open Result
           </button>
-          <button className=" text-white font-semibold bg-red-500 px-2.5 py-2  m-2  rounded-lg">
+          <button onClick={()=>{confirm("Are you sure to restart application? This will be delete all data.")}} className=" text-white font-semibold bg-red-500 px-2.5 py-2  m-2  rounded-lg">
             Restart
-          </button>        <button className=" text-white font-semibold bg-orange-500 px-2.5 py-2  m-2  rounded-lg">
+          </button>{" "}
+          <button className=" text-white font-semibold bg-orange-500 px-2.5 py-2  m-2  rounded-lg">
             Log Out
           </button>
         </div>

@@ -136,6 +136,7 @@ export const registerAsAdmin = async ({
   }
 };
 
+//
 export const toggleVote = async (token) => {
   try {
     console.log("Toggle Vote fn run", token);
@@ -164,6 +165,7 @@ export const toggleVote = async (token) => {
   }
 };
 
+//
 export const toggleResult = async (token) => {
   try {
     console.log("Toggle result fn run", token);
@@ -191,3 +193,55 @@ export const toggleResult = async (token) => {
     throw error;
   }
 };
+
+//
+export const loadInitialData = async (token) => {
+  try {
+    console.log(" Loading Initial Data", token);
+
+    if (token) {
+    
+    console.log("token",token);
+
+    console.log("Toggling Profile Data");
+    console.log(process.env.NEXT_PUBLIC_API + "/admin/config");
+
+    const res = await axios.post(process.env.NEXT_PUBLIC_API + "/admin/config",{}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res.data);
+    return res.data;
+  }
+    console.log("No token");
+    return;
+  
+  } catch (error) {
+    console.error("Error in loading initial data:", error.message);
+    throw error;
+  }
+};
+
+export const check = async ({KPTMYK, name, secret}) => {
+  try {
+    console.log("Getting User data via ID");
+    if (!KPTMYK) {
+      console.log("No KPTMK");
+      return;
+    }
+
+    console.log("Fetching user Data");
+    console.log(`${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`);
+
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`, {
+      KPTMYK, name, secret
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching user data:", error.message);
+    throw error;
+  }
+};
+
