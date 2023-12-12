@@ -1,16 +1,92 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 
-const Form = ({ mode }) => {
-  const [gender, setGender] = useState("")
-  //addCandidate
-  //className
-  //publicVote
+const Form = ({ mode, handler }) => {
+  const [name, setName] = useState(""); //
+  const [KPTMYK, setKPTMYK] = useState(""); //
+  const [candidateKPTMYK, setCandidateKPTMYK] = useState(""); //
+  const [password, setPassword] = useState(""); //
+  const [section, setSection] = useState(""); //
+  const [gender, setGender] = useState(""); //
+  const [intro, setIntro] = useState(""); //
+  const [height, setHeight] = useState(""); //
+  const [weight, setWeight] = useState(""); //
+  const [refferalCode, setRefferalCode] = useState(""); //
+  const [secret, setSecret] = useState(""); //
+  const [hobbies, setHobbies] = useState([]); //
+  const [profilePic, setProfilePic] = useState(""); //
+  const [imageUrls, setImageUrls] = useState([]); //
+
+  const [error, setError] = useState(false); //
+  const [loading, setLoading] = useState(false); //
+
+  const formHandler = async (e) => {
+    setError(false);
+    setLoading(true);
+    e.preventDefault();
+
+    try {
+      let res = await handler({
+        name,
+        KPTMYK,
+        password,
+        section,
+        gender,
+        intro,
+        height,
+        weight,
+        refferalCode,
+        secret,
+        hobbies,
+        profilePic,
+        imageUrls,
+      });
+
+      console.log(res.status);
+
+      if (res.status !== 200) {
+        setError(true);
+      } else {
+        setError(false);
+      }
+      if (res.status == 200) {
+        setName("");
+        setKPTMYK("");
+        setPassword("");
+        setSection("");
+        setGender("");
+        setIntro("");
+        setHeight("");
+        setWeight("");
+        setRefferalCode("");
+        setSecret("");
+        setHobbies([]);
+        setProfilePic("");
+        setImageUrls("");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* <p className="m-10"> Mode: {mode}</p> */}
+      {loading && (
+        <div className="text-2xl font-bold text-center text-red-500">
+          Loading...
+        </div>
+      )}{" "}
+      {error && (
+        <div className="text-2xl font-bold text-center text-red-500">
+          Something went wrong.
+        </div>
+      )}
       <form
-        action=""
+        onSubmit={formHandler}
         className="max-w-md w-5/6 mx-auto px-6 py-6 bg-gray-200"
         method="post"
       >
@@ -21,12 +97,16 @@ const Form = ({ mode }) => {
                 type="decimal"
                 name="secret"
                 id="secret"
+                value={secret}
+                onChange={(e) => {
+                  setSecret(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="secret"
+                htmlFor="secret"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Secret
@@ -42,7 +122,7 @@ const Form = ({ mode }) => {
                 required
               />
               <label
-                for="candidate"
+                htmlFor="candidate"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Candidate KPTMYK
@@ -57,12 +137,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="name"
                 id="name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="name"
+                htmlFor="name"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Name
@@ -73,15 +157,39 @@ const Form = ({ mode }) => {
                 type="decimal"
                 name="KPTMYK"
                 id="KPTMYK"
+                onChange={(e) => {
+                  setKPTMYK(e.target.value);
+                }}
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                required
+                value={KPTMYK}
+              />
+              <label
+                htmlFor="KPTMYK"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                KPTMYK
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="decimal"
+                name="secret"
+                id="secret"
+                value={secret}
+                onChange={(e) => {
+                  setSecret(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="secret"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                KPTMYK
+                Secret
               </label>
             </div>
           </>
@@ -93,12 +201,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="name"
                 id="name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
+                value={name}
               />
               <label
-                for="name"
+                htmlFor="name"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Name
@@ -107,14 +219,37 @@ const Form = ({ mode }) => {
             <div className="relative z-0 w-full mb-5 group">
               <input
                 type="decimal"
-                name="KPTMYK"
-                id="KPTMYK"
+                name="secret"
+                id="secret"
+                value={secret}
+                onChange={(e) => {
+                  setSecret(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="secret"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Secret
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="decimal"
+                name="KPTMYK"
+                id="KPTMYK"
+                onChange={(e) => {
+                  setKPTMYK(e.target.value);
+                }}
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="KPTMYK"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 KPTMYK
@@ -127,10 +262,14 @@ const Form = ({ mode }) => {
                 id="candidate"
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                onChange={(e) => {
+                  setCandidateKPTMYK(e.target.value);
+                }}
+                value={candidateKPTMYK}
                 required
               />
               <label
-                for="candidate"
+                htmlFor="candidate"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Candidate KPTMYK
@@ -144,12 +283,16 @@ const Form = ({ mode }) => {
                 type="decimal"
                 name="KPTMYK"
                 id="KPTMYK"
+                onChange={(e) => {
+                  setKPTMYK(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={KPTMYK}
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="KPTMYK"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 KPTMYK
@@ -160,12 +303,16 @@ const Form = ({ mode }) => {
                 type="password"
                 name="password"
                 id="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={password}
                 required
               />
               <label
-                for="password"
+                htmlFor="password"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Password
@@ -180,12 +327,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="name"
                 id="name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={name}
                 required
               />
               <label
-                for="name"
+                htmlFor="name"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Name
@@ -196,12 +347,16 @@ const Form = ({ mode }) => {
                 type="decimal"
                 name="KPTMYK"
                 id="KPTMYK"
+                onChange={(e) => {
+                  setKPTMYK(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={KPTMYK}
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="KPTMYK"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 KPTMYK
@@ -212,12 +367,16 @@ const Form = ({ mode }) => {
                 type="password"
                 name="password"
                 id="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={password}
                 required
               />
               <label
-                for="password"
+                htmlFor="password"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Password
@@ -228,12 +387,16 @@ const Form = ({ mode }) => {
                 type="numeric"
                 name="referralCode"
                 id="referralCode"
+                onChange={(e) => {
+                  setRefferalCode(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={refferalCode}
                 required
               />
               <label
-                for="referralCode"
+                htmlFor="referralCode"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 referralCode
@@ -248,12 +411,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="name"
                 id="name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={name}
                 required
               />
               <label
-                for="name"
+                htmlFor="name"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Name
@@ -262,14 +429,38 @@ const Form = ({ mode }) => {
             <div className="relative z-0 w-full mb-5 group">
               <input
                 type="decimal"
-                name="KPTMYK"
-                id="KPTMYK"
+                name="secret"
+                id="secret"
+                value={secret}
+                onChange={(e) => {
+                  setSecret(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="secret"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Secret
+              </label>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="decimal"
+                name="KPTMYK"
+                id="KPTMYK"
+                onChange={(e) => {
+                  setKPTMYK(e.target.value);
+                }}
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                value={KPTMYK}
+                required
+              />
+              <label
+                htmlFor="KPTMYK"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 KPTMYK
@@ -280,12 +471,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="section"
                 id="floating_section"
+                onChange={(e) => {
+                  setSection(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={section}
                 required
               />
               <label
-                for="floating_section"
+                htmlFor="floating_section"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Year | Section
@@ -300,19 +495,22 @@ const Form = ({ mode }) => {
                 type="decimal"
                 name="secret"
                 id="secret"
+                onChange={(e) => {
+                  setSecret(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={secret}
                 required
               />
               <label
-                for="secret"
+                htmlFor="secret"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Secret
               </label>
             </div>
           </>
-
         ) : mode == "addCandidate" ? (
           <>
             <div className="relative z-0 w-full mb-5 group">
@@ -320,12 +518,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="name"
                 id="name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={name}
                 required
               />
               <label
-                for="name"
+                htmlFor="name"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Name
@@ -336,12 +538,16 @@ const Form = ({ mode }) => {
                 type="decimal"
                 name="KPTMYK"
                 id="KPTMYK"
+                onChange={(e) => {
+                  setKPTMYK(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={KPTMYK}
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="KPTMYK"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 KPTMYK
@@ -352,12 +558,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="section"
                 id="floating_section"
+                onChange={(e) => {
+                  setSection(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={section}
                 required
               />
               <label
-                for="floating_section"
+                htmlFor="floating_section"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Year | Section
@@ -368,12 +578,16 @@ const Form = ({ mode }) => {
                 type="numeric"
                 name="height"
                 id="height"
+                onChange={(e) => {
+                  setHeight(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={height}
                 required
               />
               <label
-                for="height"
+                htmlFor="height"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Height (cm)
@@ -384,12 +598,16 @@ const Form = ({ mode }) => {
                 type="numeric"
                 name="weight"
                 id="weight"
+                onChange={(e) => {
+                  setWeight(e.target.value);
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={weight}
                 required
               />
               <label
-                for="weight"
+                htmlFor="weight"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Weight (Kg)
@@ -400,12 +618,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="hobbies"
                 id="hobbies"
+                onChange={(e) => {
+                  setHobbies(e.target.value.split("#"));
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
+                value={hobbies.join("#")}
                 required
               />
               <label
-                for="hobbies"
+                htmlFor="hobbies"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Hobbies
@@ -416,12 +638,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="profilePic"
                 id="profilePic"
+                onChange={(e) => {
+                  setProfilePic(e.target.value);
+                }}
+                value={profilePic}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="profilePic"
+                htmlFor="profilePic"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Profile Picture (Link)
@@ -432,12 +658,16 @@ const Form = ({ mode }) => {
                 type="text"
                 name="link"
                 id="link"
+                onChange={(e) => {
+                  setImageUrls(e.target.value.split("#"));
+                }}
+                value={imageUrls.join("#")}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
               />
               <label
-                for="link"
+                htmlFor="link"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Image Links (eg: #abc.com #efg.com)
@@ -454,7 +684,7 @@ const Form = ({ mode }) => {
                   required
                 />
                 <label
-                  for="male"
+                  htmlFor="male"
                   onClick={() => {
                     setGender("male");
                   }}
@@ -475,7 +705,7 @@ const Form = ({ mode }) => {
                   required
                 />
                 <label
-                  for="female"
+                  htmlFor="female"
                   onClick={() => {
                     setGender("female");
                   }}
@@ -490,9 +720,13 @@ const Form = ({ mode }) => {
             <textarea
               id="intro"
               rows="4"
-              className="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-teal-300 focus:ring-teal-500 focus:border-teal-500 "
+              onChange={(e) => {
+                setIntro(e.target.value);
+              }}
               placeholder="Intro ....."
+              value={intro}
               required
+              className="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-teal-300 focus:ring-teal-500 focus:border-teal-500"
             ></textarea>
           </>
         ) : (
@@ -501,7 +735,7 @@ const Form = ({ mode }) => {
 
         <button
           type="submit"
-          className="text-white bg-teal-500 hover:bg-teal-600 focus:ring-2 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+          className="text-white bg-teal-500 hover:bg-teal-600 focus:ring-2 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
         >
           Submit
         </button>

@@ -18,7 +18,7 @@ const page = () => {
             required
           />
           <label
-            for="student"
+            htmlFor="student"
             onClick={()=>{setMode("addStudentVoter")}}
             className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
@@ -37,7 +37,7 @@ const page = () => {
             required
           />
           <label
-            for="public"
+            htmlFor="public"
             onClick={()=>{setMode("addPublicVoter")}}
             className=" inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer  peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 "
           >
@@ -55,7 +55,7 @@ const page = () => {
             className="hidden peer"
           />
           <label
-            for="candidate"
+            htmlFor="candidate"
             onClick={()=>{setMode("addCandidate")}}  
             className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
           >

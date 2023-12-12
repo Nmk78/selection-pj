@@ -1,8 +1,11 @@
+"use client"
+
 import Link from "next/link";
 import React from "react";
 
 const Nav = () => {
-  
+  const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
+  const id = typeof window !== "undefined" ? window.localStorage.getItem("adminId") : null;
 
   return (
     <div
@@ -20,11 +23,20 @@ const Nav = () => {
             Home
           </p>
         </Link>
-        <Link href="/user">
-          <p className="px-2 py-1.5 text-xl text-center font-bold c hover:border-b-2 hover:border-teal-500">
-            Check
-          </p>{" "}
-        </Link>
+
+        {token ? (
+          <Link href={`/admin/${id}`}>
+            <p className="px-2 py-1.5 text-xl text-center font-bold c hover:border-b-2 hover:border-teal-500">
+              Admin
+            </p>{" "}
+          </Link>
+        ) : (
+          <Link href="/user">
+            <p className="px-2 py-1.5 text-xl text-center font-bold c hover:border-b-2 hover:border-teal-500">
+              Check
+            </p>{" "}
+          </Link>
+        )}
       </div>
     </div>
   );

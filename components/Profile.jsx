@@ -9,9 +9,7 @@ import {
   Card,
   CardFooter,
 } from "@material-tailwind/react";
-import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { getOneCandidate } from "util/fetch";
+
 
 const Profile = ({name, KPTMYK, section, height, weight, intro, hobbies, imageUrls}) => {
 
@@ -194,7 +192,7 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
                   required
                 />
                 <label
-                  for="name"
+                  htmlFor="name"
                   className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Name
@@ -213,7 +211,7 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
                 required
               />
               <label
-                for="KPTMYK"
+                htmlFor="KPTMYK"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 {student ? "KPTMYK" : "Secret"}
@@ -229,7 +227,7 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
                 required
               />
               <label
-                for="candidate"
+                htmlFor="candidate"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Candidate KPTMYK
