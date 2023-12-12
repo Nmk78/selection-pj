@@ -10,17 +10,14 @@ const { result } = require("./voter");
 
 const createToken = (KPTMYK) => {
   const payload = { KPTMYK };
-  return jwt.sign(payload, process.env.JWT_secret, { expiresIn: "7d" });
+  return jwt.sign(payload, process.env.JWT_secret, { expiresIn: "15d" });
 };
 
 const toggle_vote_feature = async (req, res) => {
   try {
-    // const {} = req.body;
-    // if(initialState != true || initialState != false){
-    //   res.status(400);
-    //   res.json({error:"Invalid Initial State"})
-    // }
     const requestedData = await data.findOne({});
+    console.log(requestedData);
+
     const result = await data.updateOne(
       {},
       { $set: { voteAllow: !requestedData.voteAllow } }
@@ -28,6 +25,24 @@ const toggle_vote_feature = async (req, res) => {
     if (result.modifiedCount == result.matchedCount) {
       console.log(result);
       res.status(200).json({ message: "Vote feature toggled" });
+    }
+  } catch (error) {
+    res.status(400);
+    res.json(error.message);
+  }
+};
+const toggle_result_feature = async (req, res) => {
+  try {
+    const requestedData = await data.findOne({});
+    console.log(requestedData);
+
+    const result = await data.updateOne(
+      {},
+      { $set: { resultOpen: !requestedData.resultOpen } }
+    );
+    if (result.modifiedCount == result.matchedCount) {
+      console.log(result);
+      res.status(200).json({ message: "result feature toggled" });
     }
   } catch (error) {
     res.status(400);
@@ -253,7 +268,23 @@ const add_new_public_voter = async (req, res) => {
   }
 };
 
-const add_configure_data = async (req, res) => {}
+const add_configure_data = async (req, res) => {
+
+  const createdData = await data.findOne({});
+  try {
+    if(!requestedData){
+      const createdData = await data.create({
+        voteAllow: false,
+        resultOpen: false,
+      });
+    }
+    res.status(200).json(createdData);
+  } catch (error) {
+    res.status(400);
+    res.json({ error: error.message });
+  }
+};
+
 
 module.exports = {
   register_new_admin,
@@ -265,6 +296,8 @@ module.exports = {
   add_new_public_voter,
   toggle_vote_feature,
   restart,
+  add_configure_data,
+  toggle_result_feature
 };
 
 

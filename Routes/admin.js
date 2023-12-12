@@ -1,5 +1,5 @@
 const express = require("express");
-const {get_all_admin, get_one_admin, create_new_candidate, add_new_voter, login, register_new_admin, add_new_public_voter, toggle_vote_feature, restart} = require("../Controller/admin");
+const {get_all_admin, get_one_admin, create_new_candidate, add_new_voter, login, register_new_admin, add_new_public_voter, toggle_vote_feature, restart, add_configure_data, toggle_result_feature} = require("../Controller/admin");
 const verifyToken = require("../Middleware/authValidator");
 
 const router = express.Router();
@@ -21,8 +21,14 @@ router.
 	route("/")
 		.get(get_all_admin)
 router.
+	route("/config")
+		.post(add_configure_data)
+router.
 	route("/toggle-vote-feature")
 		.patch(toggle_vote_feature)
+router.
+	route("/toggle-result-feature")
+		.patch(toggle_result_feature)
 
 router.
 	route("/:id").

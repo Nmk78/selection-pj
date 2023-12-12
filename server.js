@@ -27,11 +27,12 @@ app.get("/",(req,res)=>{
               },
               adminRoutes: {
                   loginAdmin:"/admin/login",
-                  loginAdmin:"/admin/login",
+                  addConfigData:"/admin/config",
                   getAllAdmin:"/admin",
                   getOneAdmin:"/admin/:id",
                   registerAdmin:"/admin/register",
                   toggleVote:"/admin/toggle-vote-feature",
+                  toggleResult:"/admin/toggle-result-feature",
                   addNewCandidate:"/admin/new/candidate",
                   addNewVoter:"/admin/new/voter",
                   addNewPublicVoter:"/admin/new/public-voter",
