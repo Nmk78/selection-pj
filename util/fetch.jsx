@@ -4,7 +4,7 @@ require("dotenv").config();
 //
 export const getAllCandidates = async () => {
   try {
-    console.log(process.env.NEXT_PUBLIC_API);
+    console.log(process.env.NEXT_PUBLIC_API, "/candidates");
     const res = await axios.get(process.env.NEXT_PUBLIC_API + "/candidates");
     // console.log(res);
     return res;
@@ -36,67 +36,22 @@ export const getOneCandidate = async ({ id }) => {
     throw error;
   }
 };
-
-//
-export const getOneAdmin = async (id, token) => {
+export const getResult = async () => {
   try {
-    console.log("Getting Admin data via ID");
-    if (!id) {
-      console.log("No ID");
-      return;
-    }
-    if (!token) {
-      console.log("No token");
-      return;
-    }
+    console.log("Fetching Result");
+    console.log(process.env.NEXT_PUBLIC_API + "/voter/result/");
 
-    console.log("Fetching Profile Data");
-    console.log(`${process.env.NEXT_PUBLIC_API}/admin/${id}`);
-
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/admin/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axios.get(process.env.NEXT_PUBLIC_API + "/voter/result/");
     console.log(res.data);
     return res;
   } catch (error) {
-    console.error("Error fetching admin data:", error.message);
+    console.error("Error fetching candidate:", error.message);
     throw error;
   }
 };
 
 //
-export const loginAsAdmin = async ({ KPTMYK, password }) => {
-  try {
-    console.log(
-      "NEXT_PUBLIC_API-",
-      process.env.NEXT_PUBLIC_API + "/admin/login"
-    );
-
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/admin/login`, {
-      KPTMYK,
-      password,
-    });
-
-    console.log(res.data);
-    if (res.status == 200) {
-      const { name, KPTMYK, token } = res.data;
-      localStorage.setItem("adminId", KPTMYK);
-      localStorage.setItem("adminName", name);
-      localStorage.setItem("token", token);
-
-      window.location.href = `/admin/${KPTMYK}`;
-      return res;
-    }
-  } catch (error) {
-    console.error("Error logging in as admin:", error.message);
-    throw error;
-  }
-  console.log(res.data);
-};
-
-export const logout = async ({ KPTMYK, password }) => {
+export const loginAsAdmin = async (token, { KPTMYK, password }) => {
   try {
     console.log(
       "NEXT_PUBLIC_API-",
@@ -126,12 +81,10 @@ export const logout = async ({ KPTMYK, password }) => {
 };
 
 //
-export const registerAsAdmin = async ({
-  name,
-  KPTMYK,
-  password,
-  refferalCode,
-}) => {
+export const registerAsAdmin = async (
+  token,
+  { name, KPTMYK, password, refferalCode }
+) => {
   try {
     // const router = Router()
     console.log(
@@ -159,6 +112,63 @@ export const registerAsAdmin = async ({
     return res;
   } catch (error) {
     console.error("Error in registering:", error.message);
+    throw error;
+  }
+};
+
+//
+export const check = async (token, { KPTMYK, name, secret }) => {
+  try {
+    console.log("Getting User data via ID");
+    if (!KPTMYK) {
+      console.log("No KPTMK");
+      return;
+    }
+
+    console.log("Fetching user Data");
+    console.log(`${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`);
+
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`,
+      {
+        KPTMYK: KPTMYK,
+        name: name,
+        secret: secret,
+      }
+    );
+    console.log(res.data);
+    return res;
+  } catch (error) {
+    console.error("Error fetching user data:", error.message);
+    throw error;
+  }
+};
+
+// token needs
+export const getOneAdmin = async (id, token) => {
+  try {
+    console.log("Getting Admin data via ID");
+    if (!id) {
+      console.log("No ID");
+      return;
+    }
+    if (!token) {
+      console.log("No token");
+      return;
+    }
+
+    console.log("Fetching Profile Data");
+    console.log(`${process.env.NEXT_PUBLIC_API}/admin/${id}`);
+
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/admin/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res.data);
+    return res;
+  } catch (error) {
+    console.error("Error fetching admin data:", error.message);
     throw error;
   }
 };
@@ -257,34 +267,10 @@ export const loadInitialData = async (token) => {
 };
 
 //
-export const check = async ({ KPTMYK, name, secret }) => {
-  try {
-    console.log("Getting User data via ID");
-    if (!KPTMYK) {
-      console.log("No KPTMK");
-      return;
-    }
-
-    console.log("Fetching user Data");
-    console.log(`${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`);
-
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`,
-      {
-        KPTMYK,
-        name,
-        secret,
-      }
-    );
-    console.log(res.data);
-    return res;
-  } catch (error) {
-    console.error("Error fetching user data:", error.message);
-    throw error;
-  }
-};
-
-export const addStudentVoter = async (token,{KPTMYK, name, section, secret}) => {
+export const addStudentVoter = async (
+  token,
+  { KPTMYK, name, section, secret }
+) => {
   console.log("Add stu Voter Fn");
   try {
     const res = await axios.post(
@@ -308,6 +294,7 @@ export const addStudentVoter = async (token,{KPTMYK, name, section, secret}) => 
   }
 };
 
+//
 export const addPublicVoter = async (token, { secret }) => {
   console.log("Add public Voter fn");
   console.log("Token = ", token);
@@ -335,6 +322,7 @@ export const addPublicVoter = async (token, { secret }) => {
     throw error;
   }
 };
+//
 export const addCandidate = async (
   token,
   {
@@ -379,6 +367,34 @@ export const addCandidate = async (
     return res;
   } catch (error) {
     console.error("Error adding student voter:", error.message);
+    throw error;
+  }
+};
+
+export const restart = async (token) => {
+  try {
+    console.log("Restart fn run", token);
+
+    if (token) {
+      console.log("token", token);
+
+      console.log(process.env.NEXT_PUBLIC_API + "/admin/restart");
+
+      const res = await axios.delete(
+        process.env.NEXT_PUBLIC_API + "/admin/restart",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      return res;
+    }
+    console.log("No token");
+    return;
+  } catch (error) {
+    console.error("Error fetching admin data:", error.message);
     throw error;
   }
 };

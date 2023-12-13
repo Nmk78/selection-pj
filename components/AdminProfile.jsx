@@ -3,9 +3,25 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
-import { getOneAdmin, loadInitialData, toggleResult, toggleVote } from "util/fetch";
+import {
+  getOneAdmin,
+  loadInitialData,
+  toggleResult,
+  toggleVote,
+  restart,
+} from "util/fetch";
 
+
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("adminId");
+  localStorage.removeItem("adminName");
+
+  window.location.href = "/admin/login";
+};
 const AdminProfile = () => {
+
+
   const token =
     typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
   const id =
@@ -70,10 +86,24 @@ const AdminProfile = () => {
           >
             Open Result
           </button>
-          <button onClick={()=>{confirm("Are you sure to restart application? This will be delete all data.")}} className=" text-white font-semibold bg-red-500 px-2.5 py-2  m-2  rounded-lg">
+          <button
+            onClick={() => {
+              let response = confirm(
+                "Are you sure to restart application? This will be delete all data."
+              );
+              if(response){
+                console.log(token);
+                restart(token)
+              }
+            }}
+            className=" text-white font-semibold bg-red-500 px-2.5 py-2  m-2  rounded-lg"
+          >
             Restart
-          </button>{" "}
-          <button className=" text-white font-semibold bg-orange-500 px-2.5 py-2  m-2  rounded-lg">
+          </button>
+          <button
+            onClick={logout}
+            className=" text-white font-semibold bg-orange-500 px-2.5 py-2  m-2  rounded-lg"
+          >
             Log Out
           </button>
         </div>

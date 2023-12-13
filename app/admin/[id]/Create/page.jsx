@@ -1,7 +1,6 @@
 "use client";
 import Form from "components/Form";
 import React, { useEffect, useState } from "react";
-import { addStudentVoter, addPublicVoter, addCandidate } from "../../../../util/fetch";
 
 const page = () => {
   const [mode, setMode] = useState("addStudentVoter");

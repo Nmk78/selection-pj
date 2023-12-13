@@ -29,6 +29,7 @@ const Profile = ({
   const [voterKPTMYK, setVoterKPTMYK] = React.useState("");
 
   const [votingMode, setVotingMode] = React.useState("");
+  const [message, setMessage] = React.useState("");
 
   const [open, setOpen] = React.useState(false);
   const [student, setStudent] = React.useState(false); //if student was true student dialog will open
@@ -70,25 +71,59 @@ const Profile = ({
   const handleVote = async () => {
     if (votingMode === "student") {
       //post to student
-      const res = await axios.patch(`${process.env.NEXT_PUBLIC_API}/voter/vote`, {
-        secret,
-        name: voterName,
-        KPTMYK: voterKPTMYK,
-        candidateKPTMYK: KPTMYK,
-      });
-      console.log(secret, voterKPTMYK, voterName, KPTMYK);
-      console.log("res", res);
+      try {
+        const res = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API}/voter/vote`,
+          {
+            secret,
+            name: voterName,
+            KPTMYK: voterKPTMYK,
+            candidateKPTMYK: KPTMYK,
+          }
+        );
+        console.log(secret, voterKPTMYK, voterName, KPTMYK);
+        console.log("res", res);
+        if (res?.status == 200) {
+          setMessage("Voted Successfully");
+        } else {
+          setMessage("Something went wrong");
+        }
+      } catch (error) {
+        console.log(error);
+        setMessage(error.response.data.error);
+        throw error;
+      } finally {
+        setTimeout(() => {
+          setMessage("");
+        }, 4000);
+      }
     }
     if (votingMode === "public") {
-      res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API}/voter/public/vote`,
-        {
-          secret,
-          candidateKPTMYK: KPTMYK,
+      try {
+        res = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API}/voter/public/vote`,
+          {
+            secret,
+            candidateKPTMYK: KPTMYK,
+          }
+        );
+        console.log(res);
+        if (res?.status == 200) {
+          setMessage("Voted Successfully");
+          setMessage("Voted Successfully");
+          setMessage("Voted Successfully");
         }
-      );
-      console.log(res);
+      } catch (error) {
+        console.log(error);
+        setMessage(error.response.data.error);
+        throw error;
+      } finally {
+        setTimeout(() => {
+          setMessage("");
+        }, 4000);
+      }
     }
+    console.log(message);
   };
 
   return (
@@ -227,7 +262,10 @@ const Profile = ({
           <Typography variant="h4" color="teal" className="mb-4">
             Vote
           </Typography>{" "}
-          {console.log(student)}
+          {/* {console.log(student)} */}
+          <div className=" text-2xl text-teal-500 text-center my-4">
+            {message}
+          </div>
           {student ? (
             <div>
               <div className="relative z-0 w-full mb-5 group">

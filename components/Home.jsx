@@ -8,28 +8,30 @@ import { MTCarousel } from "./Carousel";
 import CandidateCard from "./CandidateCard";
 
 import localFont from "next/font/local";
+import Loading from "./Loading";
 
 const beautifulFont = localFont({ src: "../font/quindelia.regular.ttf" });
 
 const Home = () => {
-  const [resultOpen, setResultOpen] = useState(true);
-  const { data , isLoading, isSuccess, error } = useQuery({
+  const { data, isLoading, isSuccess, error } = useQuery({
     queryKey: ["candidate"],
     queryFn: getAllCandidates,
   });
 
-  console.log("Candidate Data - ", data?.data);
+  // const {candidates, result, vote} = data;
+
+  console.log("Candidate Data - ", data);
 
   return isLoading ? (
     <>
-      <div className="text-red-700">Loading</div>
+      {/* <div className="text-red-700">Loading</div> */}
+      <Loading size="4x" />
     </>
   ) : isSuccess ? (
     <div id="Home" className="w-full max-w-full pt-5  h-full bg-slate-300">
       <div id="carousel" className="w-full p-2 ">
         <MTCarousel />
       </div>
-
       <div id="Disclaimer">
         <p
           style={beautifulFont.style}
@@ -45,8 +47,7 @@ const Home = () => {
           you for your understanding and commitment to the voting process.{" "}
         </p>
       </div>
-
-      {resultOpen && (
+      {data?.data?.result && (
         <div id="result" className="w-full m-5">
           <div
             style={beautifulFont.style}
@@ -61,8 +62,23 @@ const Home = () => {
             <Link href="/results">Check Results</Link>
           </div>
         </div>
+      )}{" "}
+      {data?.data?.vote && (
+        <div id="result" className="w-full m-5">
+          <div
+            style={beautifulFont.style}
+            className=" font-bold text-3xl text-green-500 text-center animate-ping"
+          >
+            Voting is open
+          </div>
+          <div
+            style={beautifulFont.style}
+            className=" font-bold text-3xl text-green-600 text-center -m-6 mb-5"
+          >
+            Voting is open
+          </div>
+        </div>
       )}
-
       <div id="profiles">
         <div
           style={beautifulFont.style}
@@ -72,7 +88,7 @@ const Home = () => {
         </div>
 
         {data &&
-          data?.data.map((c) => (
+          data?.data?.candidates?.map((c) => (
             <CandidateCard
               key={c.KPTMYK}
               profilePic=""

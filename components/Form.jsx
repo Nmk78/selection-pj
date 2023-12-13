@@ -35,7 +35,7 @@ const Form = ({ mode, handler }) => {
 
     console.log("token", token);
 
-    if(mode == "addCandidate"){
+    if (mode == "addCandidate") {
       console.log("Creating Candidates");
       try {
         res = await addCandidate(token, {
@@ -53,9 +53,9 @@ const Form = ({ mode, handler }) => {
           imageUrls,
         });
         console.log("status = ", res?.status);
-  
+
         console.log(res);
-  
+
         // if (res.status !== 200) {
         //   setError(true);
         // }
@@ -63,7 +63,7 @@ const Form = ({ mode, handler }) => {
           setMessage("Success");
           setError(false);
           setLoading(false);
-  
+
           setName("");
           setKPTMYK("");
           setPassword("");
@@ -84,8 +84,11 @@ const Form = ({ mode, handler }) => {
         setError(true);
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          setMessage("")
+        }, 4000);
       }
-    }else if(mode == "addPublicVoter"){
+    } else if (mode == "addPublicVoter") {
       console.log("Creating Public Voter");
 
       try {
@@ -93,9 +96,9 @@ const Form = ({ mode, handler }) => {
           secret,
         });
         console.log("status = ", res?.status);
-  
+
         console.log(res);
-  
+
         // if (res.status !== 200) {
         //   setError(true);
         // }
@@ -103,7 +106,7 @@ const Form = ({ mode, handler }) => {
           setMessage("Success");
           setError(false);
           setLoading(false);
-  
+
           setName("");
           setKPTMYK("");
           setPassword("");
@@ -124,9 +127,11 @@ const Form = ({ mode, handler }) => {
         setError(true);
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          setMessage("")
+        }, 4000);
       }
-    }
-    else if(mode == "addStudentVoter"){
+    } else if (mode == "addStudentVoter") {
       console.log("Creating Student Voter");
 
       try {
@@ -134,13 +139,13 @@ const Form = ({ mode, handler }) => {
           name,
           KPTMYK,
           password,
-          section,      
+          section,
           secret,
         });
         console.log("status = ", res?.status);
-  
+
         console.log(res);
-  
+
         // if (res.status !== 200) {
         //   setError(true);
         // }
@@ -148,7 +153,7 @@ const Form = ({ mode, handler }) => {
           setMessage("Success");
           setError(false);
           setLoading(false);
-  
+
           setName("");
           setKPTMYK("");
           setPassword("");
@@ -169,59 +174,67 @@ const Form = ({ mode, handler }) => {
         setError(true);
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          setMessage("")
+        }, 4000);
       }
-    }else{ console.log("Creating Other");   try {
-      res = await handler(token, {
-        name,
-        KPTMYK,
-        password,
-        section,
-        gender,
-        intro,
-        height,
-        weight,
-        refferalCode,
-        secret,
-        hobbies,
-        profilePic,
-        imageUrls,
-      });
-      console.log("status = ", res?.status);
+    } else {
+      console.log("Creating Other");
+      try {
+        res = await handler(token, {
+          name,
+          KPTMYK,
+          password,
+          section,
+          gender,
+          intro,
+          height,
+          weight,
+          refferalCode,
+          secret,
+          hobbies,
+          profilePic,
+          imageUrls,
+        });
+        console.log("status = ", res?.status);
 
-      console.log(res);
+        console.log(res);
 
-      // if (res.status !== 200) {
-      //   setError(true);
-      // }
-      if (res?.status === 200) {
-        setMessage("Success");
-        setError(false);
+        // if (res.status !== 200) {
+        //   setError(true);
+        // }
+        if (res?.status === 200) {
+          setMessage("Success");
+          setError(false);
+          setLoading(false);
+
+          setName("");
+          setKPTMYK("");
+          setPassword("");
+          setSection("");
+          setGender("");
+          setIntro("");
+          setHeight("");
+          setWeight("");
+          setRefferalCode("");
+          setSecret("");
+          setHobbies([]);
+          setProfilePic("");
+          setImageUrls("");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        console.log("Error in form handler");
+        setError(true);
+      } finally {
         setLoading(false);
-
-        setName("");
-        setKPTMYK("");
-        setPassword("");
-        setSection("");
-        setGender("");
-        setIntro("");
-        setHeight("");
-        setWeight("");
-        setRefferalCode("");
-        setSecret("");
-        setHobbies([]);
-        setProfilePic("");
-        setImageUrls("");
+        setTimeout(() => {
+          setMessage("")
+        }, 4000);
       }
-    } catch (error) {
-      console.error("Error:", error.message);
-      console.log("Error in form handler");
-      setError(true);
-    } finally {
-      setLoading(false);
-    }}
-
+    }
   };
-  
+
   // const formHandler = async (e) => {
   //   setError(false);
   //   setLoading(true);
@@ -248,7 +261,7 @@ const Form = ({ mode, handler }) => {
   //     });
 
   //     console.log("status = ", res?.status);
-      
+
   //     // ... other code ...
   //   } catch (error) {
   //     console.error("Error:", error.message);
@@ -261,7 +274,7 @@ const Form = ({ mode, handler }) => {
   return (
     <>
       <div>{res?.status}</div>
-      <p className="m-10"> Mode: {mode}</p>
+      {/* <p className="m-10"> Mode: {mode}</p> */}
       {loading && (
         <div className="text-2xl font-bold text-center text-teal-500">
           Loading...
@@ -269,12 +282,13 @@ const Form = ({ mode, handler }) => {
       )}{" "}
       {error && (
         <div className="text-2xl my-4 font-bold text-center text-red-500">
-          Something went wrong.
+          Someth ing went wrong.
         </div>
       )}{" "}
       {message && (
-        <div className="text-2xl font-bold text-center text-green-500">
-          {mode == "check" ? "Your Information are valid!" : ""}
+        <div className="text-2xl  mt-8 font-bold text-center text-green-500">
+          {/* {mode == "check" ? "Your Information are valid!" :"" } */}
+          {mode == "check" ? "Your Information are valid!" : mode == "addStudentVoter" ? "Student Added":mode == "addPublicVoter" ? "Public Voter Added" :mode == "addCandidate" ? "Candidate Added" :""}
         </div>
       )}
       <form
