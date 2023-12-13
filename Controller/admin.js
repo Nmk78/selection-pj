@@ -186,7 +186,7 @@ const restart = async (req, res) => {
     
 ///Create New Data
 const create_new_candidate = async (req, res) => {
-  const { KPTMYK, name, height, weight,gender, imageUrls, section, intro, hobbies } =
+  const { KPTMYK, name, height, weight,gender, imageUrls, section, intro, hobbies,profilePic } =
     req.body;
   if (
     !KPTMYK ||
@@ -197,13 +197,15 @@ const create_new_candidate = async (req, res) => {
     !imageUrls ||
     !height ||
     !gender ||
-    !weight 
+    !weight ||
+    !profilePic
   ) {
     res.status(400);
     res.json({ error: "Fill all fields" });
     return;
   }
   try {
+    const modifiedGender = gender
     const newCandidate = await candidate.create({
       KPTMYK: KPTMYK,
       name: name,
@@ -212,10 +214,11 @@ const create_new_candidate = async (req, res) => {
       hobbies: hobbies,
       imageUrls: imageUrls,
       height: height,
-      gender:gender,
+      gender:modifiedGender,
       weight: weight,
       voteCount: [],
       canVoteNow: false,
+      profilePic: profilePic,
     });
     if (newCandidate) {
       res.status(200).json(newCandidate);

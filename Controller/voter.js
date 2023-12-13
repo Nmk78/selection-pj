@@ -17,19 +17,31 @@ const get_all_voter = async (req, res) => {
 
 //this can use for checking information
 const get_one_voter = async (req, res) => {
+  const { KPTMYK, name, secret } = req.body;
+
+  if (!KPTMYK || !name || !secret) {
+    return res.status(400).json({ error: "Fill all fields",
+  message: req.body});
+
+  }
+
   try {
-    const { id } = req.params;
     const requestedVoter = await voter
-      .findOne({ KPTMYK: id })
-      .select("name KPTMYK section voted");
+      .findOne({ KPTMYK: KPTMYK })
+      .select("name KPTMYK section secret voted");
+
     if (!requestedVoter) {
-      res.status(400);
-      res.json({ error: "Invalid KPTMYK" });
+      return res.status(400).json({ error: "Invalid KPTMYK" });
     }
-    res.status(200).json(requestedVoter);
+
+    if (requestedVoter.name !== name || requestedVoter.secret !== secret) {
+      return res.status(400).json({ error: "Invalid Credentials" });
+    }
+
+    return res.status(200).json(requestedVoter);
   } catch (error) {
-    res.status(400);
-    res.json({ error: error.message });
+    console.error("Error:", error.message);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -197,7 +209,6 @@ const add_public_vote = async (req, res) => {
       return res.status(400).json({ error: "Vote is closed" });
     }
 
-
     const requestedSecretKey = await public_voter
       .findOne({ secret: secret })
       .session(session);
@@ -249,10 +260,6 @@ const add_public_vote = async (req, res) => {
   } finally {
     session.endSession();
   }
-  // session.endSession();
-  res.status(200).json({
-    message: "added one public vote",
-  });
 };
 
 const result = async (req, res) => {
@@ -262,7 +269,7 @@ const result = async (req, res) => {
       res.status(400).json({ error: "Result was closed" });
       return;
     }
-    const result = await candidate
+    const maleResults = await candidate
       //.aggregate([
       //   {
       //     $group: {
@@ -298,6 +305,11 @@ const result = async (req, res) => {
           $project: {
             name: 1,
             KPTMYK: 1,
+            section: 1,
+            intro: 1,
+            hobbies: 1,
+            height: 1,
+            weight: 1,
             voteCount: 1,
             imageUrls: 1,
             gender: 1,
@@ -309,7 +321,7 @@ const result = async (req, res) => {
       ])
       .exec();
 
-    const femaleResult = await candidate
+    const femaleResults = await candidate
       .aggregate([
         {
           $match: { gender: "female" },
@@ -317,7 +329,14 @@ const result = async (req, res) => {
         {
           $project: {
             name: 1,
+            KPTMYK: 1,
+            section: 1,
+            intro: 1,
+            hobbies: 1,
+            height: 1,
+            weight: 1,
             voteCount: 1,
+            imageUrls: 1,
             gender: 1,
             totalVotes: { $size: "$voteCount" },
           },
@@ -327,11 +346,11 @@ const result = async (req, res) => {
       ])
       .exec();
 
-    if (result.length === 0 || femaleResult.length === 0) {
+    if (result.length === 0 || femaleResults.length === 0) {
       res.status(400).json({ error: "No result found" });
       return;
-    }
-    res.status(200).json({ result, femaleResult });
+    }maleResults
+    res.status(200).json({ maleResults, femaleResults });
     // res.status(200).json({result});
   } catch (error) {
     res.status(400).json({ error: error.message });

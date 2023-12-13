@@ -27,6 +27,7 @@ app.get("/",(req,res)=>{
               },
               adminRoutes: {
                   loginAdmin:"/admin/login",
+                  restart:"/admin/restart",
                   addConfigData:"/admin/config",
                   getAllAdmin:"/admin",
                   getOneAdmin:"/admin/:id",

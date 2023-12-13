@@ -10,7 +10,7 @@ router
 
 router.
 	route("/:id").
-		get(get_one_voter)
+		post(get_one_voter)
 		
 router.
 	route("/").
