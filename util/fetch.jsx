@@ -284,15 +284,21 @@ export const check = async ({ KPTMYK, name, secret }) => {
   }
 };
 
-export const addStudentVoter = async (KPTMYK, name, secret) => {
+export const addStudentVoter = async (token,{KPTMYK, name, section, secret}) => {
   console.log("Add stu Voter Fn");
   try {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`,
+      process.env.NEXT_PUBLIC_API + "/admin/new/voter",
       {
         KPTMYK,
         name,
         secret,
+        section,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     return res;
@@ -301,18 +307,19 @@ export const addStudentVoter = async (KPTMYK, name, secret) => {
     throw error;
   }
 };
-export const addPublicVoter = async (token,secret) => {
+
+export const addPublicVoter = async (token, { secret }) => {
   console.log("Add public Voter fn");
   console.log("Token = ", token);
   console.log("secret", secret);
 
-  if(!token){
+  if (!token) {
     console.log("No token");
     return;
   }
   try {
     const res = await axios.post(
-      process.env.NEXT_PUBLIC_API + "/admin/new/public-voter}",
+      process.env.NEXT_PUBLIC_API + "/admin/new/public-voter",
       {
         secret,
       },
@@ -328,15 +335,45 @@ export const addPublicVoter = async (token,secret) => {
     throw error;
   }
 };
-export const addCandidate = async (KPTMYK, name, secret) => {
+export const addCandidate = async (
+  token,
+  {
+    name,
+    KPTMYK,
+    password,
+    section,
+    gender,
+    intro,
+    height,
+    weight,
+    refferalCode,
+    hobbies,
+    profilePic,
+    imageUrls,
+  }
+) => {
   console.log("addCandidate fn");
   try {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`,
+      process.env.NEXT_PUBLIC_API + "/admin/new/candidate",
       {
-        KPTMYK,
         name,
-        secret,
+        KPTMYK,
+        password,
+        section,
+        gender,
+        intro,
+        height,
+        weight,
+        refferalCode,
+        hobbies,
+        profilePic,
+        imageUrls,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     return res;

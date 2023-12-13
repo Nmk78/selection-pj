@@ -1,5 +1,6 @@
 // "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { addCandidate } from "util/fetch";
 import { addCandidate, addPublicVoter, addStudentVoter } from "util/fetch";
 
 const Form = ({ mode, handler }) => {
@@ -25,7 +26,7 @@ const Form = ({ mode, handler }) => {
   let res;
   const token = localStorage.getItem("token") || undefined;
 
-  console.log(handler);
+  // console.log(handler);
 
   const formHandler = async (e) => {
     setError(false);
@@ -34,7 +35,142 @@ const Form = ({ mode, handler }) => {
 
     console.log("token", token);
 
-    try {
+    if(mode == "addCandidate"){
+      console.log("Creating Candidates");
+      try {
+        res = await addCandidate(token, {
+          name,
+          KPTMYK,
+          password,
+          section,
+          gender,
+          intro,
+          height,
+          weight,
+          refferalCode,
+          hobbies,
+          profilePic,
+          imageUrls,
+        });
+        console.log("status = ", res?.status);
+  
+        console.log(res);
+  
+        // if (res.status !== 200) {
+        //   setError(true);
+        // }
+        if (res?.status === 200) {
+          setMessage("Success");
+          setError(false);
+          setLoading(false);
+  
+          setName("");
+          setKPTMYK("");
+          setPassword("");
+          setSection("");
+          setGender("");
+          setIntro("");
+          setHeight("");
+          setWeight("");
+          setRefferalCode("");
+          setSecret("");
+          setHobbies([]);
+          setProfilePic("");
+          setImageUrls("");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        console.log("Error in form handler");
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }else if(mode == "addPublicVoter"){
+      console.log("Creating Public Voter");
+
+      try {
+        res = await addPublicVoter(token, {
+          secret,
+        });
+        console.log("status = ", res?.status);
+  
+        console.log(res);
+  
+        // if (res.status !== 200) {
+        //   setError(true);
+        // }
+        if (res?.status === 200) {
+          setMessage("Success");
+          setError(false);
+          setLoading(false);
+  
+          setName("");
+          setKPTMYK("");
+          setPassword("");
+          setSection("");
+          setGender("");
+          setIntro("");
+          setHeight("");
+          setWeight("");
+          setRefferalCode("");
+          setSecret("");
+          setHobbies([]);
+          setProfilePic("");
+          setImageUrls("");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        console.log("Error in form handler");
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    else if(mode == "addStudentVoter"){
+      console.log("Creating Student Voter");
+
+      try {
+        res = await addStudentVoter(token, {
+          name,
+          KPTMYK,
+          password,
+          section,      
+          secret,
+        });
+        console.log("status = ", res?.status);
+  
+        console.log(res);
+  
+        // if (res.status !== 200) {
+        //   setError(true);
+        // }
+        if (res?.status === 200) {
+          setMessage("Success");
+          setError(false);
+          setLoading(false);
+  
+          setName("");
+          setKPTMYK("");
+          setPassword("");
+          setSection("");
+          setGender("");
+          setIntro("");
+          setHeight("");
+          setWeight("");
+          setRefferalCode("");
+          setSecret("");
+          setHobbies([]);
+          setProfilePic("");
+          setImageUrls("");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        console.log("Error in form handler");
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }else{ console.log("Creating Other");   try {
       res = await handler(token, {
         name,
         KPTMYK,
@@ -82,12 +218,50 @@ const Form = ({ mode, handler }) => {
       setError(true);
     } finally {
       setLoading(false);
-    }
+    }}
+
   };
+  
+  // const formHandler = async (e) => {
+  //   setError(false);
+  //   setLoading(true);
+  //   e.preventDefault();
+
+  //   const token = localStorage.getItem("token") || undefined;
+
+  //   try {
+  //     // Use handler as a function directly
+  //     const res = await handler(token, {
+  //       name,
+  //       KPTMYK,
+  //       password,
+  //       section,
+  //       gender,
+  //       intro,
+  //       height,
+  //       weight,
+  //       refferalCode,
+  //       secret,
+  //       hobbies,
+  //       profilePic,
+  //       imageUrls,
+  //     });
+
+  //     console.log("status = ", res?.status);
+      
+  //     // ... other code ...
+  //   } catch (error) {
+  //     console.error("Error:", error.message);
+  //     console.log("Error in form handler");
+  //     setError(true);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   return (
     <>
       <div>{res?.status}</div>
-      {/* <p className="m-10"> Mode: {mode}</p> */}
+      <p className="m-10"> Mode: {mode}</p>
       {loading && (
         <div className="text-2xl font-bold text-center text-teal-500">
           Loading...
@@ -679,7 +853,8 @@ const Form = ({ mode, handler }) => {
                 onChange={(e) => {
                   setImageUrls(e.target.value.split("#"));
                 }}
-                value={imageUrls.join("#")}
+                value={imageUrls}
+                // value={imageUrls.join("#")}
                 className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
@@ -696,7 +871,7 @@ const Form = ({ mode, handler }) => {
                 <input
                   type="radio"
                   id="male"
-                  name="mode"
+                  name="gender"
                   value="male"
                   className="hidden peer"
                   required
@@ -717,7 +892,7 @@ const Form = ({ mode, handler }) => {
                 <input
                   type="radio"
                   id="female"
-                  name="mode"
+                  name="gender"
                   value="female"
                   className="hidden peer"
                   required

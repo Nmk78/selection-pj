@@ -5,16 +5,17 @@ import { addStudentVoter, addPublicVoter, addCandidate } from "../../../../util/
 
 const page = () => {
   const [mode, setMode] = useState("addStudentVoter");
-  let handler;
-  useEffect(() => {
-    if (mode === "addStudentVoter") {
-      handler = addStudentVoter;
-    } else if (mode === "addPublicVoter") {
-      handler = addPublicVoter;
-    } else if (mode === "addCandidate") {
-      handler = addCandidate;
-    }
-  }, [mode]);
+  const [handler, setHandler] = useState("this is creating handlers");
+
+  // useEffect(() => {
+  //   if (mode === "addStudentVoter") {
+  //     setHandler(addStudentVoter);
+  //   } else if (mode === "addPublicVoter") {
+  //     setHandler(addPublicVoter);
+  //   } else if (mode === "addCandidate") {
+  //     setHandler(addCandidate);
+  //   }
+  // }, [mode]);
 
   // const handler = (mode) => {
   //   if (mode === "addStudentVoter") {
@@ -96,7 +97,7 @@ const page = () => {
           </label>
         </li>
       </ul>
-      <Form mode={mode} handler={()=>handler()} />
+      <Form mode={mode} handler={handler} />
     </div>
   );
 };
