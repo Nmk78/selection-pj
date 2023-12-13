@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Form from "./Form";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { getAllCandidates } from "util/fetch";
 import Link from "next/link";
 import { MTCarousel } from "./Carousel";
@@ -15,12 +13,12 @@ const beautifulFont = localFont({ src: "../font/quindelia.regular.ttf" });
 
 const Home = () => {
   const [resultOpen, setResultOpen] = useState(true);
-  const { data, isLoading, isSuccess, error } = useQuery({
+  const { data , isLoading, isSuccess, error } = useQuery({
     queryKey: ["candidate"],
     queryFn: getAllCandidates,
   });
 
-  console.log("Candidate Data - ", data);
+  console.log("Candidate Data - ", data?.data);
 
   return isLoading ? (
     <>
@@ -74,7 +72,7 @@ const Home = () => {
         </div>
 
         {data &&
-          data.map((c) => (
+          data?.data.map((c) => (
             <CandidateCard
               key={c.KPTMYK}
               profilePic=""

@@ -28,7 +28,7 @@ const AdminProfile = () => {
     return <div className="text-red-700">Error loading Admin details.</div>;
   }
   if (isSuccess) {
-    const { name, KPTMYK, refferalCode } = data;
+    const { name, KPTMYK, refferalCode } = data.data;
     return (
       <div id="Admin Profile" className="w-full flex flex-col items-center">
         <div

@@ -1,9 +1,34 @@
-'use client'
+"use client";
 import Form from "components/Form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { addStudentVoter, addPublicVoter, addCandidate } from "../../../../util/fetch";
 
 const page = () => {
-  const [mode, setMode] = useState("addStudentVoter")
+  const [mode, setMode] = useState("addStudentVoter");
+  let handler;
+  useEffect(() => {
+    if (mode === "addStudentVoter") {
+      handler = addStudentVoter;
+    } else if (mode === "addPublicVoter") {
+      handler = addPublicVoter;
+    } else if (mode === "addCandidate") {
+      handler = addCandidate;
+    }
+  }, [mode]);
+
+  // const handler = (mode) => {
+  //   if (mode === "addStudentVoter") {
+  //     return addStudentVoter;
+  //   } else if (mode === "addPublicVoter") {
+  //     return addPublicVoter;
+  //   } else if (mode === "addCandidate") {
+  //     return addCandidate;
+  //   }
+  
+  // }
+
+
+
   return (
     <div className="my-20">
       <div className="text-2xl text-center font-bold mb-5">Create</div>
@@ -19,7 +44,9 @@ const page = () => {
           />
           <label
             htmlFor="student"
-            onClick={()=>{setMode("addStudentVoter")}}
+            onClick={() => {
+              setMode("addStudentVoter");
+            }}
             className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             <div className="block">
@@ -38,7 +65,9 @@ const page = () => {
           />
           <label
             htmlFor="public"
-            onClick={()=>{setMode("addPublicVoter")}}
+            onClick={() => {
+              setMode("addPublicVoter");
+            }}
             className=" inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer  peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 "
           >
             <div className="block">
@@ -56,7 +85,9 @@ const page = () => {
           />
           <label
             htmlFor="candidate"
-            onClick={()=>{setMode("addCandidate")}}  
+            onClick={() => {
+              setMode("addCandidate");
+            }}
             className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-teal-500 peer-checked:border-teal-600 peer-checked:text-teal-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             <div className="block">
@@ -65,7 +96,7 @@ const page = () => {
           </label>
         </li>
       </ul>
-      <Form mode={mode} />
+      <Form mode={mode} handler={()=>handler()} />
     </div>
   );
 };

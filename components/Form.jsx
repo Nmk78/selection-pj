@@ -1,5 +1,6 @@
 // "use client";
 import React, { useEffect, useState } from "react";
+import { addCandidate, addPublicVoter, addStudentVoter } from "util/fetch";
 
 const Form = ({ mode, handler }) => {
   const [name, setName] = useState(""); //
@@ -19,31 +20,22 @@ const Form = ({ mode, handler }) => {
 
   const [error, setError] = useState(false); //
   const [loading, setLoading] = useState(false); //
+  const [message, setMessage] = useState(""); //
 
   let res;
-  // useEffect(() => {
-  //   setName("");
-  //   setKPTMYK("");
-  //   setPassword("");
-  //   setSection("");
-  //   setGender("");
-  //   setIntro("");
-  //   setHeight("");
-  //   setWeight("");
-  //   setRefferalCode("");
-  //   setSecret("");
-  //   setHobbies([]);
-  //   setProfilePic("");
-  //   setImageUrls("");
-  // }, [mode]);
+  const token = localStorage.getItem("token") || undefined;
+
+  console.log(handler);
 
   const formHandler = async (e) => {
     setError(false);
     setLoading(true);
     e.preventDefault();
 
+    console.log("token", token);
+
     try {
-      res = await handler({
+      res = await handler(token, {
         name,
         KPTMYK,
         password,
@@ -58,13 +50,15 @@ const Form = ({ mode, handler }) => {
         profilePic,
         imageUrls,
       });
+      console.log("status = ", res?.status);
 
       console.log(res);
 
-      if (res.status !== 200) {
-        setError(true);
-      }
-      if (res.status === 200) {
+      // if (res.status !== 200) {
+      //   setError(true);
+      // }
+      if (res?.status === 200) {
+        setMessage("Success");
         setError(false);
         setLoading(false);
 
@@ -84,6 +78,7 @@ const Form = ({ mode, handler }) => {
       }
     } catch (error) {
       console.error("Error:", error.message);
+      console.log("Error in form handler");
       setError(true);
     } finally {
       setLoading(false);
@@ -91,20 +86,23 @@ const Form = ({ mode, handler }) => {
   };
   return (
     <>
-    <div>{res?.status}</div>
+      <div>{res?.status}</div>
       {/* <p className="m-10"> Mode: {mode}</p> */}
       {loading && (
-        <div className="text-2xl font-bold text-center text-red-500">
+        <div className="text-2xl font-bold text-center text-teal-500">
           Loading...
         </div>
       )}{" "}
       {error && (
-        <div className="text-2xl font-bold text-center text-red-500">
+        <div className="text-2xl my-4 font-bold text-center text-red-500">
           Something went wrong.
         </div>
+      )}{" "}
+      {message && (
+        <div className="text-2xl font-bold text-center text-green-500">
+          {mode == "check" ? "Your Information are valid!" : ""}
+        </div>
       )}
-
-      
       <form
         onSubmit={formHandler}
         className="max-w-md w-5/6 mx-auto px-6 py-6 bg-gray-200"

@@ -15,7 +15,7 @@ const CandidatePage = () => {
     queryFn: () => getOneCandidate(id),
   });
 
-  console.log("Data-", data);
+  console.log("Data-", data?.data);
 
   if (isLoading) {
     return <div className="text-red-700">Loading...</div>;
@@ -26,7 +26,7 @@ const CandidatePage = () => {
   }
   if (isSuccess) {
     console.log("Success and rendering");
-    const { name, KPTMYK, section, height, weight, intro, hobbies, imageUrls } = data[0];
+    const { name, KPTMYK, section, height, weight, intro, hobbies, imageUrls } = data?.data[0];
     console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
     return <Profile key={KPTMYK} name={name} KPTMYK={KPTMYK} section={section} height={height} weight={weight} intro={intro} hobbies={hobbies} imageUrls={imageUrls} />;
   }

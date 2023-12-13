@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import {
@@ -9,35 +11,51 @@ import {
   Card,
   CardFooter,
 } from "@material-tailwind/react";
+import axios from "axios";
 
+const Profile = ({
+  name,
+  KPTMYK,
+  section,
+  height,
+  weight,
+  intro,
+  hobbies,
+  imageUrls,
+}) => {
+  // console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
+  const [secret, setSecret] = React.useState("");
+  const [voterName, setVoterName] = React.useState("");
+  const [voterKPTMYK, setVoterKPTMYK] = React.useState("");
 
-const Profile = ({name, KPTMYK, section, height, weight, intro, hobbies, imageUrls}) => {
+  const [votingMode, setVotingMode] = React.useState("");
 
-
-console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
   const [open, setOpen] = React.useState(false);
-  const [student, setStudent] = React.useState(false);
+  const [student, setStudent] = React.useState(false); //if student was true student dialog will open
 
   const [voterCard, setVoteCard] = React.useState(false);
 
-  // const handleVoteOpen = () => setVoteCard((cur) => !cur);
-
   const handleOpen = () => {
+    // to open
     console.log("clicked");
     setOpen(!open);
   };
+
   const handleVoteOpen = ({ mode }) => {
+    //to close
     switch (mode) {
       case "student":
         setVoteCard(!voterCard);
         setStudent(true);
         setOpen(!open);
+        setVotingMode("student");
 
         break;
       case "public":
         setVoteCard(!voterCard);
         setStudent(false);
         setOpen(!open);
+        setVotingMode("public");
 
         break;
 
@@ -47,39 +65,68 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
     }
   };
 
+  // Handle Posts
+
+  const handleVote = async () => {
+    if (votingMode === "student") {
+      //post to student
+      const res = await axios.patch(`${process.env.NEXT_PUBLIC_API}/voter/vote`, {
+        secret,
+        name: voterName,
+        KPTMYK: voterKPTMYK,
+        candidateKPTMYK: KPTMYK,
+      });
+      console.log(secret, voterKPTMYK, voterName, KPTMYK);
+      console.log("res", res);
+    }
+    if (votingMode === "public") {
+      res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API}/voter/public/vote`,
+        {
+          secret,
+          candidateKPTMYK: KPTMYK,
+        }
+      );
+      console.log(res);
+    }
+  };
+
   return (
     <div id="Profile" className="w-full flex flex-col items-center pt-10 pb-20">
       <div id="profileDetails" className=" w-full flex flex-col items-center">
-      <div id="profile-img" className=" ">
-        <img
-          className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
-          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
-          alt="profile"
-        />
-      </div>
-      <div id="profile-name" className=" font-bold text-xl my-5 c">
-        {name}
-      </div>
-      <div id="candidate-detail" className="flex flex-col text-center c">
-        <div id="Section">Section - {section} </div>
-
-        <div className="flex w-full ">
-          <div id="Heigh"> Height - {height} | </div>
-          <div id="Weigh"> Weight - {weight}</div>
+        <div id="profile-img" className=" ">
+          <img
+            className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
+            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+            alt="profile"
+          />
         </div>
-      </div>
-      <div id="hobbies">
-        {hobbies.map((hobby) => (
-          <div id="hobby" className="px-3 py-1.5 ring-teal-400 ring-1 rounded-lg">
-            {hobby}
+        <div id="profile-name" className=" font-bold text-xl my-5 c">
+          {name}
+        </div>
+        <div id="candidate-detail" className="flex flex-col text-center c">
+          <div id="Section">Section - {section} </div>
+
+          <div className="flex w-full ">
+            <div id="Heigh"> Height - {height} | </div>
+            <div id="Weigh"> Weight - {weight}</div>
           </div>
-        ))}
-      </div>
-      <div id="candidate-intro">
-        <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
-          {intro}
-        </p>
-      </div>
+        </div>
+        <div id="hobbies">
+          {hobbies.map((hobby) => (
+            <div
+              id="hobby"
+              className="px-3 py-1.5 ring-teal-400 ring-1 rounded-lg"
+            >
+              {hobby}
+            </div>
+          ))}
+        </div>
+        <div id="candidate-intro">
+          <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
+            {intro}
+          </p>
+        </div>
       </div>
       <div id="carousel" className="w-full my-5 flex items-center">
         <div className="carousel rounded-box w-full mx-2">
@@ -130,8 +177,7 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
       <div className="c text-lg font-light animate-pulse">
         Drag slides to see more photos
       </div>
-
-      <div id="buttons">
+      <div id="buttons" className="w-full flex items-center justify-center">
         <Button
           onClick={handleOpen}
           className="px-4 py-3 text-gray-100 bg-teal-500 rounded-lg text-center font-bold hover:bg-teal-600 focus:ring-1 focus:ring-teal-700"
@@ -139,49 +185,51 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
         >
           👑 Vote
         </Button>
-
-        {/* Fitst Dialog */}
-        <Dialog open={open} handler={handleOpen}>
-          <DialogHeader>You are ____ voter. </DialogHeader>
-          {/* <DialogBody>
+      </div>
+      {/* Fitst Dialog */}
+      <Dialog open={open} handler={handleOpen}>
+        <DialogHeader>You are ____ voter. </DialogHeader>
+        {/* <DialogBody>
           
         </DialogBody> */}
-          <DialogFooter>
-            <Button
-              variant="Stued"
-              color="blue"
-              // onClick={handleVoteOpen}
-              onClick={() => {
-                handleVoteOpen({ mode: "public" });
-              }}
-              className="mr-1"
-            >
-              <span>Public</span>
-            </Button>
-            <Button
-              variant="gradient"
-              color="teal"
-              onClick={() => {
-                handleVoteOpen({ mode: "student" });
-              }}
-            >
-              <span>Student</span>
-            </Button>
-          </DialogFooter>
-        </Dialog>
+        <DialogFooter>
+          <Button
+            variant="Stued"
+            color="blue"
+            // onClick={handleVoteOpen}
+            onClick={() => {
+              handleVoteOpen({ mode: "public" });
+            }}
+            className="mr-1"
+          >
+            <span>Public</span>
+          </Button>
+          <Button
+            variant="gradient"
+            color="teal"
+            onClick={() => {
+              handleVoteOpen({ mode: "student" });
+            }}
+          >
+            <span>Student</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
 
-        {/* Second Dialog */}
-        <Dialog
-          size="xs"
-          open={voterCard}
-          handler={handleVoteOpen}
-          className="bg-transparent shadow-none"
-        >
-          <Card className="mx-auto w-full max-w-[24rem] p-8">
-            <Typography variant="h4" color="teal" className="mb-4">
-              Vote
-            </Typography>{" "}
-            {student ? (
+      {/* Second Dialog */}
+      <Dialog
+        size="xs"
+        open={voterCard}
+        handler={handleVoteOpen}
+        className="bg-transparent shadow-none"
+      >
+        <Card className="mx-auto w-full max-w-[24rem] p-8">
+          <Typography variant="h4" color="teal" className="mb-4">
+            Vote
+          </Typography>{" "}
+          {console.log(student)}
+          {student ? (
+            <div>
               <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
@@ -189,63 +237,66 @@ console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
                   id="name"
                   className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                   placeholder=" "
+                  onChange={(e) => setVoterName(e.target.value)}
                   required
                 />
                 <label
-                  htmlFor="name"
+                  for="name"
                   className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Name
                 </label>
               </div>
-            ) : (
-              <></>
-            )}
-            <div className="relative z-0 w-full mb-5 group">
-              <input
-                type="decimal"
-                name="KPTMYK"
-                id="KPTMYK"
-                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                htmlFor="KPTMYK"
-                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                {student ? "KPTMYK" : "Secret"}
-              </label>
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  type="decimal"
+                  name="KPTMYK"
+                  id="KPTMYK"
+                  className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                  placeholder=" "
+                  onChange={(e) => setVoterKPTMYK(e.target.value)}
+                  required
+                />
+                <label
+                  for="KPTMYK"
+                  className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  KPTMYK
+                </label>
+              </div>
             </div>
-            <div className="relative z-0 w-full mb-5 group">
-              <input
-                type="numeric"
-                name="candidate"
-                id="candidate"
-                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                htmlFor="candidate"
-                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Candidate KPTMYK
-              </label>
-            </div>
-            <CardFooter className="pt-0 flex justify-center">
-              <Button
-                variant="gradient"
-                onClick={handleVoteOpen}
-                color="teal"
-                className="px-4 py-3 text-gray-100 bg-teal-500 rounded-lg text-center font-bold hover:bg-teal-600 focus:ring-1 focus:ring-teal-700"
-              >
-                👑 Vote
-              </Button>
-            </CardFooter>
-          </Card>
-        </Dialog>
-      </div>
+          ) : (
+            <></>
+          )}
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              type="decimal"
+              name="secret"
+              id="secret"
+              className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+              placeholder=" "
+              onChange={(e) => setSecret(e.target.value)}
+              required
+            />
+            <label
+              for="secret"
+              className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Secret
+            </label>
+          </div>
+          <CardFooter className="pt-0 flex justify-center">
+            <Button
+              variant="gradient"
+              onClick={handleVote}
+              color="teal"
+              className="px-4 py-3 text-gray-100 bg-teal-500 rounded-lg text-center font-bold hover:bg-teal-600 focus:ring-1 focus:ring-teal-700"
+            >
+              👑 Vote
+            </Button>
+          </CardFooter>
+        </Card>
+      </Dialog>
     </div>
   );
 };
