@@ -15,6 +15,7 @@ app.get("/",(req,res)=>{
       res.status(200).json({
             guide: {
               voterRoutes: {
+                  getResult: "/voter/pre-result",
                   getResult: "/voter/result",
                   getAllVoters: "/voter/",
                   getOneVoters: "/voter/:id",

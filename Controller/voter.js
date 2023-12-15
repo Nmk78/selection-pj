@@ -357,11 +357,104 @@ const result = async (req, res) => {
   }
 };
 
+const pre_ressult = async (req, res) => {
+  try {
+    const resultOpen = await data.findOne({}).select("resultOpen");
+    if (!resultOpen.resultOpen) {
+      res.status(400).json({ error: "Result was closed" });
+      return;
+    }
+    const maleResults = await candidate
+      //.aggregate([
+      //   {
+      //     $group: {
+      //       _id: "$gender",
+      //       candidates: {
+      //         $push: {
+      //           name: "$name",
+      //           KPTMYK: "$KPTMYK",
+      //           voteCount: "$voteCount",
+      //           imageUrls: "$imageUrls",
+      //           gender: "$gender",
+      //           totalVotes: { $size: "$voteCount" },
+      //         },
+      //       },
+      //     },
+      //   },
+      //   {
+      //     $project: {
+      //       _id: 0,
+      //       gender: "$_id",
+      //       candidates: {
+      //         $slice: ["$candidates", 2], // Limit to the top 2 candidates
+      //       },
+      //     },
+      //   },
+      // ])    .exec();
+
+      .aggregate([
+        {
+          $match: { gender: "male" }, // Adjust the field and value based on your data structure
+        },
+        {
+          $project: {
+            name: 1,
+            KPTMYK: 1,
+            section: 1,
+            intro: 1,
+            hobbies: 1,
+            height: 1,
+            weight: 1,
+            voteCount: 1,
+            imageUrls: 1,
+            gender: 1,
+            totalVotes: { $size: "$voteCount" },
+          },
+        },
+        { $sort: { totalVotes: -1 } },
+      ])
+      .exec();
+
+    const femaleResults = await candidate
+      .aggregate([
+        {
+          $match: { gender: "female" },
+        },
+        {
+          $project: {
+            name: 1,
+            KPTMYK: 1,
+            section: 1,
+            intro: 1,
+            hobbies: 1,
+            height: 1,
+            weight: 1,
+            voteCount: 1,
+            imageUrls: 1,
+            gender: 1,
+            totalVotes: { $size: "$voteCount" },
+          },
+        },
+        { $sort: { totalVotes: -1 } },
+      ])
+      .exec();
+
+    if (result.length === 0 || femaleResults.length === 0) {
+      res.status(400).json({ error: "No result found" });
+      return;
+    }maleResults
+    res.status(200).json({ maleResults, femaleResults });
+    // res.status(200).json({result});
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   get_one_voter,
   get_all_voter,
   add_vote,
   add_public_vote,
+  pre_ressult,
   result,
 };
 
