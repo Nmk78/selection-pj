@@ -192,10 +192,10 @@ const Profile = ({
       <div id="carousel" className="w-full my-5 flex items-center">
         <div className="carousel rounded-box w-full mx-2">
           {imageUrls.map(
-            (imageUrl) =>
+            (imageUrl, index) =>
               imageUrl != "" && (
                 <div className="carousel-item w-1/2">
-                  <img src={imageUrl} className="w-full" />
+                  <img key={index} src={imageUrl} className="w-full" />
                 </div>
               )
           )}

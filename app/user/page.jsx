@@ -1,15 +1,13 @@
 'use client'
 
 import User from "components/User";
-import React, { useEffect } from "react";
+import React from "react";
 
 
 
 
 const page = () => {
-  useEffect(() => {
 
-  }, [])
   return (
     <>
       <User />
