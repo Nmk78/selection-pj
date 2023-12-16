@@ -34,6 +34,7 @@ app.get("/",(req,res)=>{
                   getOneAdmin:"/admin/:id",
                   registerAdmin:"/admin/register",
                   toggleVote:"/admin/toggle-vote-feature",
+                  toggleSecondRound:"/admin/toggle-second-round-feature",
                   toggleResult:"/admin/toggle-result-feature",
                   addNewCandidate:"/admin/new/candidate",
                   addNewVoter:"/admin/new/voter",

@@ -24,7 +24,7 @@ const toggle_vote_feature = async (req, res) => {
     );
     if (result.modifiedCount == result.matchedCount) {
       console.log(result);
-      res.status(200).json({ message: "Vote feature toggled" });
+      res.status(200).json({ message: "Vote feature toggled",data:result.acknowledged });
     }
   } catch (error) {
     res.status(400);
@@ -41,8 +41,26 @@ const toggle_result_feature = async (req, res) => {
       { $set: { resultOpen: !requestedData.resultOpen } }
     );
     if (result.modifiedCount == result.matchedCount) {
-      console.log(result);
-      res.status(200).json({ message: "result feature toggled" });
+      console.log(result.voteAllow, result.resultOpen);
+      res.status(200).json({ message: "result feature toggled",data:result.acknowledged });
+    }
+  } catch (error) {
+    res.status(400);
+    res.json(error.message);
+  }
+};
+const toggle_second_round_feature = async (req, res) => {
+  try {
+    const requestedData = await data.findOne({});
+    console.log(requestedData);
+
+    const result = await data.updateOne(
+      {},
+      { $set: { secondRound: !requestedData.secondRound } }
+    );
+    if (result.modifiedCount == result.matchedCount) {
+      console.log(result.voteAllow, result.resultOpen, result.secondRound);
+      res.status(200).json({ message: "result feature toggled",data:result.acknowledged });
     }
   } catch (error) {
     res.status(400);
@@ -71,7 +89,9 @@ const get_one_admin = async (req, res) => {
       res.status(400);
       res.json({ error: "Invalid KPTMYK" });
     }
-    res.status(200).json(adminById);
+    const metaData = await data.findOne({});
+
+    res.status(200).json({adminData: adminById, data: metaData});
   } catch (error) {
     res.status(400);
     res.json({ error: error.message });
@@ -244,6 +264,8 @@ const add_new_voter = async (req, res) => {
       section: section,
       maleVoted: false,
       femaleVoted: false,
+      secondRoundmaleVoted: false,
+      secondRoundfemaleVoted: false,
     });
     res.status(200).json(newVoter);
   } catch (error) {
@@ -263,7 +285,11 @@ const add_new_public_voter = async (req, res) => {
     const newPublic_voter = await public_voter.create({
       secret: secret,
       maleVoted: false,
-      femaleVoted: false,    });
+      femaleVoted: false,
+      secondRoundmaleVoted: false,
+      secondRoundfemaleVoted: false,
+    
+    });
     res.status(200).json(newPublic_voter);
   } catch (error) {
     res.status(400);
@@ -300,7 +326,8 @@ module.exports = {
   toggle_vote_feature,
   restart,
   add_configure_data,
-  toggle_result_feature
+  toggle_result_feature,
+  toggle_second_round_feature,
 };
 
 

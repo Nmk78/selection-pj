@@ -13,7 +13,7 @@ const voterSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    secret:{
+    secret: {
       type: String,
       unique: true,
       required: true,
@@ -27,6 +27,14 @@ const voterSchema = new mongoose.Schema(
       required: true,
     },
     femaleVoted: {
+      type: Boolean,
+      required: true,
+    },
+    secondRoundmaleVoted: {
+      type: Boolean,
+      required: true,
+    },
+    secondRoundfemaleVoted: {
       type: Boolean,
       required: true,
     },

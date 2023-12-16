@@ -10,6 +10,11 @@ const dataSchema = new mongoose.Schema({
       type:Boolean,
       default:false,
       required:true,
+  },  
+  secondRound:{
+      type:Boolean,
+      default:false,
+      required:true,
   }
 }
 );
