@@ -1,6 +1,5 @@
 // "use client";
 import React, { useState } from "react";
-import { addCandidate } from "util/fetch";
 import { addCandidate, addPublicVoter, addStudentVoter } from "util/fetch";
 
 const Form = ({ mode, handler }) => {
