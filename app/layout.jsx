@@ -2,11 +2,43 @@ import "@styles/global.css";
 import Nav from "components/Nav";
 import { ReactQueryProvider } from "util/ReactQueryProvider";
 
+// export const metadata = {
+//   title: "UCS(Myeik) | Online Selection Voting System.",
+//   description: "Online Voting System for UCS(Myeik)",
+//   meta: [
+//     {
+//       name: "viewport",
+//       content:
+//         "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+//     },
+//     <meta property="og:title" content="Title Here" />,
+//     <meta property="og:description" content="Description Here" />,
+//     <meta property="og:image" content="https://i.imgur.com/9rgUcY5.jpg" />,
+//   ],
+// };
+
 export const metadata = {
-  title: "UCS(Myeik) | Online Selection Voting.",
-  description: "Online Voting System For UCS(Myeik), Builded by Nay Myo Khant.",
+  title: "UCS(Myeik) | Online Selection Voting System.",
+  description: "Online Voting System for UCS(Myeik)",
   meta: [
-    { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
+    {
+      name: "viewport",
+      content:
+        "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+    },
+    {
+      property: "og:title",
+      content: "Test",
+    },
+    {
+      property: "og:description",
+      content: "Test Description",
+    },
+    {
+      property: "og:image",
+      content: "https://i.imgur.com/9rgUcY5.jpg",
+    },
+    // Add more meta tags as needed
   ],
 };
 

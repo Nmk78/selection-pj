@@ -12,6 +12,9 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import axios from "axios";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = ({
   name,
@@ -22,6 +25,7 @@ const Profile = ({
   intro,
   hobbies,
   imageUrls,
+  profilePic,
 }) => {
   // console.log(name, KPTMYK, section, height, weight, intro, hobbies, imageUrls);
   const [secret, setSecret] = React.useState("");
@@ -67,7 +71,6 @@ const Profile = ({
   };
 
   // Handle Posts
-
   const handleVote = async () => {
     if (votingMode === "student") {
       //post to student
@@ -128,15 +131,27 @@ const Profile = ({
 
   return (
     <div id="Profile" className="w-full flex flex-col items-center pt-10 pb-20">
+      <div id="back" className="w-15 ml-2 h-15 absolute top-24 left-0">
+        <Link href="/">
+          {" "}
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            color=""
+            size="2x"
+            id="back"
+            className="z-50 text-teal-400 mx-4"
+          />
+        </Link>
+      </div>
       <div id="profileDetails" className=" w-full flex flex-col items-center">
         <div id="profile-img" className=" ">
           <img
             className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+            src={profilePic}
             alt="profile"
           />
         </div>
-        <div id="profile-name" className=" font-bold text-xl my-5 c">
+        <div id="profile-name" className=" font-bold text-3xl my-5 c">
           {name}
         </div>
         <div id="candidate-detail" className="flex flex-col text-center c">
@@ -147,66 +162,43 @@ const Profile = ({
             <div id="Weigh"> Weight - {weight}</div>
           </div>
         </div>
-        <div id="hobbies">
-          {hobbies.map((hobby) => (
-            <div
-              id="hobby"
-              className="px-3 py-1.5 ring-teal-400 ring-1 rounded-lg"
-            >
-              {hobby}
-            </div>
-          ))}
+        <div className="text-center text-teal-500 font-bold mt-5 mb-1 text-xl">
+          Hobbies
         </div>
-        <div id="candidate-intro">
-          <p className="font-md font text-sm rounded-md m-2 ring-1 p-3 ring-teal-500">
+        <div
+          id="hobbies"
+          className="w-full m-2 justify-center flex flex-row items-center flex-wrap"
+        >
+          {hobbies.map(
+            (hobby) =>
+              hobby !== "" && (
+                <div
+                  key={hobby} // Add a unique key to each element in the array
+                  id="hobby"
+                  className="px-3 py-1.5 m-1 ring-teal-400 ring-1 rounded-lg"
+                >
+                  {hobby}
+                </div>
+              )
+          )}
+        </div>
+        <div id="candidate-intro" className="w-full h-full flex justify-center">
+          <p className="font-md text-teal-700 font text-sm rounded-md m-3 ring-1 p-3 ring-teal-500">
+            {/* <p className="w-full max-w-[380px] h-full whitespace-nowrap break-words text-teal-500 overflow-ellipsis font-md text-sm rounded-md m-2 ring-1 p-3 ring-teal-500"> */}
             {intro}
           </p>
         </div>
       </div>
       <div id="carousel" className="w-full my-5 flex items-center">
         <div className="carousel rounded-box w-full mx-2">
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg"
-              className="w-full"
-            />
-          </div>
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg"
-              className="w-full"
-            />
-          </div>
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.jpg"
-              className="w-full"
-            />
-          </div>
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1494253109108-2e30c049369b.jpg"
-              className="w-full"
-            />
-          </div>
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.jpg"
-              className="w-full"
-            />
-          </div>
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg"
-              className="w-full"
-            />
-          </div>
-          <div className="carousel-item w-1/2">
-            <img
-              src="https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg"
-              className="w-full"
-            />
-          </div>
+          {imageUrls.map(
+            (imageUrl) =>
+              imageUrl != "" && (
+                <div className="carousel-item w-1/2">
+                  <img src={imageUrl} className="w-full" />
+                </div>
+              )
+          )}
         </div>
       </div>
       <div className="c text-lg font-light animate-pulse">

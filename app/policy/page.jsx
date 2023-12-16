@@ -1,10 +1,10 @@
-import Results from 'components/Results'
+import Policy from 'components/Policy'
 import React from 'react'
 
 const page = () => {
   return (
-    <Results />
-  )
+      <Policy />
+      )
 }
 
 export default page

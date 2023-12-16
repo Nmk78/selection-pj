@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCandidates } from "util/fetch";
 import Link from "next/link";
@@ -14,13 +14,29 @@ const beautifulFont = localFont({ src: "../font/quindelia.regular.ttf" });
 
 const Home = () => {
   const { data, isLoading, isSuccess, error } = useQuery({
+    refetchInterval: 60*1000*30,
     queryKey: ["candidate"],
     queryFn: getAllCandidates,
   });
 
-  // const {candidates, result, vote} = data;
+  const [images, setImages] = useState([]);
 
-  console.log("Candidate Data - ", data);
+  console.log("Candidate Data - ", data?.data?.candidates);
+
+  useEffect(() => {
+    let imgArr = [];
+    {
+      data &&
+        data?.data?.candidates?.forEach((candidate) =>
+          candidate.imageUrls.forEach(
+            (url) =>
+              url !== "" && imgArr.push(url)
+          )
+        );
+    }setImages(imgArr)
+
+    console.log("images", images);
+  }, [data]);
 
   return isLoading ? (
     <>
@@ -29,8 +45,13 @@ const Home = () => {
     </>
   ) : isSuccess ? (
     <div id="Home" className="w-full max-w-full pt-5  h-full bg-slate-300">
+      <Link href="/policy" className="absolute z-50 bottom-14 right-6">
+        <p className="w-24 px-2 py-1.5 text-xl text-center rounded-lg font-bold text-teal-700 bg-teal-200 hover:text-white  hover:bg-teal-500">
+          Policy
+        </p>
+      </Link>
       <div id="carousel" className="w-full p-2 ">
-        <MTCarousel />
+        <MTCarousel images={images}  />
       </div>
       <div id="Disclaimer">
         <p
@@ -89,12 +110,13 @@ const Home = () => {
 
         {data &&
           data?.data?.candidates?.map((c) => (
+            
             <CandidateCard
               key={c.KPTMYK}
-              profilePic=""
               name={c.name}
               KPTMYK={c.KPTMYK}
               section={c.section}
+              profilePic={c.profilePic}
             />
           ))}
       </div>

@@ -166,7 +166,7 @@ const Form = ({ mode, handler }) => {
           setSecret("");
           setHobbies([]);
           setProfilePic("");
-          setImageUrls("");
+          setImageUrls([]);
         }
       } catch (error) {
         console.error("Error:", error.message);
@@ -220,7 +220,7 @@ const Form = ({ mode, handler }) => {
           setSecret("");
           setHobbies([]);
           setProfilePic("");
-          setImageUrls("");
+          setImageUrls([]);
         }
       } catch (error) {
         console.error("Error:", error.message);
@@ -282,7 +282,7 @@ const Form = ({ mode, handler }) => {
       )}{" "}
       {error && (
         <div className="text-2xl my-4 font-bold text-center text-red-500">
-          Someth ing went wrong.
+          Something went wrong.
         </div>
       )}{" "}
       {message && (
@@ -796,7 +796,7 @@ const Form = ({ mode, handler }) => {
                 htmlFor="height"
                 className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Height (cm)
+                Height (Cm)
               </label>
             </div>
             <div className="relative z-0 w-full mb-5 group">
@@ -842,6 +842,27 @@ const Form = ({ mode, handler }) => {
             <div className="relative z-0 w-full mb-5 group">
               <input
                 type="text"
+                name="link"
+                id="link"
+                onChange={(e) => {
+                  setImageUrls(e.target.value.split("#"));
+                }}
+                className="block py-2.5 px-0 w-full text-sm text-teal-900 bg-transparent border-0 border-b-2 border-teal-300 appearance-none dark:text-white dark:border-teal-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
+                placeholder=" "
+                // value={imageUrls}
+                // value={imageUrls.join("#")}
+                required
+              />
+              <label
+                htmlFor="hobbies"
+                className="peer-focus:font-medium absolute text-sm text-teal-500 dark:text-teal-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Image links (Eg. #abc #efg)
+              </label>
+            </div>{" "}
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="text"
                 name="profilePic"
                 id="profilePic"
                 onChange={(e) => {
@@ -859,12 +880,14 @@ const Form = ({ mode, handler }) => {
                 Profile Picture (Link)
               </label>
             </div>{" "}
-            <div className="relative z-0 w-full mb-5 group">
+
+            {/* <div className="relative z-0 w-full mb-5 group">
               <input
                 type="text"
                 name="link"
                 id="link"
                 onChange={(e) => {
+                  e.preventDefault();
                   setImageUrls(e.target.value.split("#"));
                 }}
                 value={imageUrls}
@@ -879,7 +902,7 @@ const Form = ({ mode, handler }) => {
               >
                 Image Links (eg: #abc.com #efg.com)
               </label>
-            </div>
+            </div> */}
             <ul id="gender" className="flex justify-around mb-5">
               <li>
                 <input

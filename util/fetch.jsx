@@ -49,6 +49,21 @@ export const getResult = async () => {
     throw error;
   }
 };
+export const getPreResult = async () => {
+  try {
+    console.log("Fetching pre Result");
+    console.log(process.env.NEXT_PUBLIC_API + "/voter/pre-result/");
+
+    const res = await axios.get(
+      process.env.NEXT_PUBLIC_API + "/voter/pre-result/"
+    );
+    // console.log(res.data);
+    return res;
+  } catch (error) {
+    console.error("Error fetching candidate:", error.message);
+    throw error;
+  }
+};
 
 //
 export const loginAsAdmin = async (token, { KPTMYK, password }) => {
@@ -217,6 +232,35 @@ export const toggleResult = async (token) => {
 
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-result-feature",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      return res;
+    }
+    console.log("No token");
+    return;
+  } catch (error) {
+    console.error("Error fetching admin data:", error.message);
+    throw error;
+  }
+};
+export const startSecondRound = async (token) => {
+  try {
+    console.log("Toggle result fn run", token);
+
+    if (token) {
+      console.log("token", token);
+
+      console.log("Toggling Profile Data");
+      console.log(process.env.NEXT_PUBLIC_API + "/admin/toggle-second-round-feature");
+
+      const res = await axios.patch(
+        process.env.NEXT_PUBLIC_API + "/admin/toggle-second-round-feature",
         {},
         {
           headers: {

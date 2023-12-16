@@ -94,7 +94,7 @@ const Results = () => {
         <div
           style={beautifulFont.style}
           className="text-2xl c font-bold text-center my-5 md:text-5xl md:my-10"
-        > 
+        >
           <span className=" text-teal-500">King</span> &{" "}
           <span className="text-pink-500">Queen</span>
         </div>
@@ -152,7 +152,7 @@ const Results = () => {
               <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                src={king.profilePic}
                 alt="profile"
               />
             </div>
@@ -204,7 +204,7 @@ const Results = () => {
               <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                src={queen.profilePic}
                 alt="profile"
               />
             </div>
@@ -215,8 +215,7 @@ const Results = () => {
               <div id="Section">Section - {queen.section} </div>
 
               <div className="flex w-full ">
-                <div id="Heigh"> Height - {queen.height} </div>
-                |
+                <div id="Heigh"> Height - {queen.height} </div>|
                 <div id="Weigh"> Weight - {queen.weight}</div>
               </div>
             </div>
@@ -257,7 +256,7 @@ const Results = () => {
               <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                src={prince.profilePic}
                 alt="profile"
               />
             </div>
@@ -312,7 +311,7 @@ const Results = () => {
               ></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwyfHxhdmF0YXJ8ZW58MHwwfHx8MTY5MTg0NzYxMHww&ixlib=rb-4.0.3&q=80&w=1080"
+                src={princess.profilePic}
                 alt="profile"
               />
             </div>

@@ -14,7 +14,9 @@ const Nav = () => {
     >
       <Link href="/">
         {" "}
-        <div id="logo" className="w-16 h-16 rounded-full bg-teal-500"></div>
+        <div id="logo" className="w-16 h-16 rounded-full">
+          <img src="https://www.ucsmyeik.edu.mm/storage/2018/10/cu-logo-e1540871541143.png" alt="Logo" />
+        </div>
       </Link>
       <div className="h-full flex items-center ">
         <Link href="/">
