@@ -13,9 +13,12 @@ import {
   startSecondRound,
 } from "util/fetch";
 import Loading from "./Loading";
-import { useRouter } from "next/navigation";
 
 const logout = () => {
+  const localStorage = typeof window !== "undefined" ? window.localStorage : null;
+  if(!localStorage) {
+    return;
+  }
   localStorage.removeItem("token");
   localStorage.removeItem("adminId");
   localStorage.removeItem("adminName");

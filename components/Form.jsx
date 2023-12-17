@@ -5,7 +5,6 @@ import { addCandidate, addPublicVoter, addStudentVoter } from "util/fetch";
 const Form = ({ mode, handler }) => {
   const [name, setName] = useState(""); //
   const [KPTMYK, setKPTMYK] = useState(""); //
-  const [candidateKPTMYK, setCandidateKPTMYK] = useState(""); //
   const [password, setPassword] = useState(""); //
   const [section, setSection] = useState(""); //
   const [gender, setGender] = useState(""); //
@@ -23,8 +22,7 @@ const Form = ({ mode, handler }) => {
   const [message, setMessage] = useState(""); //
 
   let res;
-  const token = localStorage.getItem("token") || undefined;
-
+  const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
   // console.log(handler);
 
   const formHandler = async (e) => {
