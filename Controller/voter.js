@@ -161,11 +161,11 @@ const add_vote = async (req, res) => {
     const metaData = await data.findOne({});
 
     let gender;
-    if(metaData.secondRound){
-      gender = "secondRound"+ checkedCandidate.gender + "Voted";
-    }else{
+    if (metaData.secondRound) {
+      gender = "secondRound" + checkedCandidate.gender + "Voted";
+    } else {
       gender = checkedCandidate.gender + "Voted";
-    }    
+    }
     if (
       !metaData.secondRound
         ? (checkedCandidate.gender === "male" && requestedVoter.maleVoted) ||
@@ -228,7 +228,10 @@ const add_public_vote = async (req, res) => {
       res.json({ error: "Invalid secret key" });
       return;
     }
-
+    const metaData = await data.findOne({});
+    if(metaData.secondRound){
+      return res.status(400).json({error: "This Round was only for student."});
+    }
     const checkedCandidate = await candidate
       .findOne({ KPTMYK: candidateKPTMYK })
       .session(session);
@@ -238,27 +241,17 @@ const add_public_vote = async (req, res) => {
       res.json({ error: "Candidate not found." });
       return;
     }
-    const metaData = await data.findOne({});
 
     if (
-      !metaData.secondRound
-        ? (checkedCandidate.gender === "male" &&
-            requestedSecretKey.maleVoted) ||
-          (checkedCandidate.gender === "female" &&
-            requestedSecretKey.femaleVoted)
-        : (checkedCandidate.gender === "male" &&
-            requestedSecretKey.secondRoundmaleVoted) ||
-          (checkedCandidate.gender === "female" &&
-            requestedSecretKey.secondRoundfemaleVoted)
+      (checkedCandidate.gender === "male" && requestedSecretKey.maleVoted) ||
+      (checkedCandidate.gender === "female" && requestedSecretKey.femaleVoted)
     ) {
-      return res.status(400).json({ error: "Already voted" });
+      res.status(400);
+      res.json({ error: "Already voted" });
+      return;
     }
-    let gender;
-    if(metaData.secondRound){
-      gender = "secondRound"+ checkedCandidate.gender + "Voted";
-    }else{
-      gender = checkedCandidate.gender + "Voted";
-    }
+    const gender = checkedCandidate.gender + "Voted";
+
     console.log(gender);
     const result = await candidate
       .updateOne({ KPTMYK: candidateKPTMYK }, { $push: { voteCount: secret } })
