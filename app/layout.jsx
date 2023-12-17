@@ -1,7 +1,7 @@
 import "@styles/global.css";
 import Nav from "components/Nav";
 import { ReactQueryProvider } from "util/ReactQueryProvider";
-
+import { Analytics } from '@vercel/analytics/react';
 // export const metadata = {
 //   title: "UCS(Myeik) | Online Selection Voting System.",
 //   description: "Online Voting System for UCS(Myeik)",
@@ -51,6 +51,7 @@ const RootLayout = ({ children }) => {
             <Nav />
             <section className="w-screen h-full  flex justify-start flex-col overflow-auto overflow-x-hidden">
               {children}
+              <Analytics />
             </section>
           </main>
         </ReactQueryProvider>
