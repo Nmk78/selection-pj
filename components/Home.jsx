@@ -14,7 +14,7 @@ const beautifulFont = localFont({ src: "../font/quindelia.regular.ttf" });
 
 const Home = () => {
   const { data, isLoading, isSuccess, error } = useQuery({
-    refetchInterval: 60*1000*30,
+    refetchInterval: 60 * 1000 * 30,
     queryKey: ["candidate"],
     queryFn: getAllCandidates,
   });
@@ -28,12 +28,10 @@ const Home = () => {
     {
       data &&
         data?.data?.candidates?.forEach((candidate) =>
-          candidate.imageUrls.forEach(
-            (url) =>
-              url !== "" && imgArr.push(url)
-          )
+          candidate.imageUrls.forEach((url) => url !== "" && imgArr.push(url))
         );
-    }setImages(imgArr)
+    }
+    setImages(imgArr);
 
     console.log("images", images);
   }, [data]);
@@ -51,7 +49,7 @@ const Home = () => {
         </p>
       </Link>
       <div id="carousel" className="w-full p-2 ">
-        <MTCarousel images={images}  />
+        <MTCarousel images={images} />
       </div>
       <div id="Disclaimer">
         <p
@@ -61,11 +59,12 @@ const Home = () => {
           Disclaimer
         </p>
         <p className="font-md text-teal-700 font text-sm rounded-md m-3 ring-1 p-3 ring-teal-500">
-          According to the program &apos s guidelines, it &apos s important to note that
-          once your vote is cast, modifications are not allowed. Ensuring the
-          accuracy of your choice before finalizing your vote is crucial. Your
-          cooperation in adhering to these regulations is greatly valued. Thank
-          you for your understanding and commitment to the voting process.{" "}
+          According to the program<span>&apos;</span>s guidelines, it<span>&apos;</span>s important to
+          note that once your vote is cast, modifications are not allowed.
+          Ensuring the accuracy of your choice before finalizing your vote is
+          crucial. Your cooperation in adhering to these regulations is greatly
+          valued. Thank you for your understanding and commitment to the voting
+          process.{" "}
         </p>
       </div>
       {data?.data?.result && (
@@ -110,7 +109,6 @@ const Home = () => {
 
         {data &&
           data?.data?.candidates?.map((c) => (
-            
             <CandidateCard
               key={c.KPTMYK}
               name={c.name}
@@ -119,6 +117,21 @@ const Home = () => {
               profilePic={c.profilePic}
             />
           ))}
+      </div>
+      <hr className="h-0.5 my-20 bg-teal-500" />
+      <div id="ThanksAndMention" className=" w-full pb-10  mb-[-160px]">
+        <p
+          style={beautifulFont.style}
+          className="font-bold text-4xl text-center c  m-3 mb-1"
+        >
+          Thanks
+        </p>
+        <p className="font-md  font text-sm rounded-md m-3 ring-1 p-3 text-teal-500 ring-teal-500">
+          I want to express my sincere gratitude to the dedicated team of data
+          entry specialists and testers who played a crucial role in making in
+          this event happen. Additionally, a special thanks to our senior who negotiated for requirements and
+          simpilfying easy access of data.
+        </p>
       </div>
     </div>
   ) : (

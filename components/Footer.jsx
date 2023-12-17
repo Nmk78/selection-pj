@@ -11,7 +11,7 @@ const Footer = () => {
       <div id="Aim" className="text-sm font-extralight text-center">
         This website has been developed as a personal project with the
         primary objective of serving as an online voting system within the
-        University of Computer Studies, Myeik (UCS Myeik).The main aim is to
+        University of Computer Studies, Myeik (UCS Myeik).The main purpose is to
         simplify and enhance the voting process, providing a user-friendly
         platform for the UCS Myeik community to engage in online voting
         seamlessly.{" "}

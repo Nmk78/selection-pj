@@ -103,18 +103,18 @@ const Profile = ({
     }
     if (votingMode === "public") {
       try {
-        res = await axios.patch(
+        const res = await axios.patch(
           `${process.env.NEXT_PUBLIC_API}/voter/public/vote`,
           {
             secret,
             candidateKPTMYK: KPTMYK,
           }
         );
-        console.log(res);
+        console.log("Public Res",res);
         if (res?.status == 200) {
           setMessage("Voted Successfully");
-          setMessage("Voted Successfully");
-          setMessage("Voted Successfully");
+        } else {
+          setMessage("Something went wrong");
         }
       } catch (error) {
         console.log(error);
