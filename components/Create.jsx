@@ -1,10 +1,9 @@
-"use client";
+"use client"
 import Form from "components/Form";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Create = () => {
   const [mode, setMode] = useState("addStudentVoter");
-  const [handler, setHandler] = useState("this is creating handlers");
 
   return (
     <div className="my-20">
@@ -73,7 +72,7 @@ const Create = () => {
           </label>
         </li>
       </ul>
-      <Form mode={mode} handler={handler} />
+      <Form mode={mode} handler="allCreateWillBeHandleFromForm" />
     </div>
   );
 }
