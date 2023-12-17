@@ -11,7 +11,7 @@ export function MTCarousel({images}) {
     loop
     autoplayDelay = "3000"
 //     transition={{type:"tween", duration:3000}}
-      className="rounded-xl overflow-hidden object-fill object-center w-full max-h-[600px] "
+      className="rounded-xl w-full flex items-center h-auto overflow-hidden object-fill object-center max-h-[600px] "
       navigation={({ setActiveIndex, activeIndex, length }) => (
         <div className="absolute bottom-4 left-2/4 z-40 flex -translate-x-2/4 gap-2">
           {new Array(length).fill("").map((_, i) => (
@@ -31,7 +31,7 @@ export function MTCarousel({images}) {
         src={img}
         key={index}
         alt={index}
-          className="h-full w-full object-center"
+          className="h-auto max-h-[600px] object-fill object-center rounded-xl w-full overflow-hidden  " 
         />
       ))}
     </Carousel>

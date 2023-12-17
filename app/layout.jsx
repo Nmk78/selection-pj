@@ -7,6 +7,9 @@ import { Analytics } from '@vercel/analytics/react';
 export const metadata = {
   title: "UCS(Myeik) | Online Selection Voting System.",
   description: "Online Voting System for UCS(Myeik)",
+  manifest: '/manifest.json',
+  icons:{logo: '/icon.png'},
+  themeColor: "#009688",
   meta: [
     {
       name: "viewport",

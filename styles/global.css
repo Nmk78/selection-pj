@@ -31,14 +31,7 @@ body {
   font-family: "quindelia", sans-serif;
 }
 
-.bgSvg {
-  width: 390px;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url("../public/1689760-009688.svg");
-}
+
 .queenCrown {
   background-size: contain;
   background-position: center;
