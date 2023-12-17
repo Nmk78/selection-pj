@@ -41,8 +41,12 @@ const RootLayout = ({ children }) => {
             <Nav />
             <section className="w-screen h-full  flex justify-start flex-col overflow-auto overflow-x-hidden">
               {children}
-              <Analytics />
             </section>
+            <Analytics beforeSend={(e)=>{
+              if(e.url.includes("/admin/")){
+                e.url = e.url.replace("/admin/","/admin")
+              }
+            }} />
           </main>
         </ReactQueryProvider>
       </body>
