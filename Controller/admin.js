@@ -286,8 +286,6 @@ const add_new_public_voter = async (req, res) => {
       secret: secret,
       maleVoted: false,
       femaleVoted: false,
-      secondRoundmaleVoted: false,
-      secondRoundfemaleVoted: false,
     
     });
     res.status(200).json(newPublic_voter);

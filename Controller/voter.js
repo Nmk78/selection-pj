@@ -230,7 +230,7 @@ const add_public_vote = async (req, res) => {
     }
     const metaData = await data.findOne({});
     if(metaData.secondRound){
-      return res.status(400).json({error: "This Round was only for student."});
+      return res.status(400).json({error: "This round was only for student."});
     }
     const checkedCandidate = await candidate
       .findOne({ KPTMYK: candidateKPTMYK })

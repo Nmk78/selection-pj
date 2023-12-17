@@ -15,14 +15,7 @@ const public_voterSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  secondRoundmaleVoted: {
-    type: Boolean,
-    required: true,
-  },
-  secondRoundfemaleVoted: {
-    type: Boolean,
-    required: true,
-  },
+
 });
 
 const public_voter = mongoose.model("public_voter", public_voterSchema);
