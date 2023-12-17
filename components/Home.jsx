@@ -61,7 +61,7 @@ const Home = () => {
           Disclaimer
         </p>
         <p className="font-md text-teal-700 font text-sm rounded-md m-3 ring-1 p-3 ring-teal-500">
-          According to the program's guidelines, it's important to note that
+          According to the program &apos s guidelines, it &apos s important to note that
           once your vote is cast, modifications are not allowed. Ensuring the
           accuracy of your choice before finalizing your vote is crucial. Your
           cooperation in adhering to these regulations is greatly valued. Thank

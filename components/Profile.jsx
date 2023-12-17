@@ -170,10 +170,10 @@ const Profile = ({
           className="w-full m-2 justify-center flex flex-row items-center flex-wrap"
         >
           {hobbies.map(
-            (hobby) =>
+            (hobby, index) =>
               hobby !== "" && (
                 <div
-                  key={hobby} // Add a unique key to each element in the array
+                  key={index}
                   id="hobby"
                   className="px-3 py-1.5 m-1 ring-teal-400 ring-1 rounded-lg"
                 >
@@ -194,8 +194,8 @@ const Profile = ({
           {imageUrls.map(
             (imageUrl, index) =>
               imageUrl != "" && (
-                <div className="carousel-item w-1/2">
-                  <img key={index} src={imageUrl} className="w-full" />
+                <div key={index}  className="carousel-item w-1/2">
+                  <img src={imageUrl} className="w-full" />
                 </div>
               )
           )}
