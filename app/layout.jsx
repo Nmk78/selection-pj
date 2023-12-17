@@ -44,8 +44,9 @@ const RootLayout = ({ children }) => {
             </section>
             <Analytics beforeSend={(e)=>{
               if(e.url.includes("/admin/")){
-                e.url = e.url.replace("/admin/","/admin")
+                return e.url = e.url.replace("/admin/","/admin")
               }
+              return e
             }} />
           </main>
         </ReactQueryProvider>
