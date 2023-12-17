@@ -1,8 +1,9 @@
 import Create from "components/Create";
 
-
-const page = () => {
-      <Create />
+const Page = () => {
+  return (
+    <Create />
+  );
 };
 
-export default page;
+export default Page;
