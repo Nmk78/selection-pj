@@ -149,7 +149,7 @@ const Results = () => {
               id="profile-img"
               className="w-full flex flex-col items-center "
             >
-              <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
+              <div id="crown" className="kingCrown w-full h-28 -mb-8"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
                 src={king.profilePic}
@@ -253,7 +253,7 @@ const Results = () => {
               id="profile-img"
               className="w-full flex flex-col items-center "
             >
-              <div id="crown" className="queenCrown w-full h-28 -mb-6"></div>
+              <div id="crown" className="princeCrown w-full h-28 -mb-8"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
                 src={prince.profilePic}
@@ -295,6 +295,7 @@ const Results = () => {
           <button>close</button>
         </form>
       </dialog>{" "}
+
       <dialog id="princessModal" className="modal p-4">
         <div className="modal-box w-full  bg-gray-200">
           <div
@@ -307,7 +308,7 @@ const Results = () => {
             >
               <div
                 id="crown"
-                className="princessCrown w-full h-[149px] -mb-[65px] "
+                className="princessCrown w-full h-[149px] -mb-[44px] "
               ></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"

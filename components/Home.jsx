@@ -19,6 +19,48 @@ const Home = () => {
     queryFn: getAllCandidates,
   });
 
+//   //////////
+
+//   const [supportsPWA, setSupportsPWA] = useState(false);
+//   const [promptInstall, setPromptInstall] = useState(null);
+
+//   useEffect(() => {
+//     const handler = (e) => {
+//       e.preventDefault();
+//       setSupportsPWA(true);
+//       setPromptInstall(e);
+//     };
+//     window.addEventListener("beforeinstallprompt", handler);
+//   });
+
+//   const onInstallClick = () => {
+//     if (!supportsPWA) {
+//         alert(
+//             'Either you have already installed the app or your browser does not support PWA :('
+//         );
+//         return;
+//     }
+//     promptInstall.prompt();
+// };
+
+// const renderInstallOption = () => {
+//     if (window.matchMedia('(display-mode: standalone)').matches) {
+//         return;
+//     } else {
+//         return (
+//             <div id="custom-install-prompt">
+//                 <img src="https://example.com/pwa-icon.png" alt="PWA Icon"/>
+//                 <h2>Install MyApp</h2>
+//                 <p>Get instant access to MyApp from your home screen.</p>
+//                 <button onClick={onInstallClick} id="install-btn">Install</button>
+//                 <button id="dismiss-btn">Dismiss</button>
+//             </div>
+//         );
+//     }
+// };
+
+//   /////////////
+
   const [images, setImages] = useState([]);
 
   console.log("Candidate Data - ", data?.data?.candidates);
@@ -59,12 +101,12 @@ const Home = () => {
           Disclaimer
         </p>
         <p className="font-md text-teal-700 font text-sm rounded-md m-3 ring-1 p-3 ring-teal-500">
-          According to the program<span>&apos;</span>s guidelines, it<span>&apos;</span>s important to
-          note that once your vote is cast, modifications are not allowed.
-          Ensuring the accuracy of your choice before finalizing your vote is
-          crucial. Your cooperation in adhering to these regulations is greatly
-          valued. Thank you for your understanding and commitment to the voting
-          process.{" "}
+          According to the program<span>&apos;</span>s guidelines, it
+          <span>&apos;</span>s important to note that once your vote is cast,
+          modifications are not allowed. Ensuring the accuracy of your choice
+          before finalizing your vote is crucial. Your cooperation in adhering
+          to these regulations is greatly valued. Thank you for your
+          understanding and commitment to the voting process.{" "}
         </p>
       </div>
       {data?.data?.result && (
@@ -129,8 +171,8 @@ const Home = () => {
         <p className="font-md  font text-sm rounded-md m-3 ring-1 p-3 text-teal-500 ring-teal-500">
           I want to express my sincere gratitude to the dedicated team of data
           entry specialists and testers who played a crucial role in making in
-          this event happen. Additionally, a special thanks to our senior who negotiated for requirements and
-          simpilfying easy access of data.
+          this event happen. Additionally, a special thanks to our senior who
+          negotiated for requirements and simpilfying easy access of data.
         </p>
       </div>
     </div>

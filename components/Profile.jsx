@@ -163,9 +163,9 @@ const Profile = ({
           </div>
         </div>
         <div className="text-center text-teal-500 font-bold mt-5 mb-1 text-xl">
-          Hobbies
+          Who am I?
         </div>
-        <div
+        {/* <div
           id="hobbies"
           className="w-full m-2 justify-center flex flex-row items-center flex-wrap"
         >
@@ -181,7 +181,7 @@ const Profile = ({
                 </div>
               )
           )}
-        </div>
+        </div> */}
         <div id="candidate-intro" className="w-full h-full flex justify-center">
           <p className="font-md text-teal-700 font text-sm rounded-md m-3 ring-1 p-3 ring-teal-500">
             {/* <p className="w-full max-w-[380px] h-full whitespace-nowrap break-words text-teal-500 overflow-ellipsis font-md text-sm rounded-md m-2 ring-1 p-3 ring-teal-500"> */}
