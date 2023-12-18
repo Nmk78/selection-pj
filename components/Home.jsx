@@ -119,15 +119,15 @@ const Home = () => {
           </div>
           <div
             style={beautifulFont.style}
-            className=" font-bold text-2xl c text-center -m-6 mb-5"
+            className=" font-bold text-2xl c text-center -m-6 mb-5 underline-offset-3 underline"
           >
             <Link href="/results">Check Results</Link>
           </div>
         </div>
       )}{" "}
       {data?.data?.vote && (
-        <div id="result" className="w-full m-5">
-          <div
+        <div id="voteIsOpen" className="w-full m-5">
+          {/* <div
             style={beautifulFont.style}
             className=" font-bold text-3xl text-green-500 text-center animate-ping"
           >
@@ -138,7 +138,8 @@ const Home = () => {
             className=" font-bold text-3xl text-green-600 text-center -m-6 mb-5"
           >
             Voting is open
-          </div>
+          </div> */}
+          <marquee style={beautifulFont.style} behavior="scroll" direction="right" className="h-10 py-2 text-teal-500 text-3xl my-2">Voting is opening</marquee>
         </div>
       )}
       <div id="profiles">
