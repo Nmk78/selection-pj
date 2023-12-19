@@ -149,7 +149,7 @@ const Results = () => {
               id="profile-img"
               className="w-full flex flex-col items-center "
             >
-              <div id="crown" className="kingCrown w-full h-28 -mb-8"></div>
+              <div id="crown" className="kingCrown w-full h-36 -mb-12"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
                 src={king.profilePic}
@@ -253,7 +253,7 @@ const Results = () => {
               id="profile-img"
               className="w-full flex flex-col items-center "
             >
-              <div id="crown" className="princeCrown w-full h-28 -mb-8"></div>
+              <div id="crown" className="princeCrown w-full h-32 -mb-10"></div>
               <img
                 className="w-32 h-32 rounded-full object-cover  ring-2 ring-teal-500"
                 src={prince.profilePic}

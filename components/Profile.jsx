@@ -195,7 +195,7 @@ const Profile = ({
             (imageUrl, index) =>
               imageUrl != "" && (
                 <div key={index}  className="carousel-item w-1/2">
-                  <img src={imageUrl} className="w-full" />
+                  <img src={imageUrl} className="w-full object-cover" />
                 </div>
               )
           )}
