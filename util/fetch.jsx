@@ -5,7 +5,6 @@ require("dotenv").config();
 //
 export const getAllCandidates = async () => {
   try {
-    const res = await axios.get(process.env.NEXT_PUBLIC_API + "/candidates");
     // console.log(res);
     return res;
   } catch (error) {
@@ -24,10 +23,8 @@ export const getOneCandidate = async ({ id }) => {
     }
 
     console.log("Fetching Profile Data");
-    console.log(`${process.env.NEXT_PUBLIC_API}/candidates/${id}`);
 
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API}/candidates/${id}`
     );
     console.log(res.data);
     return res;
