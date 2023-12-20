@@ -30,7 +30,6 @@ const Form = ({ mode, handler }) => {
     setLoading(true);
     e.preventDefault();
 
-    console.log("token", token);
 
     if (mode == "addCandidate") {
       console.log("Creating Candidates");

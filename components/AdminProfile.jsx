@@ -53,8 +53,6 @@ const AdminProfile = () => {
     queryFn: () => getOneAdmin(id, token),
   });
 
-  console.log("Admin Data-", data);
-  console.log();
 
   if (isLoading) {
     return <Loading size="4x" />;
@@ -168,7 +166,6 @@ const AdminProfile = () => {
                 "Are you sure to restart application? This will be delete all data."
               );
               if (response) {
-                console.log(token);
                 restart(token);
               }
             }}

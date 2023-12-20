@@ -5,7 +5,6 @@ require("dotenv").config();
 //
 export const getAllCandidates = async () => {
   try {
-    console.log(process.env.NEXT_PUBLIC_API, "/candidates");
     const res = await axios.get(process.env.NEXT_PUBLIC_API + "/candidates");
     // console.log(res);
     return res;
@@ -40,7 +39,6 @@ export const getOneCandidate = async ({ id }) => {
 export const getResult = async () => {
   try {
     console.log("Fetching Result");
-    console.log(process.env.NEXT_PUBLIC_API + "/voter/result/");
 
     const res = await axios.get(process.env.NEXT_PUBLIC_API + "/voter/result/");
     console.log(res.data);
@@ -53,7 +51,6 @@ export const getResult = async () => {
 export const getPreResult = async () => {
   try {
     console.log("Fetching pre Result");
-    console.log(process.env.NEXT_PUBLIC_API + "/voter/pre-result/");
 
     const res = await axios.get(
       process.env.NEXT_PUBLIC_API + "/voter/pre-result/"
@@ -195,10 +192,9 @@ export const toggleVote = async (token) => {
     console.log("Toggle Vote fn run", token);
 
     if (token) {
-      console.log("token", token);
+      
 
       console.log("Toggling Profile Data");
-      console.log(process.env.NEXT_PUBLIC_API + "/admin/toggle-vote-feature");
 
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-vote-feature",
@@ -226,10 +222,9 @@ export const toggleResult = async (token) => {
     console.log("Toggle result fn run", token);
 
     if (token) {
-      console.log("token", token);
+      
 
       console.log("Toggling Profile Data");
-      console.log(process.env.NEXT_PUBLIC_API + "/admin/toggle-result-feature");
 
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-result-feature",
@@ -255,10 +250,9 @@ export const startSecondRound = async (token) => {
     console.log("Toggle result fn run", token);
 
     if (token) {
-      console.log("token", token);
+      
 
       console.log("Toggling Profile Data");
-      console.log(process.env.NEXT_PUBLIC_API + "/admin/toggle-second-round-feature");
 
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-second-round-feature",
@@ -286,10 +280,9 @@ export const loadInitialData = async (token) => {
     console.log(" Loading Initial Data", token);
 
     if (token) {
-      console.log("token", token);
+      
 
       console.log("Toggling Profile Data");
-      console.log(process.env.NEXT_PUBLIC_API + "/admin/config");
 
       const res = await axios.post(
         process.env.NEXT_PUBLIC_API + "/admin/config",
@@ -342,7 +335,6 @@ export const addStudentVoter = async (
 //
 export const addPublicVoter = async (token, { secret }) => {
   console.log("Add public Voter fn");
-  console.log("Token = ", token);
   console.log("secret", secret);
 
   if (!token) {
@@ -418,12 +410,11 @@ export const addCandidate = async (
 
 export const restart = async (token) => {
   try {
-    console.log("Restart fn run", token);
+    // console.log("Restart fn run", token);
 
     if (token) {
-      console.log("token", token);
+      
 
-      console.log(process.env.NEXT_PUBLIC_API + "/admin/restart");
 
       const res = await axios.delete(
         process.env.NEXT_PUBLIC_API + "/admin/restart",

@@ -84,7 +84,7 @@ const Profile = ({
             candidateKPTMYK: KPTMYK,
           }
         );
-        console.log(secret, voterKPTMYK, voterName, KPTMYK);
+        // console.log(secret, voterKPTMYK, voterName, KPTMYK);
         console.log("res", res);
         if (res?.status == 200) {
           setMessage("Voted Successfully");
