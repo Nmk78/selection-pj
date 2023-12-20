@@ -159,7 +159,7 @@ const Profile = ({
 
           <div className="flex w-full ">
             <div id="Heigh"> Height - {height} | </div>
-            <div id="Weigh"> Weight - {weight}</div>
+            <div id="Weigh"> Age - {weight}</div>
           </div>
         </div>
         <div className="text-center text-teal-500 font-bold mt-5 mb-1 text-xl">

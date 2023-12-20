@@ -164,7 +164,7 @@ const Results = () => {
 
               <div className="flex w-full ">
                 <div id="Heigh"> Height - {king.height} </div>|
-                <div id="Weigh"> Weight - {king.weight}</div>
+                <div id="Weigh"> Age - {king.weight}</div>
               </div>
             </div>
             {/* <div id="candidate-intro" className="-mx-5">
@@ -216,7 +216,7 @@ const Results = () => {
 
               <div className="flex w-full ">
                 <div id="Heigh"> Height - {queen.height} </div>|
-                <div id="Weigh"> Weight - {queen.weight}</div>
+                <div id="Weigh"> Age - {queen.weight}</div>
               </div>
             </div>
             {/* <div id="candidate-intro" className="-mx-5">
@@ -268,7 +268,7 @@ const Results = () => {
 
               <div className="flex w-full ">
                 <div id="Heigh"> Height - {prince.height} | </div>
-                <div id="Weigh"> Weight - {prince.weight}</div>
+                <div id="Weigh"> Age - {prince.weight}</div>
               </div>
             </div>
             {/* <div id="candidate-intro" className="-mx-5">
@@ -324,7 +324,7 @@ const Results = () => {
 
               <div className="flex w-full ">
                 <div id="Heigh"> Height - {princess.height} | </div>
-                <div id="Weigh"> Weight - {prince.weight}</div>
+                <div id="Weigh"> Age - {prince.weight}</div>
               </div>
             </div>
             {/* <div id="candidate-intro" className="-mx-5">
