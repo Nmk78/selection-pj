@@ -5,6 +5,7 @@ require("dotenv").config();
 //
 export const getAllCandidates = async () => {
   try {
+    const res = await axios.get(process.env.NEXT_PUBLIC_API + "/candidates");
     // console.log(res);
     return res;
   } catch (error) {
@@ -25,6 +26,7 @@ export const getOneCandidate = async ({ id }) => {
     console.log("Fetching Profile Data");
 
     const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API}/candidates/${id}`
     );
     console.log(res.data);
     return res;
@@ -63,10 +65,6 @@ export const getPreResult = async () => {
 //
 export const loginAsAdmin = async (token, { KPTMYK, password }) => {
   try {
-    console.log(
-      "NEXT_PUBLIC_API-",
-      process.env.NEXT_PUBLIC_API + "/admin/login"
-    );
 
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/admin/login`, {
       KPTMYK,
@@ -96,11 +94,7 @@ export const registerAsAdmin = async (
   { name, KPTMYK, password, refferalCode }
 ) => {
   try {
-    // const router = Router()
-    console.log(
-      "NEXT_PUBLIC_API-",
-      process.env.NEXT_PUBLIC_API + "/admin/register"
-    );
+
 
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API}/admin/register`,
@@ -136,7 +130,6 @@ export const check = async (token, { KPTMYK, name, secret }) => {
     }
 
     console.log("Fetching user Data");
-    console.log(`${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`);
 
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API}/voter/${KPTMYK}`,
@@ -168,7 +161,6 @@ export const getOneAdmin = async (id, token) => {
     }
 
     console.log("Fetching Profile Data");
-    console.log(`${process.env.NEXT_PUBLIC_API}/admin/${id}`);
 
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/admin/${id}`, {
       headers: {
@@ -190,9 +182,6 @@ export const toggleVote = async (token) => {
 
     if (token) {
       
-
-      console.log("Toggling Profile Data");
-
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-vote-feature",
         {},
@@ -220,9 +209,6 @@ export const toggleResult = async (token) => {
 
     if (token) {
       
-
-      console.log("Toggling Profile Data");
-
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-result-feature",
         {},
@@ -248,9 +234,6 @@ export const startSecondRound = async (token) => {
 
     if (token) {
       
-
-      console.log("Toggling Profile Data");
-
       const res = await axios.patch(
         process.env.NEXT_PUBLIC_API + "/admin/toggle-second-round-feature",
         {},
@@ -274,12 +257,8 @@ export const startSecondRound = async (token) => {
 //
 export const loadInitialData = async (token) => {
   try {
-    console.log(" Loading Initial Data", token);
 
     if (token) {
-      
-
-      console.log("Toggling Profile Data");
 
       const res = await axios.post(
         process.env.NEXT_PUBLIC_API + "/admin/config",
@@ -331,8 +310,7 @@ export const addStudentVoter = async (
 
 //
 export const addPublicVoter = async (token, { secret }) => {
-  console.log("Add public Voter fn");
-  console.log("secret", secret);
+
 
   if (!token) {
     console.log("No token");
@@ -374,7 +352,6 @@ export const addCandidate = async (
     imageUrls,
   }
 ) => {
-  console.log("addCandidate fn");
   try {
     const res = await axios.post(
       process.env.NEXT_PUBLIC_API + "/admin/new/candidate",
@@ -407,12 +384,9 @@ export const addCandidate = async (
 
 export const restart = async (token) => {
   try {
-    // console.log("Restart fn run", token);
 
     if (token) {
       
-
-
       const res = await axios.delete(
         process.env.NEXT_PUBLIC_API + "/admin/restart",
         {
