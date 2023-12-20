@@ -163,7 +163,7 @@ const Results = () => {
               <div id="Section">Section - {king.section} </div>
 
               <div className="flex w-full ">
-                <div id="Heigh"> Height - {king.height} </div>|
+                <div id="Heigh"> Height - {king.height}cm </div>|
                 <div id="Weigh"> Age - {king.weight}</div>
               </div>
             </div>
@@ -215,7 +215,7 @@ const Results = () => {
               <div id="Section">Section - {queen.section} </div>
 
               <div className="flex w-full ">
-                <div id="Heigh"> Height - {queen.height} </div>|
+                <div id="Heigh"> Height - {queen.height}cm </div>|
                 <div id="Weigh"> Age - {queen.weight}</div>
               </div>
             </div>
@@ -267,7 +267,7 @@ const Results = () => {
               <div id="Section">Section - {prince.section} </div>
 
               <div className="flex w-full ">
-                <div id="Heigh"> Height - {prince.height} | </div>
+                <div id="Heigh"> Height - {prince.height}cm | </div>
                 <div id="Weigh"> Age - {prince.weight}</div>
               </div>
             </div>
@@ -323,7 +323,7 @@ const Results = () => {
               <div id="Section">Section - {princess.section} </div>
 
               <div className="flex w-full ">
-                <div id="Heigh"> Height - {princess.height} | </div>
+                <div id="Heigh"> Height - {princess.height}cm | </div>
                 <div id="Weigh"> Age - {prince.weight}</div>
               </div>
             </div>
