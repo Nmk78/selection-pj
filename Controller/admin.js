@@ -256,9 +256,12 @@ const add_new_voter = async (req, res) => {
     res.json({ error: "Fill all fields" });
     return;
   }
+  let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
+  let lowerCaseName = name.toLowerCase();
+
   try {
     const newVoter = await voter.create({
-      KPTMYK: KPTMYK,
+      KPTMYK: KPTMYKWithoutSpaces,
       secret: secret,
       name: name,
       section: section,

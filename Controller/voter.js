@@ -36,7 +36,7 @@ const get_one_voter = async (req, res) => {
       return res.status(400).json({ error: "Invalid KPTMYK" });
     }
 
-    if (requestedVoter.name !== lowerCaseName || requestedVoter.secret !== secret) {
+    if (requestedVoter.name.toLowerCase() !== lowerCaseName || requestedVoter.secret !== secret) {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
 
@@ -134,12 +134,12 @@ const add_vote = async (req, res) => {
     }
 
     const trimmedName = name.toLowerCase().trim().replace(/\s+/g, "");
-    let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
+    // let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
 
     session = await mongoose.startSession();
     session.startTransaction();
 
-    const requestedVoter = await voter.findOne({ KPTMYKWithoutSpaces }).session(session);
+    const requestedVoter = await voter.findOne({ KPTMYK }).session(session);
 
     if (!requestedVoter) {
       return res.status(400).json({ error: "Invalid KPTMYK" });
