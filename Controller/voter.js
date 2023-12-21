@@ -24,17 +24,19 @@ const get_one_voter = async (req, res) => {
       .status(400)
       .json({ error: "Fill all fields", message: req.body });
   }
+  let lowerCaseName = name.toLowerCase();
+  let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
 
   try {
     const requestedVoter = await voter
-      .findOne({ KPTMYK: KPTMYK })
+      .findOne({ KPTMYK: KPTMYKWithoutSpaces })
       .select("name KPTMYK section secret voted");
 
     if (!requestedVoter) {
       return res.status(400).json({ error: "Invalid KPTMYK" });
     }
 
-    if (requestedVoter.name !== name || requestedVoter.secret !== secret) {
+    if (requestedVoter.name !== lowerCaseName || requestedVoter.secret !== secret) {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
 
