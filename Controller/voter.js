@@ -24,7 +24,8 @@ const get_one_voter = async (req, res) => {
       .status(400)
       .json({ error: "Fill all fields", message: req.body });
   }
-  let lowerCaseName = name.toLowerCase();
+  const trimmedName = name.toLowerCase().trim().replace(/\s+/g, "");
+
   let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
 
   try {
@@ -36,7 +37,7 @@ const get_one_voter = async (req, res) => {
       return res.status(400).json({ error: "Invalid KPTMYK" });
     }
 
-    if (requestedVoter.name.toLowerCase() !== lowerCaseName || requestedVoter.secret !== secret) {
+    if (requestedVoter.name.toLowerCase() !== trimmedName || requestedVoter.secret !== secret) {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
 
