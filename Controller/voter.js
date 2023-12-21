@@ -134,12 +134,12 @@ const add_vote = async (req, res) => {
     }
 
     const trimmedName = name.toLowerCase().trim().replace(/\s+/g, "");
-    // let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
+    let KPTMYKWithoutSpaces = KPTMYK.replace(/\s/g, '');
 
     session = await mongoose.startSession();
     session.startTransaction();
 
-    const requestedVoter = await voter.findOne({ KPTMYK }).session(session);
+    const requestedVoter = await voter.findOne({ KPTMYK: KPTMYKWithoutSpaces }).session(session);
 
     if (!requestedVoter) {
       return res.status(400).json({ error: "Invalid KPTMYK" });
