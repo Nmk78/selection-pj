@@ -21,7 +21,7 @@ const CandidateCard = ({ profilePic, name, KPTMYK, section }) => {
 
             <div className="w-full h-full flex flex-col justify-center hover:-mt-8 transition-all transform delay-500 duration-500">
                 <h1 className="text-teal-600 text-md  font-bold">{name}</h1>
-                <p className="text-sm text-teal-400">KPTMYK-{KPTMYK}</p>
+                <p className="text-sm text-teal-400">{KPTMYK}</p>
                 <p className="text-sm text-teal-400">Section - {section}</p>
             </div>
           </div>
